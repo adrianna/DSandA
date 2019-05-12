@@ -12,10 +12,21 @@ with open('calls.csv', 'r') as f:
     reader = csv.reader(f)
     calls = list(reader)
 
-
+###################################################
+##
+## isEmpty(call_item)
+##    Checks if call_item hash dictionary is empty
+##
+###################################################
 def isEmpty(call_item):
     return not bool(call_item)
 
+###################################################
+##
+## hashInstantiate(data_hash, key_entry)
+##    Updates data_hash with new key entry
+##
+###################################################
 def hashInstantiate(data_hash, key_entry):
     if isEmpty(data_hash):
         data_hash[key_entry] = 1
@@ -25,7 +36,18 @@ def hashInstantiate(data_hash, key_entry):
         data_hash[key_entry] += 1
     return data_hash
 
-def createHash(call_log, text_log):
+###################################################
+##
+## createTelemarketerListing (call_log, text_log)
+##    Function takes two input lists: call_log and text_log which are lists of
+##    calls and texts read from a file. Function creates a dictionary to track
+##    for outgoing/incoming calls and texts. For each key in the dictionary,
+##    check if outgoing call is found in the incoming calls and texts hash, as
+##    well as in the outgoing texts hash. If there is no match, create another
+##    hash that tracks potential telemarketers
+##
+###################################################
+def createTelemarketerListing(call_log, text_log):
     
     max_lines = numTexts = len(text_log)
     numCalls = len(call_log)
@@ -47,10 +69,10 @@ def createHash(call_log, text_log):
 
         if (line_item < numCalls):
             call_outgoing, call_incoming = call_log[line_item][0], call_log[line_item][1]
-            if call_outgoing.startswith("140"):
-                known_telemarketers.append(call_outgoing)
-            else:
-                calls_out.update(hashInstantiate(calls_out, call_outgoing))
+            #if call_outgoing.startswith("140"):
+            #    known_telemarketers.append(call_outgoing)
+            #else:
+            calls_out.update(hashInstantiate(calls_out, call_outgoing))
             calls_in.update(hashInstantiate(calls_in, call_incoming))
 
     potential_telemarketers = []
@@ -67,7 +89,7 @@ def printList(call_list):
     for call in sorted(call_list):
         print(call)
         
-potential_tmkters = createHash(calls, texts)
+potential_tmkters = createTelemarketerListing(calls, texts)
 print("These numbers could be telemarketers:")
 printList(potential_tmkters)
 

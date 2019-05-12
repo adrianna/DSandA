@@ -34,30 +34,15 @@ six instructions will be executed.
 The algorithm time reduces to O(2*n). Since the coefficient is constant, the equation
 is simplified to O(n).
 
-
 Task2.py RunTime: O(n)
 -----------------------
 The maxCallDuration entails a for loop of n-lines in the calls file. For each line
 item, it parses the date and month which are O(1) operation. It then does check on
 the month of interest, i.e. September, to execute another set of conditional
 statements that would track the max duration in calls. The if statements are O(1)
-operation. Therefore, if we add 
+operation. Therefore, if we add O
 
-O(n) = O(n) [for loop]  + O(1) parse duration + O(1) date + O(1) month + O(1) call_hash update
-O(n) ~ O(n) + 4O(1) 
-
-The call_hash tracks the phone call (regardless if it's incoming or not), then adds the
-duration time. When the next line loops and it sees this phone number in the hash, it
-will update with the new duration time.
-
-The goal is to track and add duration times to each phone number, whether it is receiving a call 
-or placing a call. The last two lines will do an O(n) to find the maximum and another O(n) in the 
-lambda code to find the key-value pair of the phone call that has maximum call time.
-
-Therefore, the sum total of order of operation: 
-O(n) =  O(n) for loop + O(n) (max call_time value) + O(n) (finding phone call key to max call_time value) 
-O(n) = 3O(n)
-O(n) ~ O(n)
+(n) [for loop]  + O(1) parse duration + O(1) date + O(1) month + O(1) find max duration  ~ O(n)
 
 
 Task3.py RunTime: O(n)
@@ -81,14 +66,8 @@ call line item, the algorithm:
 * the routine returns two hash keys which correspond to the solution of the problem's
   questions.
 
-For the result, the number of unique calls can be calculated either: 
-* having a counter for when the hash is created or a key is inputted first time into the hash, OR 
-* subtracting total calls *2 (two calls per line) from num_duplicates variable to yield total
-  number of unique phone numbers. 
-Both method result in the same value.
 
-
-Task4.py RunTime: O(nlog[n])
+Task4.py RunTime: O(n)
 --------------------------
 In createHash(), the for loops through the max number of either calls or text. As it
 loops n times for n-lines in the calls/texts file, it creates specific hash-key
@@ -108,20 +87,3 @@ O(n) for the first for-loop and O(n) for the second for-each-key-in-hash loop.
 Therefore, it is:
 	   O(n) + O(n) = 2O(n) ~ O(n)
 	   
-However, when printing the output of the telemarketers phone numbers, the print statement 
-uses a function sorted(hash.keys) which in Python produces a copy of an ordered hash-key list.
-This will have a O(m*log[m]), where m is the number of keys in the hash dictionary. (Wiki
-page indicates Python uses a Timsort which is O(n*log[n]). Since m < n, because we're looking 
-at subsets of phone numbers, then the total 
-
-         O(n) + O(n) + O(m) + O(mlog[m])  ~ 2*O(n) + m*O(log[m] + 1)
-        |- 1st for -|  |--- 2nd for --|   ~ O(n) + O(mlog[m])
- 					  ~ O(nlog[n])     # For worst case m = n, indicating
-					                   # if all the numbers are telemarketer
-			                  		   
-sorted() operation on the hash.keys() dictionary executed once in the for statement and the
-copy of the hash dictionary was used in acquiring the lexicographic order of the keys.
-The for loop will just take a total time ~  O(m) + O(mlog[m]).
-
-
-

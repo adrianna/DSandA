@@ -1,0 +1,89 @@
+##############
+## Run Time Analysis
+##
+## Adrianna Galletta
+## Data Structures and Algorithm
+## Project 0: Task0.py, Task1.py, Task2.py
+## 	      Task3.py, Task4.py 
+## 5 May 2019
+##
+#########################
+
+
+Task0.py RunTime: O(1)
+-----------------------
+Retrieval of element in ordered list given known index is a one-time transaction.
+Therefore, the worst case Big O is a constant, O(1)
+
+
+Task1.py RunTime: O(n)
+-----------------------
+Deleting duplicates required traversing the array and populating a hash-key counter
+of every number encountered. If it exists in the hash key, the value is incremented by
+one. Each conditional statement is a check to see if the hash exists and if not,
+enter the key of the phone number and assign 1 as the first and only number found.
+This operation is O(1).
+
+For each entry, the conditional statements is executed. If the condition is true, the
+instruction is executed. This is done for a total of n lines in the call list.
+
+The algorithm takes O(n*(1 + 1)). It goes through two if-elsif-else blocks, one for
+outgoing_calls check, the other for incoming_calls check. Therefore, two of
+six instructions will be executed.
+
+The algorithm time reduces to O(2*n). Since the coefficient is constant, the equation
+is simplified to O(n).
+
+Task2.py RunTime: O(n)
+-----------------------
+The maxCallDuration entails a for loop of n-lines in the calls file. For each line
+item, it parses the date and month which are O(1) operation. It then does check on
+the month of interest, i.e. September, to execute another set of conditional
+statements that would track the max duration in calls. The if statements are O(1)
+operation. Therefore, if we add O
+
+(n) [for loop]  + O(1) parse duration + O(1) date + O(1) month + O(1) find max duration  ~ O(n)
+
+
+Task3.py RunTime: O(n)
+-----------------------
+The algorithm does a one-time parse of the call logs for both questions. The for loop
+will complete n times, given n the number of phone line items in the calls log.
+For each call item, the operations that follow are conditional statements or hash key
+lookup, which are of constant O(1). For example, in parsePhoneCallsType(), for each
+call line item, the algorithm:
+* parses the line: O(1)
+* executes one of three conditional statements, if any one of the conditional
+  statements is executed, the instruction is O(1) type operation. For example,
+  instantiating a hash-key, or incrementing a hash counter: both are O(1) operation.
+* these three conditional statements called phoneTophone() routine to parse the type
+  call made between two phone numbers. This subroutine was all conditional statements
+  to construct the right key to identify the phone-to-phone type. Thos statements are
+  O(1) operation.
+* also executes several conditional statements for parsing out Bangalore outgoing
+  calls. As it goes through BangaloreCalls() routine, it executes 2 instructions per
+  conditional block (with two nested if statements). This is also O(1) operation.
+* the routine returns two hash keys which correspond to the solution of the problem's
+  questions.
+
+
+Task4.py RunTime: O(n)
+--------------------------
+In createHash(), the for loops through the max number of either calls or text. As it
+loops n times for n-lines in the calls/texts file, it creates specific hash-key
+data on outgoing/incoming texts as well as outgoing/incoming calls. It also tracks
+known telemarket calls in it own hash-key data structure. All these operations are
+O(1) type instruments. However it is executed n-times or corresponding to n-lines in
+either calls or text file.
+
+The next for loop iterates through the outgoing calls hash and checks for
+telemarketers codes other than the one given from the problem. The number of outgoing
+calls will contain unique number of outgoing phone numbers. However, the loop will
+iterate ~ n times, assuming there are duplicate or multiple outgoing calls of the same
+number.
+
+Since these for loops are done serially. The order of operation would be
+O(n) for the first for-loop and O(n) for the second for-each-key-in-hash loop.
+Therefore, it is:
+	   O(n) + O(n) = 2O(n) ~ O(n)
+	   

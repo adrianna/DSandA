@@ -13,6 +13,7 @@ class LRU_Cache(object):
         self.p = 100
         self.bucket_array = [ None for _ in range(capacity) ]
         self.capacity = 0
+        self.access = 0
         
         return None
     
@@ -24,6 +25,7 @@ class LRU_Cache(object):
         while head is not None:
             if head.key == key:
                 head.capacity += 1
+                head.access -= 1
                 return head.value
             head = head.next
         return -1
@@ -31,7 +33,6 @@ class LRU_Cache(object):
     def set(self, key, value):
         # Set the value if the key is not present in the cache. If the cache is at capacity remove the oldest item.
         bucket_index = self.get_hash_code(key)
-        head = self.bucket_array[bucket_index]
         newNode = LinkedListNode(key,value)
 
         # if key exists, traverse bucket until key is found and return value
@@ -42,13 +43,10 @@ class LRU_Cache(object):
             head = head.next
                 
             
-        #if key does not exist
 #        if self.capacity == capacity
-            self.remove_node(key)
-            
+        self.remove_node(key)
 
         # Add node regardless if removal took place
-        newNode.next = head
         self.bucket_array[bucket_index] = newNode
 
                                          

@@ -28,53 +28,19 @@ def isEmpty(call_item):
 ###################################################
 def numUniquePhoneCalls(call_list, text_list):
 
-    duplicates = {}
+    complete_list = []
     unique_phone_numbers = 0
-    num_calls = 0
-    num_duplicates = 0
-    total_calls = len(call_list)    ## Number of call items in log. Each line has two numbers: outgoing and incoming number
-    total_texts = len(text_list)    ## Number of text items in log. Likewise.
-
-    total_items = max(total_calls, total_texts)
-    for item in range(total_items):
-        # Process outgoing calls first, make sure index is not out-of-bounds
-        if item < total_calls:
-            outgoing_call, incoming_call = call_list[item][0], call_list[item][1]
-            if isEmpty(duplicates):
-                duplicates[outgoing_call] = 1
-                num_calls += 1
-            elif outgoing_call not in duplicates:
-                duplicates[outgoing_call] = 1
-                num_calls += 1
-            else:
-                duplicates[outgoing_call] += 1
-                num_duplicates += 1
-            if incoming_call not in duplicates:
-                duplicates[incoming_call] = 1
-                num_calls +=1
-            else:
-                duplicates[incoming_call] = 1
-                num_duplicates += 1
-        # Process ougoing texts, no need to check if hash is empty.
-        if item < total_texts:
-            outgoing_text, incoming_text = text_list[item][0], text_list[item][1]
-            if outgoing_text not in duplicates:
-                duplicates[outgoing_call] = 1
-                num_calls += 1
-            else:
-                duplicates[outgoing_call] = 1
-                num_duplicates += 1
-                    
-            if incoming_text not in duplicates:
-                duplicates[incoming_text] = 1
-                num_calls +=1
-            else:
-                duplicates[incoming_text] = 1
-                num_duplicates += 1
-                    
-
-    unique_phone_numbers = (total_calls + total_texts) * 2 - num_duplicates
-    return unique_phone_numbers 
+    # Store all numbers in list
+    complete_list = call_list + text_list
+    
+    unique = set()
+    for item in range(len(complete_list)):
+        outgoing, incoming = complete_list[item][0], complete_list[item][1]
+        unique.add(outgoing)
+        unique.add(incoming)
+    unique_phone_numbers = len(unique)
+        
+    return unique_phone_numbers
 
 uniquePhoneNumbers = numUniquePhoneCalls(calls, texts)
 print("There are {} different telephone numbers in the records".format(uniquePhoneNumbers))

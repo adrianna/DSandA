@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-
 class Queue:
 
     def __init__(self, initial_size=10):
@@ -93,3 +92,17 @@ print(q.dequeue())
 q.enqueue(5)
 print ("Pass" if (q.size() == 1) else "Fail")
 print(q.dequeue())
+
+
+####################################################################################
+# Notes:
+#
+# 1. For enqueue, we have the modulo % to wrap around the array. The remainder
+#    will cycle through all n-1 elements, thus, wrapping around the array.
+#
+# 2. Likewise, for dequeue, the modulo % is used to wrap around the array.
+#
+# 3. To handle the queue capacity, we copy the old array onto the
+#    the new array. Two for loops: the first ranging from (0, front_index),
+#    the second ranging from (front_index, len(array)
+#

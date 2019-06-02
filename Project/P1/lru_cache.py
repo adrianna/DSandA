@@ -30,29 +30,30 @@ class LRU_Cache(object):
             head = head.next
         return -1
             
-    def set(self, key, value):
+ #   def set(self, key, value):
         # Set the value if the key is not present in the cache. If the cache is at capacity remove the oldest item.
-        bucket_index = self.get_hash_code(key)
-        newNode = LinkedListNode(key,value)
+ #       bucket_index = self.get_hash_code(key)
+ #       newNode = LinkedListNode(key,value)
 
         # if key exists, traverse bucket until key is found and return value
-        while head is not None:
-            if head.key == key:
-                head.value = value
-                return
-            head = head.next
+ #       head = self.bucket_array[bucket_index]
+ #       while head is not None:
+ #           if head.key == key:
+ #               head.value = value
+ #               return
+ #           head = head.next
                 
             
 #        if self.capacity == capacity
-        self.remove_node(key)
+ #       self.remove_node(key)
 
         # Add node regardless if removal took place
-        self.bucket_array[bucket_index] = newNode
+ #       self.bucket_array[bucket_index] = newNode
 
                                          
     def remove_node(self, key):
         bucket_index = self.get_hash_code(key)
-
+        
         # Oldest node is assumed to be at the head, linked lists are FILO
         # FILO = first in/last out
         head = bucket_array[bucket_index]
@@ -77,8 +78,8 @@ class LRU_Cache(object):
     
 our_cache = LRU_Cache(5)
 
-our_cache.set(1, 1)
-our_cache.set(2, 2)
-our_cache.get(1)       # returns 1
-our_cache.get(2)       # returns 2
-our_cache.get(3)       # return -1
+#our_cache.set(1, 1)
+#our_cache.set(2, 2)
+#our_cache.get(1)       # returns 1
+#our_cache.get(2)       # returns 2
+#our_cache.get(3)       # return -1

@@ -4,8 +4,14 @@ def char_frequency(string):
 
     char_freq = {}
     for chr in range(len(string)):
-        if chr
+        if chr not in char_freq.keys():
+            char_freq[chr] = 1
+        else:
+            char_freq[chr] += 1
+    return char_freq
 
+
+            
 
 
 def huffman_encoding(data):

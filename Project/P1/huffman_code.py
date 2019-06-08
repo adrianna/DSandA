@@ -1,23 +1,28 @@
+from DataStructures import *
+import DataStructures.trie as trie
 import sys
 
 def char_frequency(string):
 
+    # Create Hash Counter for character frequency
     char_freq = {}
     for chr in string:
-        if chr not "":
+        if ' ' not in chr:
             if chr not in char_freq.keys():
                 char_freq[chr] = 1
             else:
                 char_freq[chr] += 1
 
-    char_freq_tuple = list(char_freq.items())
+    # Convert to tuples, whose values are *immutable*
+    char_freq_tuple = list()
+    for chr, count in char_freq.items():
+        char_freq_tuple.append((count, chr))
 
-## Do we skip spaces?
-## Character frequence case-sensitive
-    return char_freq_tuple
-
-
-            
+        
+#    print(char_freq_tuple)
+## Note: Do we skip spaces?
+##       Are Character frequency case-sensitive?
+    return sorted(char_freq_tuple)
 
 
 def huffman_encoding(data):

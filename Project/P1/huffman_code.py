@@ -1,7 +1,15 @@
 from DataStructures import *
-import DataStructures.trie as trie
-import sys
+import heapq
 
+class HeapNode:
+    def __init__(self, char, freq):
+        self.char = ''
+        self.freq = 0
+        self.right = None
+        self.left = None
+
+
+        
 def char_frequency(string):
 
     # Create Hash Counter for character frequency
@@ -24,6 +32,17 @@ def char_frequency(string):
 ##       Are Character frequency case-sensitive?
     return sorted(char_freq_tuple)
 
+def createHuffTree(cf_list):
+
+    for chr, freq in cf_list:
+        print("chr: {}, freq: {}".format(chr, freq))
+
+#        cf_node = HeapNode(
+#        huff_tree = heapq()
+
+    
+
+
 
 def huffman_encoding(data):
     pass
@@ -45,6 +64,8 @@ if __name__ == "__main__":
     a_great_sentence = "The bird is the word"
     print(a_great_sentence)
     print (char_frequency(a_great_sentence))
+    cf_list = char_frequency(a_great_sentence)
+    createHuffTree(cf_list)
 #    print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
 #    print ("The content of the data is: {}\n".format(a_great_sentence))
 

@@ -8,38 +8,38 @@ class HeapNode:
         self.right = None
         self.left = None
 
-
+class HuffmanCode:
         
-def char_frequency(string):
-
-    # Create Hash Counter for character frequency
-    char_freq = {}
-    for chr in string:
-        if ' ' not in chr:
-            if chr not in char_freq.keys():
-                char_freq[chr] = 1
-            else:
-                char_freq[chr] += 1
-
-    # Convert to tuples, whose values are *immutable*
-    char_freq_tuple = list()
-    for chr, count in char_freq.items():
+    def char_frequency(string):
+        
+        # Create Hash Counter for character frequency
+        char_freq = {}
+        for chr in string:
+            if ' ' not in chr:
+                if chr not in char_freq.keys():
+                    char_freq[chr] = 1
+                else:
+                    char_freq[chr] += 1
+                    
+                    # Convert to tuples, whose values are *immutable*
+        char_freq_tuple = list()
+        for chr, count in char_freq.items():
         char_freq_tuple.append((count, chr))
-
         
-#    print(char_freq_tuple)
-## Note: Do we skip spaces?
-##       Are Character frequency case-sensitive?
-    return sorted(char_freq_tuple)
+        ## Note: Do we skip spaces?
+        ##       Are Character frequency case-sensitive?
+        return sorted(char_freq_tuple)
 
-def createHuffTree(cf_list):
-
-    for chr, freq in cf_list:
-        print("chr: {}, freq: {}".format(chr, freq))
-
-#        cf_node = HeapNode(
-#        huff_tree = heapq()
-
+    def createHuffTree(cf_list):
+        
+        huff_tree = heapq()
+        for chr, freq in cf_list:
+            print("chr: {}, freq: {}".format(chr, freq))
+            
+            char_node = HeapNode(chr, freq)
+            heapq.heappush(huff_tree, char_node)
+            
+            
     
 
 

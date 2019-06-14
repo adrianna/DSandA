@@ -46,49 +46,123 @@ def union(llist_1, llist_2):
     l1 = llist_1
     l2 = llist_2
 
-    print("\t[[union]]: size of l1: {}".format(l1.size()))
-    print("\t[[union]]: size of l2: {}".format(l2.size()))
-    union_list = None
+    union_list = []
+
+    l1_size = l1.size()
+    l2_size = l2.size()
+    max_size = max(l1_size, l2_size)
     
     value_dict = {}
     node_l1 = l1.head
     node_l2 = l2.head
 
-    if l1.size() == l2.size():
-        while node_l1:
+    for idx in range(max_size):
+
+        if node_l1:
             element_l1 = node_l1.value
+
+            if idx <= l1.size():
+                if element_l1 not in value_dict.keys():
+                    value_dict[element_l1] = 1
+                    union_list.append(node_l1)
+                else:
+                    value_dict[element_l1] += 1
+                
+                node_l1 = node_l1.next
+                
+        if node_l2:
             element_l2 = node_l2.value
-            print("element_l1: {}, element_l2: {}".format(element_l1, element_l2))
-            if element_l1 not in value_dict.keys():
-                value_dict[element_l1] = 1
-                union_list = node_l1
-                union_list.next = None
-            else:
-                print("Skipping element_l1: {}".format(element_l1))
-                value_dict[element_l1] += 1
 
-            
-            if element_l2 not in value_dict.keys():
-                value_dict[element_l2] = 1
-                union_list = node_l2
-            else:
-                print("Skipping element_l1: {}".format(element_l1))
-                value_dict[element_l2] += 1
+            if idx <= l2.size():
+                if element_l2 not in value_dict.keys():
+                    value_dict[element_l2] = 1
+                    union_list.append(node_l2)
+                else:
+                    value_dict[element_l2] += 1
+                    
+                node_l2 = node_l2.next                
+                    
+        idx += 1
+                    
+    return union_list
 
-            # Advance the node in the list    
-            node_l1 = node_l1.next
-            node_l2 = node_l2.next
-    else:
-        print("Skipping union of lists")
-
-        
-    return 
-
-        
 
 def intersection(llist_1, llist_2):
-    # Your Solution Here
-    pass
+
+    l1 = llist_1
+    l2 = llist_2
+
+#    print("\t[[intersection]]: size of l1: {}".format(l1.size()))
+#    print("\t[[intersection]]: size of l2: {}".format(l2.size()))
+    intersection_list = []
+
+    max_size = max(l1.size(), l2.size())
+    
+    l1val_dict = {}
+    l2val_dict = {}
+    
+    node_l1 = l1.head
+    node_l2 = l2.head
+
+    for idx in range(max_size):
+
+        if node_l1:
+            element_l1 = node_l1.value
+        if node_l2:
+            element_l2 = node_l2.value
+            
+        if idx <= l1.size():
+            if element_l1 == element_l2:
+                
+                if element_l1 not in l1val_dict.keys():
+                    l1val_dict[element_l1] = 1
+                else:
+                    l1val_dict[element_l1] += 1
+                
+                    if element_l1 not in l2val_dict.keys():
+                        l2val_dict[element_l1] = 1
+                    else:
+                        l2val_dict[element_l1] += 1
+                        
+                intersection_list.append(node_l1)
+                    
+                node_l1 = node_l1.next
+                    
+        if idx <= l2.size():
+
+            if element_l2 == element_l1:
+                
+                if element_l2 not in l2val_dict.keys():
+                    l2val_dict[element_l2] = 1
+                else:
+                    l2val_dict[element_l2] += 1
+
+                if element_l2 not in l1val_dict.keys():
+                    l1val_dict[element_l2] = 1
+                else:
+                    l1val_dict[element_l2] += 1
+
+                intersection_list.append(node_l1)
+                
+            else:
+                if element_l2 not in l1val_dict.keys():
+                    l1val_dict[element_l2] = 1
+                else:
+                    l1val_dict[element_l2] += 1
+
+                if element_l2 not in l1val_dict.keys():
+                    l1val_dict[element_l2] = 1
+                else:
+                    l1val_dict[element_l2] += 1
+                
+                    
+                node_l2 = node_l2.next                
+                    
+        idx += 1
+
+
+
+    
 
 
 # Test case 1

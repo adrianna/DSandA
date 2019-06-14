@@ -1,3 +1,16 @@
+##################################
+# P1: lru_cache.py
+#
+# # WIP (work in progress)
+# # Compile time error: LRU_Cache object has no attribute 'set'
+# #Feel free to comment
+#
+# Adrianna
+##################################
+
+
+
+
 class LinkedListNode:
     def __init__(self, key, value):
         self.key = key
@@ -78,8 +91,8 @@ class LRU_Cache(object):
     
 our_cache = LRU_Cache(5)
 
-#our_cache.set(1, 1)
-#our_cache.set(2, 2)
-#our_cache.get(1)       # returns 1
-#our_cache.get(2)       # returns 2
-#our_cache.get(3)       # return -1
+our_cache.set(1, 1)
+our_cache.set(2, 2)
+our_cache.get(1)       # returns 1
+our_cache.get(2)       # returns 2
+our_cache.get(3)       # return -1

@@ -1,3 +1,14 @@
+##################################
+# P1: union_and_intersection.py
+#
+# This union() function is working, needs minor cleanup. The intersection() function is
+# WIP (work in progress)
+# Feel free to comment
+#
+# Adrianna
+##################################
+
+
 class Node:
     def __init__(self, value):
         self.value = value
@@ -125,7 +136,21 @@ def intersection(llist_1, llist_2):
                         l2val_dict[element_l1] += 1
                         
                 intersection_list.append(node_l1)
+                
+            else:
+                
+                if element_l1 not in l2val_dict.keys():
+                    l2val_dict[element_l1] = 1
+                else:
+                    print("Skipping duplicate element found in l1val_dict()")
+                    print("Element_l1: {}".format(element_l1))
+                    if l2val_dict[element_l1] == 1:
+                        intersection_list.append(node_l1)
+                        l2val_dict[element_l1] += 1
+                    else:
+                        l2val_dict[element_l1] = 1
                     
+                
                 node_l1 = node_l1.next
                     
         if idx <= l2.size():
@@ -136,7 +161,7 @@ def intersection(llist_1, llist_2):
                     l2val_dict[element_l2] = 1
                 else:
                     l2val_dict[element_l2] += 1
-
+                    
                 if element_l2 not in l1val_dict.keys():
                     l1val_dict[element_l2] = 1
                 else:
@@ -144,19 +169,18 @@ def intersection(llist_1, llist_2):
 
                 intersection_list.append(node_l1)
                 
-            else:
-                if element_l2 not in l1val_dict.keys():
-                    l1val_dict[element_l2] = 1
-                else:
-                    l1val_dict[element_l2] += 1
-
-                if element_l2 not in l1val_dict.keys():
-                    l1val_dict[element_l2] = 1
-                else:
-                    l1val_dict[element_l2] += 1
+            else:  # Working out logic... Almost there
                 
-                    
-                node_l2 = node_l2.next                
+                if element_l2 not in l1val_dict.keys():
+                    l1val_dict[element_l2] = 1
+                else:
+                    if l1val_dict[element_l2] == 1:
+                        intersection_list.append(node_l2)
+                        l1val_dict[element_l2] += 1
+                    else:
+                        l1val_dict[element_l2] += 1
+                        
+            node_l2 = node_l2.next                
                     
         idx += 1
 
@@ -181,7 +205,7 @@ for i in element_2:
 
 print("Test Case 1")
 print (union(linked_list_1,linked_list_2))
-print (intersection(linked_list_1,linked_list_2))
+#print (intersection(linked_list_1,linked_list_2))
 
 # Test case 2
 
@@ -199,5 +223,5 @@ for i in element_2:
 
 print("Test Case 2")
 print (union(linked_list_3,linked_list_4))
-print (intersection(linked_list_3,linked_list_4))
+#print (intersection(linked_list_3,linked_list_4))
 

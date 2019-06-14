@@ -1,3 +1,16 @@
+##################################
+# P1: blockchain.py
+#
+# WIP (work in progress)
+# Feel free to comment
+# Also run-time error: b2.append(b1)
+#
+##################################
+
+
+
+
+
 import hashlib
 
 

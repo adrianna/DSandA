@@ -5,7 +5,6 @@
 # WIP (work in progress)
 # Feel free to comment
 #
-# Adrianna
 ##################################
 
 

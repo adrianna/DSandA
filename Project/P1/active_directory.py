@@ -1,3 +1,13 @@
+##################################
+# P1: active_directory.py
+#
+# WIP (work in progress)
+# Feel free to comment
+# Please comment on the recursion
+#
+##################################
+
+
 class Group(object):
     def __init__(self, _name):
         self.name = _name

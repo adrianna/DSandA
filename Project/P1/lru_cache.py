@@ -5,7 +5,6 @@
 # # Compile time error: LRU_Cache object has no attribute 'set'
 # #Feel free to comment
 #
-# Adrianna
 ##################################
 
 

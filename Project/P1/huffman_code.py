@@ -1,3 +1,19 @@
+##################################
+# P1: huffman_code.py
+#
+# Question: I'm torn whether I should implement with
+# a) heapq library or create linked list heap structure and the cbtree
+# c) create ordered tuple of character frequencies and implement a trie
+
+# Question: What would be the difference of using a heap to create the cbtree
+# and using a tuple to create a trie?
+#
+# WIP (work in progress)
+# Feel free to comment
+#
+##################################
+
+
 from DataStructures import *
 import heapq
 
@@ -24,15 +40,14 @@ class HuffmanCode:
                     
         return freq_dict
 
-    def createHuffTree(freq_dict):
+    def createHuffTree(self, freq_dict):
         
         huff_tree = heapq()
         for key in freq_dict.keys():
-            character_node = HeapNode(key, frequency)
+            character_node = HeapNode(key, freq_dict[key])
             heapq.heappush(huff_tree, character_node)
 
-        print(huff_tree)
-            
+        return huff_tree    
     
 
 
@@ -58,7 +73,9 @@ if __name__ == "__main__":
     print(a_great_sentence)
 
     h = HuffmanCode()
-    print(h.createFreqDict(a_great_sentence))
+    freq_dict = h.createFreqDict(a_great_sentence)
+    print(freq_dict)
+    print(h.createHuffTree(freq_dict))
 
 #    print (char_frequency(a_great_sentence))
 #    cf_list = char_frequency(a_great_sentence)

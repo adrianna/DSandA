@@ -5,7 +5,26 @@ def sort_012(input_list):
     Args:
        input_list(list): List to be sorted
     """
-    pass
+    # Traverse the array
+    # Build three arrays for each value
+    # After traversal, append them in order to sorted_list
+    # Return sorted list
+    
+    sorted_list = []
+    list_1 = []
+    list_2 = []
+    for element in range(len(input_list)):
+        if input_list[element] == 0:
+            sorted_list.append(0)
+        elif input_list[element] == 1:
+            list_1.append(input_list[element])
+        elif input_list[element] == 2:
+            list_2.append(input_list[element])
+
+    sorted_list += list_1 + list_2
+
+    return sorted_list
+
 
 def test_function(test_case):
     sorted_array = sort_012(test_case)

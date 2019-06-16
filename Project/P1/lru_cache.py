@@ -44,6 +44,10 @@ class LRU_Cache(object):
         bucket_index = self.get_hash_code(key)
         new_node = LRU_Node(key,value)
 
+        if len(bucket_array) == self.capacity:
+            # remove least used node
+            self.pop()
+        
         head = self.bucket_array[bucket_index]
         # check if key is already present in the map, and update it's value
         while head is not None:
@@ -90,8 +94,17 @@ class LRU_Cache(object):
         bucket_index = self.get_hash_code(key)
         return bucket_index
 
+    def pop(self, key):
+        bucket_index = self.get_hash_code(key)
+        self.head = bucket_array[bucket_index]
+        node = self.head.next
+        bucket_array[bucket_index] = node
+        node.prev = bucket_array[bucket_index]
+        
+        return self.head
+        
     def size(self):
-        return 
+        return self.num_entries
     
 our_cache = LRU_Cache(5)
 
@@ -100,7 +113,7 @@ print(our_cache.get_hash_code(2))
 print(our_cache.get_hash_code(3))
 print(our_cache.get_hash_code(4))
 print(our_cache.get_hash_code(5))
-print(our_cache.get_hash_code(6))
+print(our_cache.get_hash_code(6)) # Collides with 1
 
 #our_cache.set(1, 1)
 #our_cache.set(2, 2)

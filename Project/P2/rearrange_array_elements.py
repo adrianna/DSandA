@@ -82,14 +82,21 @@ def rearrange_digits(input_list):
         ub = n//2 - 1
         midh = n//2
         midl = n//2 - 1
-
+        
         addend_1 = convert_list2digits(input_list[lb:n], [input_list[midl]])
         addend_2 = convert_list2digits(input_list[:ub], [input_list[midh]])
         
     else:
-        print
 
-
+        
+        mid = (n)//2
+        lb = mid + 1  # Digits for the larger addend
+        ub = mid - 1  # Digits for the smaller addend
+        last = n-1
+        print(lb, ub, mid)
+        addend_1 = convert_list2digits(input_list[lb:last], [input_list[mid-1]])
+        addend_2 = convert_list2digits(input_list[:ub], [input_list[mid+1]])
+        
     sum = addend_1 + addend_2
 
     return sum
@@ -107,9 +114,10 @@ def test_function(test_case):
 #test_function([[1, 2, 3, 4, 5], [542, 31]])
 #test_case = [[4, 6, 2, 5, 9, 8], [964, 852]]
 input_list = [4, 6, 2, 5, 9, 8]
+input_list = [1, 2, 3, 4, 5]
 print(input_list)
 print(sort(input_list))
-
+print(rearrange_digits(input_list))
 #n = len(input_list)
 #n0 = n-1
 #lb = n//2 + 1

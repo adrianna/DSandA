@@ -1,5 +1,60 @@
 P2 Problems
 
+## rearrange_array_elements.py
+This problem asks to find the largest sum from the list of digits. The digits
+must be grouped into two addend	      s with one addend no larger in size by one digit.
+
+First, use an efficient sort routine such as merge sort. This will provide a
+O(nlogn) operation.
+
+To create the largest sum, we divide the sorted array into two. Depending
+whether the array has an even or odd number, this will determine the size of
+the two addends. For the an even number of the array, we can divide the two
+array into two addends of equal number of digits. For the odd, it will be
+two addends with the size (number of digits) differed by 1 digit length.
+
+To construct the largest sum, the method for even number of digits in the list is
+slightly different than how it is constructed for the odd number of digits
+in the list. Basically, we want to order the list, so that we select the
+largest digits to be in the highest power position to the base 10.
+
+For even number of digits, we construct the array using python's
+slicing syntax. The slicing will select starting from the last position
+and skip a digit as it selects the next one in steps of 2 indices.
+This array is made a "copy" in the subroutine, convert_list2digits(),
+which converts the list into an actual number.
+
+For the odd number of digits, we constrct the array, similarly, but we
+have two addends, whose length differ by one element in the list. First,
+we calculate the midpoint index. This will divide the list in half. Then, we
+start from the end of the sorted list until 'midpoint + 1'. We add another
+element from second half at index 'midpoint - 1'. The other addend is
+constructed going the opposite direction, start at the 0th position and going until
+'midpoint-1' and then appending the midpoint element. This is to ensure that
+the second addendum has a digit larger in the position of the highest power to the
+base 10.
+
+Finally, in the subroutine, conver_list2digits(), this takes the spliced array
+and makes a local copy to the routine. It then loops downward in the list,
+adding each element to construct the number, according to the formula:
+
+digit* 10^idx
+
+This operation will take roughly O(n//2) because we're using roughly
+half the list (depending if it's odd or even) to loop through the digit
+elements in creating the number (addend).
+
+The function rearrange_digits calls conver_list2digits() twice, so
+effectively it will loop all n elements in the input_list.
+
+This will have an O(n) operation.
+
+The total operation is O(nlogn) + O(n) ~ O(nlogn) for large n.
+The first attributes to sorting the array, and the second for looping
+the array to construct the two addends.
+
+
+
 ## unsorted_integer_array.py
 
 This problem asks to find the minimum and maximun elements in the array.

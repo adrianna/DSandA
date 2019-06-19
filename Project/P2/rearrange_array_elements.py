@@ -42,7 +42,10 @@ def sort(input_list):
 
 def convert_list2digits(input_list, digit):
 
+    print(digit)
+    print(input_list)
     num_list = digit + input_list
+
     print("[[conver_list2digits]]: {}".format(num_list))
     n = len(num_list) - 1
 
@@ -78,28 +81,27 @@ def rearrange_digits(input_list):
     # Size of the input_list
     n = len(input_list)
     if n % 2 == 0:
-        lb = n//2 + 1
-        ub = n//2 - 1
-        midh = n//2
-        midl = n//2 - 1
-        
-        addend_1 = convert_list2digits(input_list[lb:n], [input_list[midl]])
-        addend_2 = convert_list2digits(input_list[:ub], [input_list[midh]])
+        last = n
+        first = 0
+        second = first+1
+
+        # Construct the larger number
+        addend_1 = convert_list2digits(input_list[second:last:2], [])
+        # Construct the smaller number
+        addend_2 = convert_list2digits(input_list[first:last:2], [])
         
     else:
-
-        
         mid = (n)//2
         lb = mid + 1  # Digits for the larger addend
         ub = mid - 1  # Digits for the smaller addend
-        last = n-1
-        print(lb, ub, mid)
-        addend_1 = convert_list2digits(input_list[lb:last], [input_list[mid-1]])
-        addend_2 = convert_list2digits(input_list[:ub], [input_list[mid+1]])
+        
+        addend_1 = convert_list2digits(input_list[lb:n], [input_list[mid-1]])
+        addend_2 = convert_list2digits([input_list[mid]], input_list[0:ub])
         
     sum = addend_1 + addend_2
-
-    return sum
+#    print("sum: {}".format(sum))
+    
+    return addend_1, addend_2
 
 
 
@@ -113,25 +115,7 @@ def test_function(test_case):
 
 #test_function([[1, 2, 3, 4, 5], [542, 31]])
 #test_case = [[4, 6, 2, 5, 9, 8], [964, 852]]
-input_list = [4, 6, 2, 5, 9, 8]
+#input_list = [4, 6, 2, 5, 9, 8]
 input_list = [1, 2, 3, 4, 5]
-print(input_list)
-print(sort(input_list))
 print(rearrange_digits(input_list))
-#n = len(input_list)
-#n0 = n-1
-#lb = n//2 + 1
-#ub = n//2 - 1
-#mid = n//2
-#midh = n//2
-#midl = n//2 - 1
-#print(n)
-#print(lb)
-#print(input_list[lb: n])
-#print(input_list[:ub])
-#print(input_list[midh])
-#print(input_list[midl])
-#print()
-#print()
-#print(convert_list2digits(input_list[lb:n], [input_list[midl]]))
 

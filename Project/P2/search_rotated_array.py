@@ -7,40 +7,22 @@ def rotated_array_search(input_list, number):
     Returns:
        int: Index or -1
     """
-    sort_all(input_list, number, len(items) - 1)
+
     
+# Rotate Array by Pivot, x
+def rotateLeft(input_list, x):
+    temp = input_list[0]
+    end = len(input_list) - 1
+    for dgt in range(x):
+        #print("Currently: {}".format(input_list[dgt]))
+        #print("At dgt+x: {}, number: {}".format(dgt+x,input_list[dgt+x]) )
+        input_list[dgt], input_list[dgt+x]  = input_list[dgt+x], input_list[dgt]
+        #print("Now: {}".format(input_list[dgt]))
+    input_list[x] = temp
 
+    #input_list[end] = temp
 
-def sort_a_little_bit(items):
-    left_index = 0
-    pivot_index = len(items) - 1
-    pivot_value = items[pivot_index]
-
-    while (pivot_index != left_index):
-
-        item = items[left_index]
-
-        if item <= pivot_value:
-            left_index += 1
-            continue
-
-        items[left_index] = items[pivot_index - 1]
-        items[pivot_index - 1] = pivot_value
-        items[pivot_index] = item
-        pivot_index -= 1
-
-
-def sort_all(items, begin_index, end_index):
-    if end_index <= begin_index:
-        return
-    
-    pivot_index = sort_a_little_bit(items, begin_index, end_index)
-    sort_all(items, begin_index, pivot_index - 1)
-    sort_all(items, pivot_index + 1, end_index)
-    
-def quicksort(items):
-   
-
+    return input_list
 
 def linear_search(input_list, number):
     for index, element in enumerate(input_list):
@@ -56,6 +38,20 @@ def test_function(test_case):
     else:
         print("Fail")
 
+
+input_list = [6, 7, 8, 9, 10, 1, 2, 3, 4]
+print("Before: {}".format(input_list))
+
+print("pivot at 4")
+print("After: {}".format(rotateLeft(input_list, 4)))
+print("pivot at 3")
+input_list = [6, 7, 8, 9, 10, 1, 2, 3, 4]
+print("After: {}".format(rotateLeft(input_list, 3)))
+print("pivot at 2")
+input_list = [6, 7, 8, 9, 10, 1, 2, 3, 4]
+print("After: {}".format(rotateLeft(input_list, 2)))
+
+        
 test_function([[6, 7, 8, 9, 10, 1, 2, 3, 4], 6])
 test_function([[6, 7, 8, 9, 10, 1, 2, 3, 4], 1])
 test_function([[6, 7, 8, 1, 2, 3, 4], 8])

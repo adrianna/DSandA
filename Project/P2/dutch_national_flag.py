@@ -1,3 +1,20 @@
+###################################
+## dutch_national_flag
+##
+## Issue: None
+##
+## TODO:
+##   1. Not sure if I generate more unique test cases
+##      that was already provided
+## 
+## Questions
+##   1. Solution was given in lectures, although this one does not optimize
+##      on space complexity, it does solve the issue in one pass
+##
+###################################
+
+
+
 def sort_012(input_list):
     """
     Given an input array consisting on only 0, 1, and 2, sort the array in a single traversal.

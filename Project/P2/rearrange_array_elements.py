@@ -1,3 +1,19 @@
+###################################
+## rarrange_array_elements()
+##
+## Issue: None
+##
+## TODO:
+##   1. Test for larger array with repeated elements
+## 
+## Questions
+##    1. How to apply the greedy algorithm to generate multiple solutions?
+##    2. Is general solution accepted even though one output is generated?
+##
+###################################
+
+
+
 def heapify(input_list, n, idx):
     # Using i as the index of the current node, find the 2 child nodes (if the array were a binary tree)
     # and find the largest value.   If one of the children is larger swap the values and recurse into that subree

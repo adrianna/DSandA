@@ -42,17 +42,17 @@ def sort(input_list):
 
 def convert_list2digits(input_list, digit):
 
-    print(digit)
-    print(input_list)
+    #print("\t[[convert_list2digits]], input 1: {}".format(digit))
+    #print("\t[[convert_list2digits]], input 2: {}".format(input_list))
     num_list = digit + input_list
 
-    print("[[conver_list2digits]]: {}".format(num_list))
+    #print("\t[[conver_list2digits]]: {}".format(num_list))
     n = len(num_list) - 1
 
     
     number = 0
-    for dgt in range(n, -1, -1):
-        number += num_list[dgt] * 10**dgt
+    for idx in range(n, -1, -1):
+        number += num_list[idx] * 10**idx
 
     return number
         
@@ -68,7 +68,7 @@ def rearrange_digits(input_list):
     Returns:
        (int),(int): Two maximum sums
     """
-    # Sort the array - Make this O(n)
+    # Sort the array
     # If the array is odd number,
     # create two pairs of numbers, whose lengths will differ by 1
     #   1. The first number will start from the largest (last index in the array) and
@@ -77,10 +77,15 @@ def rearrange_digits(input_list):
     #      arry[:-n/2] and substituting the last digit for the last digit in the
     #      sub-array
     #   3. If there is an even number of elements, the array is divided in half
+    #      but we create two addend by constructing
 
     # Size of the input_list
+
+    input_list = sort(input_list)
+
     n = len(input_list)
     if n % 2 == 0:
+        # print("number of elements are even: {}".format(n))
         last = n
         first = 0
         second = first+1
@@ -91,6 +96,7 @@ def rearrange_digits(input_list):
         addend_2 = convert_list2digits(input_list[first:last:2], [])
         
     else:
+        # print("number of elements are odd: {}".format(n))
         mid = (n)//2
         lb = mid + 1  # Digits for the larger addend
         ub = mid - 1  # Digits for the smaller addend
@@ -99,8 +105,9 @@ def rearrange_digits(input_list):
         addend_2 = convert_list2digits([input_list[mid]], input_list[0:ub])
         
     sum = addend_1 + addend_2
-#    print("sum: {}".format(sum))
-    
+    # print("sum: {}".format(sum))
+    # print("Returning [{}, {}]".format(addend_1, addend_2))
+
     return addend_1, addend_2
 
 
@@ -113,9 +120,9 @@ def test_function(test_case):
     else:
         print("Fail")
 
-#test_function([[1, 2, 3, 4, 5], [542, 31]])
-#test_case = [[4, 6, 2, 5, 9, 8], [964, 852]]
+test_function([[1, 2, 3, 4, 5], [542, 31]])
+test_function([[4, 6, 2, 5, 9, 8], [964, 852]])
 #input_list = [4, 6, 2, 5, 9, 8]
-input_list = [1, 2, 3, 4, 5]
-print(rearrange_digits(input_list))
+#input_list = [1, 2, 3, 4, 5]
+#print(rearrange_digits(input_list))
 

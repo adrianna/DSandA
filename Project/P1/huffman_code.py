@@ -1,15 +1,19 @@
 ##################################
 # P1: huffman_code.py
 #
-# Question: I'm torn whether I should implement with
-# a) heapq library or create linked list heap structure and the cbtree
-# c) create ordered tuple of character frequencies and implement a trie
-
-# Question: What would be the difference of using a heap to create the cbtree
-# and using a tuple to create a trie?
+# Issue: Line 45 - not callable
 #
-# WIP (work in progress)
-# Feel free to comment
+# Question:
+# 1. I'm torn whether I should implement with
+#       a) heapq library or create linked list heap structure and the cbtree
+#       b) create ordered tuple of character frequencies and implement a trie
+#
+# 2. What would be the difference of using a heap to create the cbtree
+#    and using a tuple to create a trie?
+#
+# TODO:
+#   1. Complete creating heap
+#   2. Implement two functions encode() and decode()
 #
 ##################################
 
@@ -53,12 +57,14 @@ class HuffmanCode:
 
 
 def huffman_encoding(data):
+# Traverse the tree and create the code
     pass
 
 
 
 
 def huffman_decoding(data,tree):
+# Traverse the tree in prefix order to decode    
     pass
 
 

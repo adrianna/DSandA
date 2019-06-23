@@ -1,3 +1,21 @@
+###################################
+## search_rotated_array.py
+##
+## Issue: rotateLeft not working. Figuring out how to "retrofit"
+##        a binary search into a roated array search. My general
+##        guess is to rotate starting a pivot at half... then switching
+##        directions based on the target being greater or smaller than
+##        the value at that current index.
+##
+## TODO:
+##   1. Fix rotateLeft
+##   2. Generate 3 test cases
+## 
+##
+###################################
+
+
+
 def rotated_array_search(input_list, number):
     """
     Find the index by searching in a rotated sorted array

@@ -1,11 +1,14 @@
-##################################
-# P1: lru_cache.py
-#
-# # WIP (work in progress)
-# # Compile time error: LRU_Cache object has no attribute 'set'
-# #Feel free to comment
-#
-##################################
+###################################
+## P1: lru_cache.py
+## 
+## Issue: get_hash_code() produces colliding keys. Not sure 
+##        if this is a concern for this homework problem
+##
+## Todo:
+##   1. Test set
+##   2. Test get
+##   3.  
+###################################
 
 
 class LRU_Node:
@@ -33,19 +36,22 @@ class LRU_Cache(object):
         head = self.bucket_array[bucket_index]
         while head is not None:
             if head.key == key:
-                head.capacity += 1
+                self.capacity += 1
                 return head.value
             
             head = head.next
         return -1
             
     def set(self, key, value):
-        # Set the value if the key is not present in the cache. If the cache is at capacity remove the oldest item.
+        # Set the value if the key is not present in the cache. If the cache is
+        # at capacity remove the oldest item.
         bucket_index = self.get_hash_code(key)
         new_node = LRU_Node(key,value)
 
-        if len(bucket_array) == self.capacity:
+        
+        if len(self.bucket_array) == self.capacity:
             # remove least used node
+            print("Removing least used node")
             self.pop()
         
         head = self.bucket_array[bucket_index]
@@ -56,12 +62,15 @@ class LRU_Cache(object):
                 return
             head = head.next
 
-        # key not found in the chain --> create a new entry and place it at the head of the chain
+        # key not found in the chain --> create a new entry and place it at the head
+        # of the chain
         head = self.bucket_array[bucket_index]
         new_node.next = head
         self.bucket_array[bucket_index] = new_node
         self.num_entries += 1         
-            
+
+        print("Updating num_entries: {}".format(self.num_entries))
+        
     def remove_node(self, key):
         bucket_index = self.get_hash_code(key)
         
@@ -76,7 +85,7 @@ class LRU_Cache(object):
 
     def get_hash_code(self, key):
         key = str(key)
-        print("key: {}".format(key))
+        #print("key: {}".format(key))
 
         key = str(key)
         num_buckets = len(self.bucket_array)
@@ -95,6 +104,7 @@ class LRU_Cache(object):
         return bucket_index
 
     def pop(self, key):
+        
         bucket_index = self.get_hash_code(key)
         self.head = bucket_array[bucket_index]
         node = self.head.next
@@ -108,15 +118,15 @@ class LRU_Cache(object):
     
 our_cache = LRU_Cache(5)
 
-print(our_cache.get_hash_code(1))
-print(our_cache.get_hash_code(2))
-print(our_cache.get_hash_code(3))
-print(our_cache.get_hash_code(4))
-print(our_cache.get_hash_code(5))
-print(our_cache.get_hash_code(6)) # Collides with 1
+#print(our_cache.get_hash_code(1))
+#print(our_cache.get_hash_code(2))
+#print(our_cache.get_hash_code(3))
+#print(our_cache.get_hash_code(4))
+#print(our_cache.get_hash_code(5))
+#print(our_cache.get_hash_code(6)) # Collides with 1
 
-#our_cache.set(1, 1)
-#our_cache.set(2, 2)
-#our_cache.get(1)       # returns 1
-#our_cache.get(2)       # returns 2
-#our_cache.get(3)       # return -1
+our_cache.set(1, 1)
+our_cache.set(2, 2)
+print(our_cache.get(1))       # returns 1
+print(our_cache.get(2))       # returns 2
+print(our_cache.get(3))       # return -1

@@ -5,9 +5,9 @@
 ##        if this is a concern for this homework problem
 ##
 ## Todo:
-##   1. Test set
-##   2. Test get
-##   3.  
+##   1. Generate three test cases
+##   2. Review operation more closely
+##     
 ###################################
 
 

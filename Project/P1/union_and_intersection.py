@@ -2,9 +2,11 @@
 # P1: union_and_intersection.py
 #
 # This union() function is working, needs minor cleanup. The intersection()
-# function is
-# WIP (work in progress)
-# Feel free to comment
+# function is not working.
+#
+# I have another simpler implementation in mind, but I wonder if
+# my current potential solution may work
+#
 #
 ##################################
 

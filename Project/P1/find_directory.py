@@ -1,6 +1,9 @@
 ##################################
 # P1: find_directory.py
 #
+#  Issue: See comments where I have issues with the recursion
+#
+####### Old Submission
 # A reviewer advised me to use os.walk(), but I was wondering if I could
 # write my own recursion. Why doesn't it work? Do I need a tail recursion?
 # Sometimes I start with base case, but it seems given the programming call
@@ -14,9 +17,6 @@
 # or creating my own. Since this is a DSA class, I am under the impression
 # of creating my libraries. Is this expected?
 #
-# 
-# WIP (work in progress)
-# Feel free to comment on the 
 #
 ##################################
 

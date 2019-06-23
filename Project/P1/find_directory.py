@@ -48,27 +48,31 @@ def find_files(suffix, path):
         return None 
     else:
         cfdir = _find_files(suffix,path)
-        print("cfd_list: {}".format(cfdir))
+        print("Returning cfd_list: {}".format(cfdir))
         return cfdir
 
 def _find_files(suffix,path):
-    print("Calling _find_files({},{})".format(suffix, path))
+    print("[[ _find_files({},{})]]".format(suffix, path))
     dlist = os.listdir(path)
-#    print(dlist)
+    print(dlist)
     for file in dlist:
         print("\tFor each file: {}".format(file))
-        if os.path.exists(path):
-            print("\tPath: {} exists".format(path))
-            if file.endswith(suffix):
-                print("\t{} has .c suffix".format(file))
-                return path
-            if os.path.isdir(file):
-                os.chdir(file)
-                print("\t{} is a directory".format(file))
-                _find_files(suffix, file)
+        subpath = path + "/"  + file
+        print("\tPath: {}".format(subpath))
+
+        if subpath.endswith(suffix):
+            print("\t\t\t{} has .c suffix".format(file))
+            return path
+        elif os.path.isdir(subpath): # Failing to identify subdir[2-5] as directories, Thereby never
+                                     # traversing down the subdirectory path 
+            print("\t\tChanging paths to: {}".format(subpath))
+            os.chdir(subpath)
+            print("\t\tCalling _find_files")
+           # dlist =  _find_files(suffix, subpath)  # Also breaking here, when uncommented
         else:
-            os.chdir("../")
-            return None     
+            print("{}: Neither directory nor a file ending with *.c suffix!".format(subpath))
+
+    return dlist 
             
 
 ############## Main #########

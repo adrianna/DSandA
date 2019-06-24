@@ -13,8 +13,8 @@
 class Group(object):
     def __init__(self, _name):
         self.name = _name
-        self.groups = []
-        self.users = []
+        self.groups = []      # class Groups
+        self.users = []       # user: class Group
 
     def add_group(self, group):
         self.groups.append(group)
@@ -39,18 +39,26 @@ def is_user_in_group(user, group):
     # recursive search
     # if found, return True
      
-    group_users = group.get_users()
+
     group_groups = group.get_groups()
-    if user in group_users:
-        return True
-    else:
-        print(group.get_name())
-        print(group.get_groups())
-        if group_groups is not None:
-             print("group_groups not empty")
-#            for grp in range(len(group.groups())):
-#                is_user_in_group(user, grp)
+
+    
+    user_name = user.get_name()
+    group_users = group.get_users()
+    for usr in group_users:
+        if usr.get_name() == user_name:
+            return True
+        else:
+            
+            #if len(group_groups) == 0:
+            #    print("group_groups not empty")
                 
+            #    for grp in range(len(group.get_groups())):
+            #        grp_name = group.get_groups()[grp]
+            #        print(grp_name)
+                    return is_user_in_group(user, grp_name)
+                else:
+                    return False
     return False    
 
     
@@ -58,7 +66,7 @@ parent = Group("parent")
 child = Group("child")
 sub_child = Group("subchild")
 
-sub_child_user = "sub_child_user"
+sub_child_user = "sub_child_user"  
 sub_child.add_user(sub_child_user)
 child.add_group(sub_child)
 parent.add_group(child)

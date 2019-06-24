@@ -8,9 +8,6 @@
 ##################################
 
 
-
-
-
 import hashlib
 
 
@@ -19,6 +16,7 @@ class Block:
     def __init__(self, timestamp, data, previous_hash):
       self.timestamp = timestamp
       self.data = data
+      self.prev = None
       self.previous_hash = previous_hash
       self.hash = self.calc_hash(self.data)
 
@@ -41,33 +39,44 @@ class Block:
 
 class BlockChain:
 
-      def __init__(self, timestamp, data, previous_hash):
-            self.head = None
+    def __init__(self):
+        self.head = None
+            
+            
           
-      def append(self, timestamp, data, previous_hash):
-          
-            if self.head is None:
-                  self.head = Block(timestamp, data, previous_hash)
-            else:
-                  new_node = Block(timestamp, data, previous_hash)
-                  new_node.prev = self.head
-                  self.head = new_node
+    def append(self, timestamp, data, previous_hash):
+            
+        if self.head is None:
+            self.head = Block(timestamp, data, previous_hash)
+        else:
+            new_node = Block(timestamp, data, previous_hash)
+            new_node.prev = self.head
+            self.head = new_node
                   
             return self.head
 
-      def print(self):
+    def print(self, index=0):
+        if index == 0: 
             self.head._print()
-
+        else:
+            node = self.head
+            idx = 0
+            while node != None:
+                if idx == index:
+                    node.print()
+                node = node.next
+                idx +=1
    
 
 ####### Main ############
-b1 = BlockChain('0612_1950', "N1", None)
-b1.print
-b2 = BlockChain('0612_2042', "N2", None)
+b1 = BlockChain()
+b1.append('0612_1950', "N1", None)
+b1.print()
+b1.append('0612_2042', "N2", None)
+b1.print(1)
 
-
-print("appending b2 to b1")
-b2.append(b1)
+#print("appending b2 to b1")
+#b2.append(b1.timestamp, b1.data, b1.previous_hash)
 
 
 

@@ -52,13 +52,13 @@ def is_user_in_group(user, group):
             
             #if len(group_groups) == 0:
             #    print("group_groups not empty")
-                
+            
             #    for grp in range(len(group.get_groups())):
             #        grp_name = group.get_groups()[grp]
             #        print(grp_name)
-                    return is_user_in_group(user, grp_name)
-                else:
-                    return False
+            return is_user_in_group(user, grp_name)
+        #else:
+        #                return False
     return False    
 
     

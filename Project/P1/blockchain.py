@@ -47,16 +47,16 @@ class BlockChain:
     def append(self, timestamp, data, previous_hash):
             
         if self.head is None:
-           # print("head is none, instantiate Block()")
+            #print("head is none, instantiate Block()")
             self.head = Block(timestamp, data, previous_hash)
-            self.head._print()
+            #self.head._print()
             self.tail = self.head
         else:
             print("head exists, instantiate new node to  Block()")
             new_node = Block(timestamp, data, previous_hash)
             #new_node._print()
             self.head.prev = new_node
-            self.tail = self.head
+            #self.tail = self.head
             #print("new_node: {}".format(new_node))
             #print("self.head.prev: {}".format(self.head.prev))
             #print("self.tail: {}".format(self.tail))
@@ -64,35 +64,39 @@ class BlockChain:
             self.head = new_node
             #print("after update, self.head: {}".format(self.head))
             
-
+        print("Leaving [[append]]")
 
     def print(self, index=0):
+        #print("[[print]]")
         if index == 0: 
             if self.tail is not None:
                 self.tail._print()
         else:
-            #print("[[Passed arg]] index: {}".format(index))
+         #   print("[[Passed arg]] index: {}".format(index))
             node = self.tail
             idx = 0
             while node != None:
+                #print("idx: {}".format(idx))
                 if idx == index:
                     node._print()
+                    return
                 node = node.prev
                 idx +=1
+                #print("increment idx: {}".format(idx))
    
 
 ####### Main ############
 b1 = BlockChain()
 b1.append('0612_1950', "N1", None)
 b1.print()
-b2 = b1.append('0612_2042', "N2", "b1")
-b2.print(1)
-b3 = b1.append('0623_2331', "N3", "b2")
-b3.print(2)
+print("***")
+b1.append('0612_2042', "N2", "b1")
+b1.print(1)
+print("***")
+b1.append('0623_2331', "N3", "b2")
+b1.print(2)
 
 
-#print("appending b2 to b1")
-#b2.append(b1.timestamp, b1.data, b1.previous_hash)
 
 
 

@@ -28,7 +28,6 @@ class LRU_Cache(object):
         self.num_entries = 0
         self.p = 31
         self.head = None
-        self.tail = None
 
     def get(self, key):
         '''# Retrieve item from provided key. Return -1 if nonexistent.'''

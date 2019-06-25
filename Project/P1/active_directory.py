@@ -40,28 +40,22 @@ def is_user_in_group(user, group):
     # if found, return True
      
 
-    group_groups = group.get_groups()
-
-    
-    user_name = user.get_name()
     group_users = group.get_users()
+    user_name = user.get_name()
+    # Check if user is in the Group's user list
     for usr in group_users:
         if usr.get_name() == user_name:
+            print("user_name: {}".format(user_name))
             return True
-        else:
-            
-            #if len(group_groups) == 0:
-            #    print("group_groups not empty")
-            
-            #    for grp in range(len(group.get_groups())):
-            #        grp_name = group.get_groups()[grp]
-            #        print(grp_name)
-            return is_user_in_group(user, grp_name)
-        #else:
-        #                return False
-    return False    
 
-    
+    groups = group.get_groups()
+    print(type(group))
+#    if len(groups) != 0:    
+#        for grp in groups:
+#            return is_user_in_group(user, groups[grp])
+
+                
+                  
 parent = Group("parent")
 child = Group("child")
 sub_child = Group("subchild")
@@ -70,8 +64,11 @@ sub_child_user = "sub_child_user"
 sub_child.add_user(sub_child_user)
 child.add_group(sub_child)
 parent.add_group(child)
+print(parent.get_groups())
+print(child.get_name)
+#print(parent.get_groups()[0].get_users())
 
-is_user_in_group(child, parent)
+#print("Is child in group parent? {}".format(is_user_in_group(child, parent)))
 
 
 #print "parent groups"

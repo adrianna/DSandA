@@ -1,93 +1,98 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# # Building a Trie in Python
-# 
-# Before we start let us reiterate the key components of a Trie or Prefix Tree. A trie is a tree-like data structure that stores a dynamic set of strings. Tries are commonly used to facilitate operations like predictive text or autocomplete features on mobile phones or web search.
-# 
-# Before we move into the autocomplete function we need to create a working trie for storing strings.  We will create two classes:
-# * A `Trie` class that contains the root node (empty string)
-# * A `TrieNode` class that exposes the general functionality of the Trie, like inserting a word or finding the node which represents a prefix.
-# 
-# Give it a try by implementing the `TrieNode` and `Trie` classes below!
-
-# In[ ]:
-
-
 ## Represents a single node in the Trie
 class TrieNode:
     def __init__(self):
         ## Initialize this node in the Trie
-    
+        self.children = {}
+        self.is_word  = False
+
+        
     def insert(self, char):
         ## Add a child node in this Trie
+        if char not in self.children.keys():
+            self.children[char] = TrieNode()
+            self.is_word = True
+            print("insert: {}".format(self.children[char]))
+            
+        
+    def suffixes(self, suffix = ''):
+        ## Recursive function that collects the suffix for 
+        ## all complete words below this point
+        print(self.children)
+        if len(suffix) == 0:
+            return None
+
+        if self.is_word:
+
+            print("[[suffixes]] For char {}, is_word: {}".format(suffix, self.is_word))
+            if suffix not in self.children:
+
+                for char in suffix:
+                    print("char: {} not found in self.children".format(char))
+                    print(char)
+                    self.children[char]
+#                    return self.suffixes(self.children[char])
+            else:
+                print("suffix: {} found in self.children".format(suffix))
+                return None    
+        else:
+            print("traversing... now at char: {}".format(char))
+            return None        
+            
+    def print(self):
+        print(self.children)
         
 ## The Trie itself containing the root node and insert/find functions
 class Trie:
     def __init__(self):
         ## Initialize this Trie (add a root node)
-
-    def insert(self, word):
-        ## Add a word to the Trie
-
-    def find(self, prefix):
-        ## Find the Trie node that represents this prefix
-
-
-# # Finding Suffixes
-# 
-# Now that we have a functioning Trie, we need to add the ability to list suffixes to implement our autocomplete feature.  To do that, we need to implement a new function on the `TrieNode` object that will return all complete word suffixes that exist below it in the trie.  For example, if our Trie contains the words `["fun", "function", "factory"]` and we ask for suffixes from the `f` node, we would expect to receive `["un", "unction", "actory"]` back from `node.suffixes()`.
-# 
-# Using the code you wrote for the `TrieNode` above, try to add the suffixes function below. (Hint: recurse down the trie, collecting suffixes as you go.)
-
-# In[ ]:
-
-
-class TrieNode:
-    def __init__(self):
-        ## Initialize this node in the Trie
         pass
     
-    def insert(self, char):
-        ## Add a child node in this Trie
+    def insert(self, word):
+        ## Add a word to the Trie
         pass
-        
-    def suffixes(self, suffix = ''):
-        ## Recursive function that collects the suffix for 
-        ## all complete words below this point
+    
+    def find(self, prefix):
+        ## Find the Trie node that represents this prefix
+        pass
+    
+#MyTrie = Trie()
+#wordList = [
+#    "ant", "anthology", "antagonist", "antonym", 
+#    "fun", "function", "factory", 
+#    "trie", "trigger", "trigonometry", "tripod"
+#]
+#for word in wordList:
+#    MyTrie.insert(word)
 
+tn = TrieNode()
+tn.insert('a')
+print(tn.is_word)
+print(tn.children['a'])
+print(tn.children['a'].is_word)
+print(tn.children['a'].children)
+print(tn.children['a'].insert('b'))
+print(tn.children['a'].is_word)
+print(tn.children['a'].children['b'])
+print(tn.children['a'].children['b'].is_word)
+print(tn.children['a'].children['b'].children)
+print(tn.children['a'].children['b'].insert('c'))
+print(tn.children['a'].children['b'].is_word)
+print("recursing*****")
+print(tn.suffixes('a'))
+print("recursing TWO *****")
+print(tn.suffixes('b'))
 
-# # Testing it all out
-# 
-# Run the following code to add some words to your trie and then use the interactive search box to see what your code returns.
-
-# In[ ]:
-
-
-MyTrie = Trie()
-wordList = [
-    "ant", "anthology", "antagonist", "antonym", 
-    "fun", "function", "factory", 
-    "trie", "trigger", "trigonometry", "tripod"
-]
-for word in wordList:
-    MyTrie.insert(word)
-
-
-# In[ ]:
-
-
-from ipywidgets import widgets
-from IPython.display import display
-from ipywidgets import interact
-def f(prefix):
-    if prefix != '':
-        prefixNode = MyTrie.find(prefix)
-        if prefixNode:
-            print('\n'.join(prefixNode.suffixes()))
-        else:
-            print(prefix + " not found")
-    else:
-        print('')
-interact(f,prefix='');
+#from ipywidgets import widgets
+#from IPython.display import display
+#from ipywidgets import interact
+#def f(prefix):
+#    if prefix != '':
+#        prefixNode = MyTrie.find(prefix)
+#        if prefixNode:
+#            print('\n'.join(prefixNode.suffixes()))
+#        else:
+#            print(prefix + " not found")
+#    else:
+#        print('')
+#interact(f,prefix='');
 

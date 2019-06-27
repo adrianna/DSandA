@@ -1,8 +1,42 @@
 P2 Problems
 
+
+
+
+## sqrt().py
+This problem asks to find the floor value of the square root.
+To solve this problem, a hash table of a bounded sequence was constructed.
+This provides O(1) constant time for look up.
+
+Given a value in the bounded data structures, a binary search is performed looking
+for the sqrt of the squared number given. Binary search is O(nlog n) performance.
+When the squared value, x, is given, the binary search will start at midpoint
+and look up in the hash for the sqare root value. It will then compare this value
+to the hash lookup of midpoint+1. By comparing the square root value between
+the hash midpoint and midpoint+1, the result should be between those two hash values.
+The result is chosen with the midpoint (the lower of the two).
+
+The program will test for corner cases as it does not seem to find sqrt(400).
+Therefore, this upper bound case will test for the input and return what is
+in the hash-key table.
+
+To find the srqt(x), for x > 400, the algorithm was not further developed.
+An idea here is to find a number divisible, where one of the divisor can be found
+in the table and the other divisor can be estimated with the current sqrt()
+implementation for values bounded in the hash. For example,
+sqrt(1000) = sqrt(100)*sqrt(10) = 10*3 = 30, where sqrt(10) = 3 (the floor value).
+Both values can be found in the table.
+
+
+
+The space complexity can grow very large, depending how many values can  and is therefore not an
+efficient program. The time complexity is as best as O(n log n) for a binary search.
+
+
 ## rearrange_array_elements.py
+
 This problem asks to find the largest sum from the list of digits. The digits
-must be grouped into two addend	      s with one addend no larger in size by one digit.
+must be grouped into two addends with one addend no larger in size by one digit.
 
 First, use an efficient sort routine such as merge sort. This will provide a
 O(nlogn) operation.
@@ -53,8 +87,6 @@ The total operation is O(nlogn) + O(n) ~ O(nlogn) for large n.
 The first attributes to sorting the array, and the second for looping
 the array to construct the two addends.
 
-
-
 ## unsorted_integer_array.py
 
 This problem asks to find the minimum and maximun elements in the array.
@@ -95,5 +127,27 @@ O(n) =  O(1)*3          create empty arrays
                         and appending to subsequent array O(1)
       + O(1)*2          appending two arrays into sorted_list array
       
+
+The space complexity is not efficient because we will create arrays for
+1's and 2's and then append them to the original one. The space will be O(n), where
+n = x+y+z, for x-number of 0's,  y-number of 1's,  z-number of 2's. 
+
+
+# trie.py
+Trie is a tree of character-Node hashes. To input a word, the tree starts
+with a root node and then appends child nodes for each character until
+it reaches the end of the word. A boolean is given to each node indicating whether
+the path along a tree is a word or not. This helps end the tree traversal as we're searching
+for parts of a word or its entirety.
+
+The hash lookup is generally O(1). Therefore, depending on the size of the word, say size m,
+the path lookup will be O(m). Worst case, the path lookup could be O(n), if the hash is imperfect
+and a single path representing the entire word of size n.
+
+The space complexity may not be efficient as there will be nodes which will repeat but be placed
+in different positions of the tree, depending how the word constructs the path.
+
+# http_router_using_tries.py
+Similar to the word trie implementation, this will also have a O(n) worst case lookup.
 
 

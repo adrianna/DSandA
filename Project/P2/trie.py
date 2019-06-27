@@ -4,13 +4,14 @@ class TrieNode:
         ## Initialize this node in the Trie
         self.children = {}
         self.is_word  = False
-
+  #      self.chr = ''              # Do I need to keep the value of the character?
         
     def insert(self, char):
         ## Add a child node in this Trie
         if char not in self.children.keys():
             self.children[char] = TrieNode()
             self.is_word = True
+            self.chr = char
             print("insert: {}".format(self.children[char]))
             
         
@@ -18,19 +19,18 @@ class TrieNode:
         ## Recursive function that collects the suffix for 
         ## all complete words below this point
         print(self.children)
-        if len(suffix) == 0:
-            return None
+#        if len(suffix) == 0:
+#            return None
 
         if self.is_word:
-
-            print("[[suffixes]] For char {}, is_word: {}".format(suffix, self.is_word))
+            print("[[suffixes]] For suffix {}, is_word: {}".format(suffix, self.is_word))
             if suffix not in self.children:
 
                 for char in suffix:
                     print("char: {} not found in self.children".format(char))
                     print(char)
                     self.children[char]
-#                    return self.suffixes(self.children[char])
+#                    return self.suffixes(self.children[char])   # Doesn't work, b/c parameter must be of type string. How do I recurse down?
             else:
                 print("suffix: {} found in self.children".format(suffix))
                 return None    
@@ -45,15 +45,26 @@ class TrieNode:
 class Trie:
     def __init__(self):
         ## Initialize this Trie (add a root node)
-        pass
+        self.root = TrieNode()
+
     
     def insert(self, word):
         ## Add a word to the Trie
-        pass
+
+        current_node = self.root
+        
+        for char in word:
+            if char not in current_node.children:
+                current_node.children[char] = TrieNode()
+            current_node = current_node.children[char]
+            
+        current_node.is_word = True
     
     def find(self, prefix):
         ## Find the Trie node that represents this prefix
-        pass
+        
+        
+        
     
 #MyTrie = Trie()
 #wordList = [

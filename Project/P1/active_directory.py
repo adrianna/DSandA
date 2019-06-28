@@ -1,10 +1,7 @@
 ##################################
 # P1: active_directory.py
 #
-# Issue: Another recursion. Having issue with getting access to groups list
-#   
-# Questions:
-#    1. Getting access to group lists on Line 49
+# Issue: See comment below at line #83
 #
 #
 ##################################
@@ -15,11 +12,16 @@ class Group(object):
         self.name = _name
         self.groups = []      # class Groups
         self.users = []       # user: class Group
+        # print("[[Group_init_]] name = {}".format(self.name))
+        # print("[[Group_init_]] groups = {}".format(self.groups))
+        # print("[[Group_init_]] users = {}".format(self.users))
 
     def add_group(self, group):
+        print("[[add_group]]: {}".format(group))
         self.groups.append(group)
 
     def add_user(self,user):
+        print("[[add_user]]: {}".format(user))
         self.users.append(user)
 
     def get_groups(self):
@@ -33,81 +35,61 @@ class Group(object):
 
     
 def is_user_in_group(user, group):
-    # check is user is in the group's user list
-    # traverse string user list of group
-    # if not found, traverse groups' group list
-    # recursive search
-    # if found, return True
-     
+    #print("[[is_user_in_group]]: group name: {}".format(group.get_name()))
+    #print("[[is_user_in_group]]: group.get_users: {}".format(group.get_users()))
 
-    group_users = group.get_users()
-    user_name = user.get_name()
-    # Check if user is in the Group's user list
-    for usr in group_users:
-        if usr.get_name() == user_name:
-            print("user_name: {}".format(user_name))
-            return True
-        else:
-            return False
-    
-    groups = group.get_groups()
-    for grp in groups:
-        print(groups[grp])
-        return is_user_in_group(user, groups[grp])
-    
+    # Match user to group's name
+    if user == group.get_name():
+        # print("user matches group name")
+        return True
+    # Match user to get_users
+    elif user in group.get_users():
+        # print("user is in group's user list")
+        return True
+    # if Group's group list not empty, recurse 
+    if len(group.get_groups()) == 0:
+        # print("group's group list is empty, return False")
+        return False
+    else:
+        # print("group.name = {}".format(group.get_name()))
+        # print("Descend into Group's group at a time, group_list: {}".format(group.get_groups()))
+        return is_user_in_group(user, group.get_groups().pop())
                 
                   
 parent = Group("parent")
 child = Group("child")
 sub_child = Group("subchild")
 
-sub_child_user = "sub_child_user"  
+sub_child_user = "sub_child_user"
+print("Adding user _sub_child_user_ to sub_child")
 sub_child.add_user(sub_child_user)
+
+print("Adding group __sub_child__ to child")
 child.add_group(sub_child)
+
+print("Adding group __child__ to parent")
 parent.add_group(child)
-print(parent.get_groups())
-print(child.get_name)
-#print(parent.get_groups()[0].get_users())
 
-print("Is child in group parent? {}".format(is_user_in_group(child, parent)))
+print("parent's groups: {}".format(parent.get_groups()))
+print("child's name = {}".format(child.get_name()))
 
-
-#print "parent groups"
-#print(parent.get_groups())
-#print
-#print "child groups"
-#print(child.get_groups())
-#print
-#print "sub child groups"
-#print(sub_child.get_groups())
-#print
-#print "length of sub_child.groups()"
-#print(len(sub_child.get_groups()))
-#print "length of child.groups()"
-#print(len(child.get_groups()))
-#print "child subgroup name"
-#print(child.get_groups()[0].name)
-#print
-#print "parent subgroup name"
-#print(parent.get_groups()[0].name)
-#print "parent sub - sub groups name"
-#print(parent.get_groups()[0].get_groups()[0].name)
-
-#print "parent sub groups"
-#print(parent.get_groups()[0])
-#print
-#print
-#print "len of parent sub-sub  groups"
-#print(parent.get_groups()[0].get_groups()[0].name)
-
-#for usr in range(len(parent.get_groups())):
-#    print("user: {}".format(usr))
+# TEST CASE 1
+#print("Is child in group parent? {}".format(is_user_in_group("child", parent)))
 
 
-# Questions
-# 1. Can users be in multiple groups?
-#   a. Is data structure a strict heirarchy?
-# 2. How is subchild group linked to child? Or is it?
-#   Do we append subchild into child's subchild group?
+# TEST CASE 2
+#print("Is subchild in group parent? {}".format(is_user_in_group("subchild", parent)))
+
+## ISSUE: As a result of the function pop(), the parent's group became empty, therefore, the following function
+#         returned False *after* I ran line 80 prior to line below
 
 
+# TEST CASE 3
+#print("Is subchild in group child? {}".format(is_user_in_group("subchild", child)))
+
+
+# TEST CASE 4
+step_parent = Group("step_parent")
+step_parent.add_group(child)
+
+print("Is child in group step parent? {}".format(is_user_in_group("child", step_parent)))

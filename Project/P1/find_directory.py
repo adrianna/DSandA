@@ -21,9 +21,7 @@
 ##################################
 
 
-from DataStructures import *
-import DataStructures.s as ds
-import os
+import os, fnmatch
 
 
 def find_files(suffix, path):
@@ -42,39 +40,26 @@ def find_files(suffix, path):
     Returns:
        a list of paths
     """
-    cfile_dir = []
+
+    cfiles_dir = []
+    path = os.getcwd() + "/" + path
+    # If path does not exist, return False
+
     if not os.path.exists(path):
         print("Returning... from find_files, dir {}".format(os.getcwd())) 
         return None 
-    else:
-        cfdir = _find_files(suffix,path)
-        print("Returning cfd_list: {}".format(cfdir))
-        return cfdir
 
-def _find_files(suffix,path):
-    print("[[ _find_files({},{})]]".format(suffix, path))
-    dlist = os.listdir(path)
-    print(dlist)
-    for file in dlist:
-        print("\tFor each file: {}".format(file))
-        subpath = path + "/"  + file
-        print("\tPath: {}".format(subpath))
-
-        if subpath.endswith(suffix):
-            print("\t\t\t{} has .c suffix".format(file))
-            return path
-        elif os.path.isdir(subpath): # Failing to identify subdir[2-5] as directories, Thereby never
-                                     # traversing down the subdirectory path 
-            print("\t\tChanging paths to: {}".format(subpath))
-            os.chdir(subpath)
-            print("\t\tCalling _find_files")
-           # dlist =  _find_files(suffix, subpath)  # Also breaking here, when uncommented
-        else:
-            print("{}: Neither directory nor a file ending with *.c suffix!".format(subpath))
-
-    return dlist 
+    for root, dirs, files in os.walk(path):
+        for file_name in files:
+            if fnmatch.fnmatch(file_name, suffix):
+                fileos.path(join(root
             
+            for dir_name in dirs:
+                print(os.path.join(root, dir_name)) 
 
+    
+
+   
 ############## Main #########
 
 path = "testdir"

@@ -52,15 +52,12 @@ def find_files(suffix, path):
     for root, dirs, files in os.walk(path):
         for file_name in files:
             if fnmatch.fnmatch(file_name, suffix):
-                fileos.path(join(root
+                if root not in cfiles_dir:
+                    cfiles_dir.append(root)
             
-            for dir_name in dirs:
-                print(os.path.join(root, dir_name)) 
-
-    
-
+    return cfiles_dir
    
 ############## Main #########
 
 path = "testdir"
-print(find_files(".c", path))
+print(find_files("*.c", path))

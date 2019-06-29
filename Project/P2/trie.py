@@ -4,7 +4,7 @@ class TrieNode:
         ## Initialize this node in the Trie
         self.children = {}
         self.is_word  = False
-  #      self.chr = ''              # Do I need to keep the value of the character?
+        self.chr = ''              # Do I need to keep the value of the character?
         
     def insert(self, char):
         ## Add a child node in this Trie
@@ -18,26 +18,16 @@ class TrieNode:
     def suffixes(self, suffix = ''):
         ## Recursive function that collects the suffix for 
         ## all complete words below this point
-        print(self.children)
-#        if len(suffix) == 0:
-#            return None
 
-        if self.is_word:
-            print("[[suffixes]] For suffix {}, is_word: {}".format(suffix, self.is_word))
-            if suffix not in self.children:
-
-                for char in suffix:
-                    print("char: {} not found in self.children".format(char))
-                    print(char)
-                    self.children[char]
-#                    return self.suffixes(self.children[char])   # Doesn't work, b/c parameter must be of type string. How do I recurse down?
-            else:
-                print("suffix: {} found in self.children".format(suffix))
-                return None    
+        if self.children[suffix].is_word:
+            return self.chr
         else:
-            print("traversing... now at char: {}".format(char))
-            return None        
+            self.children = self.children[suffix]
+            return suffixes(self.children.chr)
             
+        return None
+
+    
     def print(self):
         print(self.children)
         

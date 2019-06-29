@@ -20,7 +20,7 @@ class TrieNode:
         ## all complete words below this point
 
         if self.children[suffix].is_word:
-            return self.chr
+            return self.children[suffix].chr
         else:
             self.children = self.children[suffix]
             return suffixes(self.children.chr)

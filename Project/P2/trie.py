@@ -8,12 +8,15 @@ class TrieNode:
         
     def insert(self, char):
         ## Add a child node in this Trie
-        if char not in self.children.keys():
-            self.children[char] = TrieNode()
-            self.is_word = True
-            self.chr = char
-            print("insert: {}".format(self.children[char]))
+        for char in self.children.keys():
             
+            if char not in self.children.keys():
+                self.children[char] = TrieNode()
+                self.is_word = True
+                self.chr = char
+            self.children = self.children[char]
+            print("inserted: {}".format(self.children[char]))
+        self.chr = char
         
     def suffixes(self, suffix = ''):
         ## Recursive function that collects the suffix for 
@@ -28,9 +31,15 @@ class TrieNode:
         return None
 
     
-    def print(self):
-        print(self.children)
-        
+    def printNode(self):
+        if len(self.children) == 0:
+            print("chr: {}".format(self.chr))
+            return 
+        else:
+            for chr in self.children.keys():
+                self.children = self.children[chr]
+                self.children.printNode()
+                
 ## The Trie itself containing the root node and insert/find functions
 class Trie:
     def __init__(self):
@@ -52,7 +61,7 @@ class Trie:
     
     def find(self, prefix):
         ## Find the Trie node that represents this prefix
-        
+        pass
         
         
     
@@ -67,21 +76,25 @@ class Trie:
 
 tn = TrieNode()
 tn.insert('a')
-print(tn.is_word)
-print(tn.children['a'])
-print(tn.children['a'].is_word)
-print(tn.children['a'].children)
-print(tn.children['a'].insert('b'))
-print(tn.children['a'].is_word)
-print(tn.children['a'].children['b'])
-print(tn.children['a'].children['b'].is_word)
-print(tn.children['a'].children['b'].children)
-print(tn.children['a'].children['b'].insert('c'))
-print(tn.children['a'].children['b'].is_word)
-print("recursing*****")
-print(tn.suffixes('a'))
-print("recursing TWO *****")
-print(tn.suffixes('b'))
+tn.insert('b')
+tn.insert('c')
+tn.printNode()
+
+#print(tn.is_word)
+#print(tn.children['a'])
+#print(tn.children['a'].is_word)
+#print(tn.children['a'].children)
+#print(tn.children['a'].insert('b'))
+#print(tn.children['a'].is_word)
+#print(tn.children['a'].children['b'])
+#print(tn.children['a'].children['b'].is_word)
+#print(tn.children['a'].children['b'].children)
+#print(tn.children['a'].children['b'].insert('c'))
+#print(tn.children['a'].children['b'].is_word)
+#print("recursing*****")
+#print(tn.suffixes('a'))
+#print("recursing TWO *****")
+#print(tn.suffixes('b'))
 
 #from ipywidgets import widgets
 #from IPython.display import display

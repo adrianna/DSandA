@@ -1,3 +1,11 @@
+##
+## trie.py
+##
+## Issue: insert() does not nest the second TrieNode dict into the first TrieNode
+##        self.children shows a hash table (basic dictionary), but not a nested dictionary
+##
+
+
 ## Represents a single node in the Trie
 class TrieNode:
     def __init__(self):
@@ -8,15 +16,10 @@ class TrieNode:
         
     def insert(self, character):
         ## Add a child node in this Trie
-        print("[[insert]]: character = {}".format(character))
-            
-        if character not in self.children.keys():
-            self.children[character] = TrieNode()
-            self.is_word = True
-            self.chr = character
-            return
-        else:
-            
+        print("\t[[insert]]: character = {}".format(character))
+        print("\t[[insert]]: current node at self.chr: {}".format(self.chr))
+
+        if character in self.children.keys():
             for chr_keys in self.children.keys():
                 print("\t[[insert]] for each chr_keys: {}".format(chr_keys))
                 if chr_keys == character:
@@ -25,8 +28,16 @@ class TrieNode:
                     self.children = self.children[chr_keys]
                     self.chr = character
                     self.is_word = True
+                    print("\t\t**** [[insert]] PAUSE**** ")
+                self.children = self.children[chr_keys]
             
-        
+            print("\t[[insert]] past for loop")    
+        else:
+            self.children[character] = TrieNode()
+            self.is_word = True
+            self.chr = character
+       
+               
     def suffixes(self, suffix = ''):
         ## Recursive function that collects the suffix for 
         ## all complete words below this point
@@ -85,11 +96,17 @@ class Trie:
 
 tn = TrieNode()
 tn.insert('a')
-
+print("current TN.chr: {} ".format(tn.chr))
 print("*** PAUSE ***")
 print()      
 tp = tn
 tp.insert('b')
+print("current TP.chr: {} ".format(tp.chr))
+print("current TP.children: {} ".format(tp.children))
+print("\n")
+print("**** TN post-TP insert ***")
+print("current TN.children: {} ".format(tn.children))
+
 #tn.insert('c')
 #tn.printNode()
 

@@ -20,18 +20,17 @@ class TrieNode:
         print("\t[[insert]]: current node at self.chr: {}".format(self.chr))
 
         if character in self.children.keys():
-            for chr_keys in self.children.keys():
-                print("\t[[insert]] for each chr_keys: {}".format(chr_keys))
-                if chr_keys == character:
-                    self.children[chr_keys] = TrieNode()
-                    print("\t\t[[insert]] inserted: {}".format(self.children))
-                    self.children = self.children[chr_keys]
-                    self.chr = character
-                    self.is_word = True
+            for chr_key in self.children.keys():
+                print("\t[[insert]] for each chr_key: {}".format(chr_key))
+                node = self.children[chr_key] 
+                if chr_key == character:
+                    print("\t\t[[insert]] when chr_key: {} equals character: {}".format(chr_key, character))
+                    node.children[character] = TrieNode()
+                    print("\t\t[[insert]] inserted character {} at node.children {}".format(character, node.children))
+                    node = node.children[character]
+                    node.chr = character
+                    node.is_word = True
                     print("\t\t**** [[insert]] PAUSE**** ")
-                self.children = self.children[chr_keys]
-            
-            print("\t[[insert]] past for loop")    
         else:
             self.children[character] = TrieNode()
             self.is_word = True
@@ -106,6 +105,14 @@ print("current TP.children: {} ".format(tp.children))
 print("\n")
 print("**** TN post-TP insert ***")
 print("current TN.children: {} ".format(tn.children))
+tr = tp
+tr.insert('b')
+print("current TR.chr: {} ".format(tr.chr))
+print("current TR.children: {} ".format(tr.children))
+print("current TR.children['b'].children['b'].chr: {} ".format(tr.children['b'].children['b'].chr))
+print("\n")
+#tr.insert('a')
+
 
 #tn.insert('c')
 #tn.printNode()

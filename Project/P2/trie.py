@@ -6,17 +6,26 @@ class TrieNode:
         self.is_word  = False
         self.chr = ''              # Do I need to keep the value of the character?
         
-    def insert(self, char):
+    def insert(self, character):
         ## Add a child node in this Trie
-        for char in self.children.keys():
+        print("[[insert]]: character = {}".format(character))
             
-            if char not in self.children.keys():
-                self.children[char] = TrieNode()
-                self.is_word = True
-                self.chr = char
-            self.children = self.children[char]
-            print("inserted: {}".format(self.children[char]))
-        self.chr = char
+        if character not in self.children.keys():
+            self.children[character] = TrieNode()
+            self.is_word = True
+            self.chr = character
+            return
+        else:
+            
+            for chr_keys in self.children.keys():
+                print("\t[[insert]] for each chr_keys: {}".format(chr_keys))
+                if chr_keys == character:
+                    self.children[chr_keys] = TrieNode()
+                    print("\t\t[[insert]] inserted: {}".format(self.children))
+                    self.children = self.children[chr_keys]
+                    self.chr = character
+                    self.is_word = True
+            
         
     def suffixes(self, suffix = ''):
         ## Recursive function that collects the suffix for 
@@ -76,9 +85,13 @@ class Trie:
 
 tn = TrieNode()
 tn.insert('a')
-tn.insert('b')
-tn.insert('c')
-tn.printNode()
+
+print("*** PAUSE ***")
+print()      
+tp = tn
+tp.insert('b')
+#tn.insert('c')
+#tn.printNode()
 
 #print(tn.is_word)
 #print(tn.children['a'])

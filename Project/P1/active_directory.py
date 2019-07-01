@@ -10,8 +10,8 @@
 class Group(object):
     def __init__(self, _name):
         self.name = _name
-        self.groups = []      # class Groups
-        self.users = []       # user: class Group
+        self.groups = []      # list of class Groups
+        self.users = []       # list of string user
         # print("[[Group_init_]] name = {}".format(self.name))
         # print("[[Group_init_]] groups = {}".format(self.groups))
         # print("[[Group_init_]] users = {}".format(self.users))
@@ -34,10 +34,11 @@ class Group(object):
         return self.name
 
     
-def is_user_in_group(user, group):
+def is_user_in_group(user, group, grp_queue = None):
     #print("[[is_user_in_group]]: group name: {}".format(group.get_name()))
     #print("[[is_user_in_group]]: group.get_users: {}".format(group.get_users()))
 
+    group_queue = []
     # Match user to group's name
     if user == group.get_name():
         # print("user matches group name")
@@ -53,8 +54,21 @@ def is_user_in_group(user, group):
     else:
         # print("group.name = {}".format(group.get_name()))
         # print("Descend into Group's group at a time, group_list: {}".format(group.get_groups()))
-        return is_user_in_group(user, group.get_groups().pop())
-                
+        if grp_queue is None:
+            grp_queue = group.get_groups()
+            return is_user_in_group(user, group, grp_queue)
+        else:
+            grp_queue += group.get_groups()  
+            return is_user_in_group(user, grp_queue.pop(0), grp_queue)
+
+
+        ###
+        #grpList = group.get_groups()
+        #i = 1
+        #grp = grpList[:-i]
+        #return is_user_in_group(user, grp))
+        #i += 1
+        
                   
 parent = Group("parent")
 child = Group("child")
@@ -74,18 +88,18 @@ print("parent's groups: {}".format(parent.get_groups()))
 print("child's name = {}".format(child.get_name()))
 
 # TEST CASE 1
-#print("Is child in group parent? {}".format(is_user_in_group("child", parent)))
+print("Is child in group parent? {}".format(is_user_in_group("child", parent)))
 
 
 # TEST CASE 2
-#print("Is subchild in group parent? {}".format(is_user_in_group("subchild", parent)))
+print("Is subchild in group parent? {}".format(is_user_in_group("subchild", parent)))
 
 ## ISSUE: As a result of the function pop(), the parent's group became empty, therefore, the following function
 #         returned False *after* I ran line 80 prior to line below
 
 
 # TEST CASE 3
-#print("Is subchild in group child? {}".format(is_user_in_group("subchild", child)))
+print("Is subchild in group child? {}".format(is_user_in_group("subchild", child)))
 
 
 # TEST CASE 4
@@ -93,3 +107,6 @@ step_parent = Group("step_parent")
 step_parent.add_group(child)
 
 print("Is child in group step parent? {}".format(is_user_in_group("child", step_parent)))
+
+# TEST CASE 5
+# False case and get_groups() is empty

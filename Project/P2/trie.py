@@ -22,8 +22,9 @@ class TrieNode:
         if character in self.children.keys():
             for chr_key in self.children.keys():
                 print("\t[[insert]] for each chr_key: {}".format(chr_key))
-                node = self.children[chr_key] 
+               # node = self.children[chr_key] 
                 if chr_key == character:
+                    node = self.children[chr_key] 
                     print("\t\t[[insert]] when chr_key: {} equals character: {}".format(chr_key, character))
                     node.children[character] = TrieNode()
                     print("\t\t[[insert]] inserted character {} at node.children {}".format(character, node.children))
@@ -33,32 +34,64 @@ class TrieNode:
                     print("\t\t**** [[insert]] PAUSE**** ")
         else:
             self.children[character] = TrieNode()
-            self.is_word = True
+            self.is_word = True 
             self.chr = character
        
                
+#    def suffixes(self, suffix = '', words = ''):
     def suffixes(self, suffix = ''):
         ## Recursive function that collects the suffix for 
         ## all complete words below this point
 
-        if self.children[suffix].is_word:
-            return self.children[suffix].chr
-        else:
-            self.children = self.children[suffix]
-            return suffixes(self.children.chr)
+        
+        # Base Case
+        if suffix is None:
+            return None
+
+        if self.is_word == False:
+            return self.chr
+
+        # Assuming we start at the base of the prefix Node, i.e. We look for suffixes
+        # after the prefix 'abc', starting at 'c' TrieNode and returning all the child nodes below
+        # 'c' TrieNode as suffixes.
+        node = self.children
+        for character in self.children[self.chr].keys():
+            node = node.children[character]
+            print(node.chr)
+            sfx.join(suffixes(node.chr))
             
-        return None
+        
+            
+
+        
+       # words = suffix if len(suffix) != 0
+            
+       # if len(words) != 0:
+       #     node = self.children
+       #     for char in words:
+      #          if char = suffix:
+      #              node = self.children[char].children
+        
+      #  if node.is_word:
+      #      words.append(node.chr)
+      #      return words
+      #  else:
+      #      for char in self.children.keys():
+      #          node  = self.children[]
+      #          return suffixes(node[char].chr, words)
+
 
     
-    def printNode(self):
-        if len(self.children) == 0:
-            print("chr: {}".format(self.chr))
-            return 
-        else:
-            for chr in self.children.keys():
-                self.children = self.children[chr]
-                self.children.printNode()
-                
+#    def printNode(self):
+#        if len(self.children) == 0:
+#            print("chr: {}".format(self.chr))
+#            return 
+#        else:
+#            for chr in self.children.keys():
+#                self.children = self.children[chr]
+#                self.children.printNode()
+
+
 ## The Trie itself containing the root node and insert/find functions
 class Trie:
     def __init__(self):

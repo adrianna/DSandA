@@ -45,6 +45,7 @@ class TrieNode:
         # Base Case
         if suffix is None:
             return None
+
         
         # Assuming we start at the base of the prefix Node, i.e. We look for suffixes
         # after the prefix 'abc', starting at 'c' TrieNode and returning all the child nodes below
@@ -100,7 +101,7 @@ print("tn.children[a].is_word: {} and chr: {}".format(tn.is_word, tn.chr))
 print("tn.children: {}".format(tn.children))
 print("tn.children['a']: {}".format(tn.children['a']))
 print("tn.children['a'].chr: {}".format(tn.children['a'].chr))
-
+tn.suffixes('a')
 #tn = TrieNode()
 #tn.insert('a')
 #print("current TN.chr: {} ".format(tn.chr))

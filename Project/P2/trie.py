@@ -11,8 +11,9 @@ class TrieNode:
     def __init__(self):
         ## Initialize this node in the Trie
         self.children = {}
-        self.is_word  = False
-        self.chr = ''              # Do I need to keep the value of the character?
+        self.is_word  = True
+        self.chr = ''             
+        self.sfx = ''
         
     def insert(self, character):
         ## Add a child node in this Trie
@@ -30,67 +31,31 @@ class TrieNode:
                     print("\t\t[[insert]] inserted character {} at node.children {}".format(character, node.children))
                     node = node.children[character]
                     node.chr = character
-                    node.is_word = True
+                    node.is_word = False
                     print("\t\t**** [[insert]] PAUSE**** ")
         else:
             self.children[character] = TrieNode()
-            self.is_word = True 
+            self.is_word = False 
             self.chr = character
        
                
 #    def suffixes(self, suffix = '', words = ''):
     def suffixes(self, suffix = ''):
-        ## Recursive function that collects the suffix for 
-        ## all complete words below this point
-
         
         # Base Case
         if suffix is None:
             return None
-
-        if self.is_word == False:
-            return self.chr
-
+        
         # Assuming we start at the base of the prefix Node, i.e. We look for suffixes
         # after the prefix 'abc', starting at 'c' TrieNode and returning all the child nodes below
         # 'c' TrieNode as suffixes.
-        node = self.children
-        for character in self.children[self.chr].keys():
-            node = node.children[character]
-            print(node.chr)
-            sfx.join(suffixes(node.chr))
+        #        node = self.children
+        #        for character in self.children[self.chr].keys():
+        #            node = node.children[character]
+        #            print(node.chr)
+        #            sfx.join(suffixes(node.chr))
             
         
-            
-
-        
-       # words = suffix if len(suffix) != 0
-            
-       # if len(words) != 0:
-       #     node = self.children
-       #     for char in words:
-      #          if char = suffix:
-      #              node = self.children[char].children
-        
-      #  if node.is_word:
-      #      words.append(node.chr)
-      #      return words
-      #  else:
-      #      for char in self.children.keys():
-      #          node  = self.children[]
-      #          return suffixes(node[char].chr, words)
-
-
-    
-#    def printNode(self):
-#        if len(self.children) == 0:
-#            print("chr: {}".format(self.chr))
-#            return 
-#        else:
-#            for chr in self.children.keys():
-#                self.children = self.children[chr]
-#                self.children.printNode()
-
 
 ## The Trie itself containing the root node and insert/find functions
 class Trie:
@@ -127,23 +92,33 @@ class Trie:
 #    MyTrie.insert(word)
 
 tn = TrieNode()
+print("print tn: {}".format(tn))
 tn.insert('a')
-print("current TN.chr: {} ".format(tn.chr))
-print("*** PAUSE ***")
-print()      
-tp = tn
-tp.insert('b')
-print("current TP.chr: {} ".format(tp.chr))
-print("current TP.children: {} ".format(tp.children))
-print("\n")
-print("**** TN post-TP insert ***")
-print("current TN.children: {} ".format(tn.children))
-tr = tp
-tr.insert('b')
-print("current TR.chr: {} ".format(tr.chr))
-print("current TR.children: {} ".format(tr.children))
-print("current TR.children['b'].children['b'].chr: {} ".format(tr.children['b'].children['b'].chr))
-print("\n")
+#tn.children['a'].insert('x')
+#tn.children['a'].insert('t')
+print("tn.children[a].is_word: {} and chr: {}".format(tn.is_word, tn.chr))
+print("tn.children: {}".format(tn.children))
+print("tn.children['a']: {}".format(tn.children['a']))
+print("tn.children['a'].chr: {}".format(tn.children['a'].chr))
+
+#tn = TrieNode()
+#tn.insert('a')
+#print("current TN.chr: {} ".format(tn.chr))
+#print("*** PAUSE ***")
+#print()      
+#tp = tn
+#tp.insert('b')
+#print("current TP.chr: {} ".format(tp.chr))
+#print("current TP.children: {} ".format(tp.children))
+#print("\n")
+#print("**** TN post-TP insert ***")
+#print("current TN.children: {} ".format(tn.children))
+#tr = tp
+#tr.insert('b')
+#print("current TR.chr: {} ".format(tr.chr))
+#print("current TR.children: {} ".format(tr.children))
+#print("current TR.children['b'].children['b'].chr: {} ".format(tr.children['b'].children['b'].chr))
+#print("\n")
 #tr.insert('a')
 
 

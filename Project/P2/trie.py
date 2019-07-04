@@ -11,53 +11,59 @@ class TrieNode:
     def __init__(self):
         ## Initialize this node in the Trie
         self.children = {}
-        self.is_word  = True
-        self.chr = ''             
+        self.end  = True
+        self.chr = '0000'
         self.sfx = ''
+        self.word = []
         
     def insert(self, character):
         ## Add a child node in this Trie
-        print("\t[[insert]]: character = {}".format(character))
-        print("\t[[insert]]: current node at self.chr: {}".format(self.chr))
 
         if character in self.children.keys():
             for chr_key in self.children.keys():
                 print("\t[[insert]] for each chr_key: {}".format(chr_key))
                # node = self.children[chr_key] 
                 if chr_key == character:
-                    node = self.children[chr_key] 
-                    print("\t\t[[insert]] when chr_key: {} equals character: {}".format(chr_key, character))
+                    node = self.children[chr_key]
+                    print("\t\t[[insert]] Updating self.end: {}, not self.chr: {}".format(self.end, self.chr))
                     node.children[character] = TrieNode()
                     print("\t\t[[insert]] inserted character {} at node.children {}".format(character, node.children))
                     node = node.children[character]
                     node.chr = character
-                    node.is_word = False
+                    node.end = False
                     print("\t\t**** [[insert]] PAUSE**** ")
         else:
             self.children[character] = TrieNode()
-            self.is_word = False 
             self.chr = character
-       
+            #self.end = False
                
-#    def suffixes(self, suffix = '', words = ''):
     def suffixes(self, suffix = ''):
         
         # Base Case
         if suffix is None:
-            return None
+            return []
 
         
-        # Assuming we start at the base of the prefix Node, i.e. We look for suffixes
-        # after the prefix 'abc', starting at 'c' TrieNode and returning all the child nodes below
-        # 'c' TrieNode as suffixes.
-        #        node = self.children
-        #        for character in self.children[self.chr].keys():
-        #            node = node.children[character]
-        #            print(node.chr)
-        #            sfx.join(suffixes(node.chr))
+        if self.end:
+            print("\t\t[[suffixes]]: self.end: {} for self.chr: {}".format(self.end, self.chr))
+            self = self.children[suffix]
+            for letter in self.children.keys():
+                
+                sfx = self.suffixes(letter)
+                
+                if sfx not in self.word:
+                    self.word.append(letter)
+                    
+            return self.word
             
-        
+        else:
+            
+            if len(self.children.keys())== 0:
+                   return self.chr
+                   
+        return []
 
+        
 ## The Trie itself containing the root node and insert/find functions
 class Trie:
     def __init__(self):
@@ -75,7 +81,7 @@ class Trie:
                 current_node.children[char] = TrieNode()
             current_node = current_node.children[char]
             
-        current_node.is_word = True
+        current_node.end = True
     
     def find(self, prefix):
         ## Find the Trie node that represents this prefix
@@ -94,14 +100,56 @@ class Trie:
 
 tn = TrieNode()
 print("print tn: {}".format(tn))
+
 tn.insert('a')
+
+#print("Suffixes for 'a': {}".format(tn.suffixes('a')))
+#print("inserting X")
+
+tn.end = False   # Reseatting end boolean, due to insert below
+
 #tn.children['a'].insert('x')
-#tn.children['a'].insert('t')
-print("tn.children[a].is_word: {} and chr: {}".format(tn.is_word, tn.chr))
-print("tn.children: {}".format(tn.children))
-print("tn.children['a']: {}".format(tn.children['a']))
-print("tn.children['a'].chr: {}".format(tn.children['a'].chr))
-tn.suffixes('a')
+#print("Suffixes for 'a': {}".format(tn.suffixes('a')))
+
+print("inserting T")
+tn.children['a'].insert('t')
+
+#print("Suffixes for 'a': {}".format(tn.suffixes('a')))
+tn.children['a'].children['t'].end = False
+tn.children['a'].children['t'].insert('e')
+print("Suffixes for 'a': {}".format(tn.suffixes('a')))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#print("tn.children[a].end: {} and chr: {}".format(tn.end, tn.chr))
+#print("tn.children: {}".format(tn.children))
+#print("tn.children['a']: {}".format(tn.children['a']))
+#print("tn.children['a'].chr: {}".format(tn.children['a'].chr))
+#print(tn.suffixes('a'))
+
+
+#print("inserting E")
+#tn.children['a'].children['x'].insert('e')
+#if tn.suffixes('a') is not NONE: print(tn.suffixes('a'))
+#print("PAUSE")
 #tn = TrieNode()
 #tn.insert('a')
 #print("current TN.chr: {} ".format(tn.chr))
@@ -126,17 +174,17 @@ tn.suffixes('a')
 #tn.insert('c')
 #tn.printNode()
 
-#print(tn.is_word)
+#print(tn.end)
 #print(tn.children['a'])
-#print(tn.children['a'].is_word)
+#print(tn.children['a'].end)
 #print(tn.children['a'].children)
 #print(tn.children['a'].insert('b'))
-#print(tn.children['a'].is_word)
+#print(tn.children['a'].end)
 #print(tn.children['a'].children['b'])
-#print(tn.children['a'].children['b'].is_word)
+#print(tn.children['a'].children['b'].end)
 #print(tn.children['a'].children['b'].children)
 #print(tn.children['a'].children['b'].insert('c'))
-#print(tn.children['a'].children['b'].is_word)
+#print(tn.children['a'].children['b'].end)
 #print("recursing*****")
 #print(tn.suffixes('a'))
 #print("recursing TWO *****")

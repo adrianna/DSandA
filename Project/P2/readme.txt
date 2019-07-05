@@ -158,5 +158,28 @@ the handler as a new node. The trie is fundamentally a nested list of dictionari
 TrieNode.
 
 
+## search_rotated_array
+This program searches a rotated array by picking a number at midpoint and then deciding whether to
+rotate the array left or rotate right depending if the current index is greater or less than the target
+It is very similar to binary search except that we rotate the arrays to the position, whose direction
+is determined by the evaluation of the current index against the target.
+
+The binary array has a O(log n) because at every iteration we are only looking at
+half the elements between midpoint and starting. For ever step, we narrow the range in which to search
+for target. Suppose we have n elements. We pick a starting point at n/2 (starting from 0 index to n).
+From this index, we decide if the current node is > or < the target. We pick a direction and from
+n/2 to n (assuming current is less than target), we search over n/2 range and divide that range at
+midpoint n + (n-n/2)/2 = n + n/4. If at 3n/4 the target is not found, we then subdivide that range
+and recurse through the conditional test.
+
+Out of n = 8, we have three iterations of tests.
+Out of n = 4, we have two "            "      "
+
+This shows x = log2 n, where n is the number of elements, and x is the number of iterations
+to search in this array.
+
+
+
+
 
 

@@ -109,7 +109,7 @@ O(1)*n = O(n)
 
 The algorithm will take place in O(n) time.
 
-# dutch_national_flag.py
+## dutch_national_flag.py
 
 This problem asks to sort list of elements (0,1,2) and return sorted array.
 We create three empty lists to start: sorted_list, array_1, array_2. This takes
@@ -133,7 +133,8 @@ The space complexity is not efficient because we will create arrays for
 n = x+y+z, for x-number of 0's,  y-number of 1's,  z-number of 2's. 
 
 
-# trie.py
+
+## trie.py
 Trie is a tree of character-Node hashes. To input a word, the tree starts
 with a root node and then appends child nodes for each character until
 it reaches the end of the word. A boolean is given to each node indicating whether
@@ -147,7 +148,15 @@ and a single path representing the entire word of size n.
 The space complexity may not be efficient as there will be nodes which will repeat but be placed
 in different positions of the tree, depending how the word constructs the path.
 
-# http_router_using_tries.py
+## http_router_using_tries.py
 Similar to the word trie implementation, this will also have a O(n) worst case lookup.
+The http router parses the URL based on the address and file directories.
+It then places each segment into a trie tree.
+
+When it adds the handler, it traces the route of the existing addresses down the trie and add
+the handler as a new node. The trie is fundamentally a nested list of dictionaries of class type
+TrieNode.
+
+
 
 

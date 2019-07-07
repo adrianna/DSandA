@@ -21,7 +21,7 @@ class TrieNode:
             self.children[character] = TrieNode()
             self.chr = character
 
-    def suffixes(self, suffix = '', word = '', words=[]) -> list::
+    def suffixes(self, suffix = '', word = '', words=[]) -> list:
         
         # Base Case
         if suffix:
@@ -30,8 +30,8 @@ class TrieNode:
         for letter in self.children.keys():
             self.suffixes(letter, word + letter, words)
                 
-            if sfx not in self.word:
-                self.word.append(letter)
+            if letter not in word:
+                word += letter
                     
             if self.end and word:
                 words.append(word)
@@ -112,8 +112,8 @@ print("inserting X")
 
 #tn.end = False   # Reseatting end boolean, due to insert below
 
-#tn.children['a'].insert('x')
-#print("Suffixes for 'a': {}".format(tn.suffixes('a')))
+tn.children['a'].insert('x')
+print("Suffixes for 'a': {}".format(tn.suffixes('a')))
 
 #print("inserting T")
 #tn.children['a'].insert('t')

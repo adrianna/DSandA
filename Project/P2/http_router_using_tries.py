@@ -1,61 +1,75 @@
 # A RouteTrie will store our routes and their associated handlers
 class RouteTrie:
-    def __init__(self, handler_list):
+    def __init__(self, handler):
         # Initialize the trie with an root node and a handler, this is the root path or home page node
-        self.handler = handler
-        self.root = None
+        self.root = RouteTrieNode(handler)
 
         
-        
+   ["home", "root", "aboutme"] -> /home/root/aboutme     
     def insert(self, path_list, handler):
         # Similar to our previous example you will want to recursively add nodes
         # Make sure you assign the handler to only the leaf (deepest) node of this path
+
+        current_path = self.root
+        for p in path_list:
+            current_path.insert(p)            
+            current_path = current_path.paths[p]
+            
+        current_path.is_handler = True
+        current_path.handler = handler
         
-        
-        
-        
-        
-    def find(self, final_path):
+    def find(self, path_list):
         # Starting at the root, navigate the Trie to find a match for this path
         # Return the handler for a match, or None for no match
 
+        current_node = self.root
+        
+        if current_node.paths is None:
+            return None
+
+        for p in path_list:
+            current_node = current_node.path.get(p) 
+            if current_node:
+                current_node = current_node.paths[p]
+            elsif current_node.is_handler:
+                return current_node.handler
+            
+        return
         
 # A RouteTrieNode will be similar to our autocomplete TrieNode... with one additional element, a handler.
 class RouteTrieNode:
-    def __init__(self, child, handler):
+    def __init__(self, handler = None):
         # Initialize the node with children as before, plus a handler
-        self.child = None
         self.handler = handler
+        self.paths = dict()
         self.is_handler = False
         
-        
-        
-    def insert(self, child):
+    def insert(self, handler):
         # Insert the node as before
 
-        if self.handler.get(child) is None:
-            self.handler[child] = RouteTrieNode()
+        if self.paths.get(handler) is None:
+            self.paths[handler] = RouteTrieNode()
             
-        
 
 # The Router class will wrap the Trie and handle 
 class Router:
-    def __init__(self, RouteTrie):
+    def __init__(self, handler_list):
         # Create a new RouteTrie for holding our routes
         # You could also add a handler for 404 page not found responses as well!
-        self.routeTrie = RouteTrie()
+        self.routeTrie = RouteTrie(handler_list)
         self.not_found = True
 
-    def add_handler(self, handler):
+    def add_handler(self, path, handler):
         # Add a handler for a path
         # You will need to split the path and pass the pass parts
         # as a list to the RouteTrie
-        
-        for hdlr in self.routeTrie.child.keys():
-            self.routeTrie.insert(hdlr)
-            self.routeTrie = self.routeTrie[hdlr]
 
-        self.routeTrie.is_handler = True
+        handler_list = self.split_path(path)
+        current_path = self.routeTrie
+        
+        for hdrl in handler_list:
+            current_path.insert(hdrl)
+            
 
     def lookup(self, handler):
         # lookup path (by parts) and return the associated handler
@@ -64,22 +78,25 @@ class Router:
         # bonus points if a path works with and without a trailing slash
         # e.g. /about and /about/ both return the /about handler
 
-        self.split_path(handler)
+        current_path = self.root
 
+        return current_path.find(handler)
+        
     def split_path(self, handler ):
         # you need to split the path into parts for 
         # both the add_handler and loopup functions,
         # so it should be placed in a function here
 
-        hlist = split(handler, "/")
-        print(hlist)
+        if handler:
+            hlist = split(handler, "/")
+            print(hlist)
 
-        return hlist
+            return hlist
         
         
 
         
-        # Here are some test cases and expected outputs you can use to test your implementation
+# Here are some test cases and expected outputs you can use to test your implementation
 
 
         
@@ -94,16 +111,3 @@ print(router.lookup("/home/about")) # should print 'about handler'
 print(router.lookup("/home/about/")) # should print 'about handler' or None if you did not handle trailing slashes
 print(router.lookup("/home/about/me")) # should print 'not found handler' or None if you did not implement one
 
-/www.google.com/search
-
-
-
-TrieNode1
-www.google.com
-
-PORT = 8000
-Handler = http.server.SimpleHTTPRequestHandler
-
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print("serving at port", PORT)
-    httpd.serve_forever()

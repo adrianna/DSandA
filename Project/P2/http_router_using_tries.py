@@ -5,7 +5,6 @@ class RouteTrie:
         self.root = RouteTrieNode(handler)
 
         
-   ["home", "root", "aboutme"] -> /home/root/aboutme     
     def insert(self, path_list, handler):
         # Similar to our previous example you will want to recursively add nodes
         # Make sure you assign the handler to only the leaf (deepest) node of this path
@@ -27,12 +26,13 @@ class RouteTrie:
         if current_node.paths is None:
             return None
 
+        
         for p in path_list:
-            current_node = current_node.path.get(p) 
-            if current_node:
+            current_node = current_node.paths.get(p) 
+            if current_node:                
                 current_node = current_node.paths[p]
-            elsif current_node.is_handler:
-                return current_node.handler
+                if current_node.is_handler:
+                    return current_node.handler
             
         return
         
@@ -67,8 +67,7 @@ class Router:
         handler_list = self.split_path(path)
         current_path = self.routeTrie
         
-        for hdrl in handler_list:
-            current_path.insert(hdrl)
+        current_path.insert(handler_list, handler)
             
 
     def lookup(self, handler):
@@ -78,7 +77,7 @@ class Router:
         # bonus points if a path works with and without a trailing slash
         # e.g. /about and /about/ both return the /about handler
 
-        current_path = self.root
+        current_path = self.routeTrie
 
         return current_path.find(handler)
         
@@ -88,7 +87,7 @@ class Router:
         # so it should be placed in a function here
 
         if handler:
-            hlist = split(handler, "/")
+            hlist = handler.split("/")
             print(hlist)
 
             return hlist
@@ -101,7 +100,8 @@ class Router:
 
         
 # create the router and add a route
-router = Router("root handler", "not found handler") # remove the 'not found handler' if you did not implement this
+#router = Router("root handler", "not found handler") # remove the 'not found handler' if you did not implement this
+router = Router("root handler") # remove the 'not found handler' if you did not implement this
 router.add_handler("/home/about", "about handler")  # add a route
 
 # some lookups with the expected output

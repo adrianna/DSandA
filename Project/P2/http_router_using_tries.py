@@ -5,15 +5,24 @@ class RouteTrieNode:
         self.handler = handler
         self.paths = dict()
         self.is_handler = False
+
         
+    def convertRootHandler(self,handler):
+        if handler == "/":
+            return "root handler"
+        return handler
+
+    
     def insert(self, handler):
         # Insert the node as before
 
         if self.paths.get(handler) is None:
-            if self.handler == "/":
+            
+            if handler == "/":
                 self.handler = "root handler"
             self.paths[handler] = RouteTrieNode()
 
+            
 
 # A RouteTrie will store our routes and their associated handlers
 class RouteTrie:
@@ -27,7 +36,7 @@ class RouteTrie:
         # Make sure you assign the handler to only the leaf (deepest) node of this path
 
         current_path = self.root
-        if handler == "/":
+        if handler == "/" or handler == "root handler":
             current_path.insert(handler)
         else:
             
@@ -49,11 +58,10 @@ class RouteTrie:
 
         
         for p in path_list:
-            current_node = current_node.paths.get(p) 
-            if current_node:                
-                current_node = current_node.paths[p]
-                if current_node.is_handler:
+            if current_node.paths[p]:
+                if current_node.handler == current_node.convertRootHandler(p):
                     return current_node.handler
+                current_node = current_node.paths[p]
             
         
             
@@ -64,6 +72,7 @@ class Router:
         # You could also add a handler for 404 page not found responses as well!
         self.routeTrie = RouteTrie(handler_list)
 
+ 
 
     def add_handler(self, path, handler):
         # Add a handler for a path
@@ -88,8 +97,13 @@ class Router:
 
         current_path = self.routeTrie
 
-        return current_path.find(handler)
+        found_handler = current_path.find(handler)
         
+        if found_handler:
+            return found_handler
+
+        return None
+    
     def split_path(self, handler ):
         # you need to split the path into parts for 
         # both the add_handler and loopup functions,
@@ -104,6 +118,7 @@ class Router:
             return hlist
         
         
+
 
         
 # Here are some test cases and expected outputs you can use to test your implementation

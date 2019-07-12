@@ -32,10 +32,9 @@ def rotated_array_search(input_list, number, start_index, end_index):
                 end_index = mid_index - 1
 
         else:
-            #if withinBoundary(input_list[start_index : mid_index-1], number):         ## Fails TC3, but Passes TC4 and TC5;
-            if withinBoundary(input_list, number, start_index, mid_index - 1):         ## Passes TC3, but Fails TC4 and TC5;
+             if withinBoundary(input_list, number, start_index, mid_index - 1):
                 end_index = mid_index - 1 
-            else:    
+             else:    
                 start_index = mid_index + 1
     return -1
 
@@ -72,7 +71,7 @@ def test_function(test_case):
     number = test_case[1]
     start_index = 0
     end_index = len(input_list) - 1
-    print(rotated_array_search(input_list, number, start_index, end_index ))
+#    print(rotated_array_search(input_list, number, start_index, end_index ))
     if linear_search(input_list, number) == rotated_array_search(input_list, number, start_index, end_index ):
         print("Pass")
     else:

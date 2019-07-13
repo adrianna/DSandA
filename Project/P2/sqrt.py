@@ -32,6 +32,9 @@ def sqrt(number):
     ref_sq = [1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256,
               289, 324, 361, 400]
 
+    if number < 0:
+        
+        raise Exception("Sqrt of negative number does not exist. Number must be greater than 0")
 
     start_pt = 0
     end_pt = len(ref_sq) - 1
@@ -51,10 +54,12 @@ def binSearchBase(input_list, number, idx, start_pt, end_pt):
         return base
 
     if number == 400:
-        return ref_sq[400]
+        return len(input_list)
+    
     if number > 400:
         #print("does not do sqrt for n > 400")
         return None
+    
     if number == input_list[mid_pt]:
         base = mid_pt + 1
         #print("number equals il[mid]: {}".format(base))
@@ -98,10 +103,12 @@ print ("Pass" if  (0 == sqrt(0)) else "Fail")
 print ("Pass" if  (4 == sqrt(16)) else "Fail")
 print ("Pass" if  (1 == sqrt(1)) else "Fail")
 print ("Pass" if  (5 == sqrt(27)) else "Fail")
+#sqrt(-1)
+
 
 #print ("Pass" if  (22 == sqrt(500)) else "Fail")
 #print ("Pass" if  (None == sqrt(500)) else "Fail")
-#print ("Pass" if  (20 == sqrt(400)) else "Fail")
+print ("Pass" if  (20 == sqrt(400)) else "Fail")
 #print ("Pass" if  (1 == sqrt(1)) else "Fail")
 #print ("Pass" if  (18 == sqrt(350)) else "Fail")
 #print ("Pass" if  (19 == sqrt(373)) else "Fail")

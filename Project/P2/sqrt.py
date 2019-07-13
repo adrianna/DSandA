@@ -33,8 +33,8 @@ def sqrt(number):
               289, 324, 361, 400]
 
     if number < 0:
-        
-        raise Exception("Sqrt of negative number does not exist. Number must be greater than 0")
+        print("Error: Invalid input, can't take sqrt of negative")
+        return None
 
     start_pt = 0
     end_pt = len(ref_sq) - 1
@@ -103,12 +103,12 @@ print ("Pass" if  (0 == sqrt(0)) else "Fail")
 print ("Pass" if  (4 == sqrt(16)) else "Fail")
 print ("Pass" if  (1 == sqrt(1)) else "Fail")
 print ("Pass" if  (5 == sqrt(27)) else "Fail")
-#sqrt(-1)
+print ("Pass" if  (None == sqrt(-1)) else "Fail")
+print ("Pass" if  (20 == sqrt(400)) else "Fail")
 
 
 #print ("Pass" if  (22 == sqrt(500)) else "Fail")
 #print ("Pass" if  (None == sqrt(500)) else "Fail")
-print ("Pass" if  (20 == sqrt(400)) else "Fail")
 #print ("Pass" if  (1 == sqrt(1)) else "Fail")
 #print ("Pass" if  (18 == sqrt(350)) else "Fail")
 #print ("Pass" if  (19 == sqrt(373)) else "Fail")

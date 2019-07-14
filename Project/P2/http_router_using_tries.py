@@ -133,12 +133,15 @@ print(router.lookup("/home/about")) # should print 'about handler'
 print(router.lookup("/home/about/")) # should print 'about handler' or None if you did not handle trailing slashes
 print(router.lookup("/home/about/me")) # should print 'not found handler' or None if you did not implement one
 
+TC#1 - different handler added to tree
 router.add_handler("/usr/bin", "bin handler")
 print(router.lookup("/usr/bin"))
 
+TC#2 - more handlers
 router.add_handler("/usr/include", "include handler")
 print(router.lookup("/usr/include"))
 
+TC#3 - more handlers, same parent
 router.add_handler("/usr/sbin", "sbin handler")
 print(router.lookup("/usr/sbin"))
 

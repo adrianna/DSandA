@@ -1,9 +1,6 @@
 ##################################
 # P1: blockchain.py
 #
-# WIP (work in progress)
-# Feel free to comment
-# Also run-time error: b2.append(b1)
 #
 ##################################
 
@@ -52,7 +49,7 @@ class BlockChain:
             #self.head._print()
             self.tail = self.head
         else:
-            print("head exists, instantiate new node to  Block()")
+            #print("head exists, instantiate new node to  Block()")
             new_node = Block(timestamp, data, previous_hash)
             #new_node._print()
             self.head.prev = new_node
@@ -64,7 +61,6 @@ class BlockChain:
             self.head = new_node
             #print("after update, self.head: {}".format(self.head))
             
-        print("Leaving [[append]]")
 
     def print(self, index=0):
         #print("[[print]]")
@@ -89,19 +85,28 @@ class BlockChain:
 b1 = BlockChain()
 b1.append('0612_1950', "N1", None)
 b1.print()
+#Printing: timestamp, data, previous_hash, hash_code
+#0612_1950
+#N1
+#None
+#b79f477f6d435116155b1121455748240bb5e7c81f7043519980df21a8167ca1
+
+
 print("***")
 b1.append('0612_2042', "N2", "b1")
 b1.print(1)
+#Printing: timestamp, data, previous_hash, hash_code
+#0612_2042
+#N2
+#b1
+#2a5f06422d35ac8977cbf311a3178de243428e2c1ca836ed16477cac024360ec
+
+
 print("***")
 b1.append('0623_2331', "N3", "b2")
 b1.print(2)
+#Printing: timestamp, data, previous_hash, hash_code
+#0623_2331
+#N3
+#b2
 
-
-
-
-
-
-
-#Finally you need to link all of this together in a block chain, which you will
-#be doing by implementing it in a linked list. All of this will help you build
-#up to a simple but full blockchain implementation!

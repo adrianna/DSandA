@@ -1,21 +1,6 @@
 ##################################
 # P1: find_directory.py
 #
-#  Issue: See comments where I have issues with the recursion
-#
-####### Old Submission
-# A reviewer advised me to use os.walk(), but I was wondering if I could
-# write my own recursion. Why doesn't it work? Do I need a tail recursion?
-# Sometimes I start with base case, but it seems given the programming call
-# stack nature, storing the intermediate values might be overwritten if
-# I have in the parent function, and initialize list() or dict().
-# Subsequent calls to the stack would reset these list/dict creations.
-# So I have seen some recursion solutions have a helper function. I was
-# if I needed this for this problem. And How can I implement it? 
-#
-# Additionally, I'm trying to find a balance between using the python libraries
-# or creating my own. Since this is a DSA class, I am under the impression
-# of creating my libraries. Is this expected?
 #
 #
 ##################################
@@ -61,3 +46,15 @@ def find_files(suffix, path):
 
 path = "testdir"
 print(find_files("*.c", path))
+#['/Users/ladyhypatia/Documents/School/Udacity/DSandA/Project/P1/testdir',
+# '/Users/ladyhypatia/Documents/School/Udacity/DSandA/Project/P1/testdir/subdir1',
+# '/Users/ladyhypatia/Documents/School/Udacity/DSandA/Project/P1/testdir/subdir3/subsubdir1',
+# '/Users/ladyhypatia/Documents/School/Udacity/DSandA/Project/P1/testdir/subdir5']
+
+path = "testdir/subdir3"
+print(find_files("*.c", path))
+#['/Users/ladyhypatia/Documents/School/Udacity/DSandA/Project/P1/testdir/subdir3/subsubdir1']
+
+path = "testdir/subdir4"
+print(find_files("*.c", path))
+#[]

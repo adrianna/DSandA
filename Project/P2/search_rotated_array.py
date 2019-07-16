@@ -2,10 +2,6 @@
 ## search_rotated_array.py
 ##
 ##
-## TODO:
-##   1. Fix for TC #3 (uncommented)
-##   2. Generate 3 test cases
-## 
 ##
 ###################################
 
@@ -25,17 +21,30 @@ def rotated_array_search(input_list, number, start_index, end_index):
             return mid_index
 
         elif number < mid_element:
-            
-            if withinBoundary(input_list, number, mid_index + 1, end_index):
-                start_index = mid_index + 1
-            else:
+
+            if withinBoundary(input_list, number, start_index, mid_index - 1):
                 end_index = mid_index - 1
+                
+            else:
+                start_index = mid_index + 1
+
+            #if withinBoundary(input_list, number, mid_index + 1, end_index):
+            #    start_index = mid_index + 1
+            #else:
+            #    end_index = mid_index - 1
 
         else:
-             if withinBoundary(input_list, number, start_index, mid_index - 1):
-                end_index = mid_index - 1 
-             else:    
+             if withinBoundary(input_list, number, mid_index + 1,end_index):
                 start_index = mid_index + 1
+             else:
+                end_index = mid_index - 1
+                
+            #if withinBoundary(input_list, number, start_index, mid_index - 1):
+            #    #end_index = mid_index 
+            #    end_index = mid_index - 1 
+            #else:    
+            #    start_index = mid_index + 1
+
     return -1
 
 def isSorted(input_list, start_index = 0, end_index = 0):
@@ -50,10 +59,9 @@ def withinBoundary(input_list, number, start_index, end_index):
 
    
     if start_index >= 0 and end_index >=0:
-
-        if not isSorted(input_list, start_index, end_index):
-            sorted(input_list)
-
+        mid_index = (end_index-start_index) //2
+        mid_element = input_list[mid_index]
+        
         if input_list[start_index] <= number and number <= input_list[end_index]:
             return True
 
@@ -71,7 +79,8 @@ def test_function(test_case):
     number = test_case[1]
     start_index = 0
     end_index = len(input_list) - 1
-#    print(rotated_array_search(input_list, number, start_index, end_index ))
+    print(rotated_array_search(input_list, number, start_index, end_index ))
+    print(linear_search(input_list, number))
     if linear_search(input_list, number) == rotated_array_search(input_list, number, start_index, end_index ):
         print("Pass")
     else:

@@ -19,10 +19,9 @@ class TrieNode:
 
         if self.children.get(character) is None:
             self.children[character] = TrieNode()
-            self.chr = character
+            #self.chr = character
 
             
-#    def suffixes(self, suffix = '', word = '', words=[]):
     def suffixes(self, suffix = '',  words=[]):
 
         for letter in self.children.keys():    
@@ -62,7 +61,8 @@ class Trie:
         ## Find the Trie node that represents this prefix
         
         current_node = self.root
-        if current_node.children.get(self.chr) is None:
+        if current_node.children.keys() is None:
+            print("prefix: {}".format(prefix))
             return None
         
         for char in prefix:
@@ -87,35 +87,15 @@ def f(prefix):
     if prefix != '':
         prefixNode = MyTrie.find(prefix)
         if prefixNode:
+            #            print(prefixNode.suffixes())
             print('\n'.join(prefixNode.suffixes()))
         else:
             print(prefix + " not found")
     else:
         print('')
-interact(f,prefix='ant');
+#interact(f,prefix='ant');
+f('ant')
 
-
-
-#tn = TrieNode()
-#print("print tn: {}".format(tn))
-
-#tn.insert('a')
-
-#print("Suffixes for 'a': {}".format(tn.suffixes('a')))
-#print("inserting X")
-
-#tn.end = False   # Reseatting end boolean, due to insert below
-
-#tn.children['a'].insert('x')
-#print("Suffixes for 'a': {}".format(tn.suffixes('a')))
-
-#print("inserting T")
-#tn.children['a'].insert('t')
-
-#print("Suffixes for 'a': {}".format(tn.suffixes('a')))
-#tn.children['a'].children['t'].end = False
-#tn.children['a'].children['t'].insert('e')
-#print("Suffixes for 'a': {}".format(tn.suffixes('a')))
 
 
 

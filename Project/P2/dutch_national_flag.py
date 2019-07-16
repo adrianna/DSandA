@@ -1,15 +1,6 @@
 ###################################
 ## dutch_national_flag
 ##
-## Issue: None
-##
-## TODO:
-##   1. Not sure if I generate more unique test cases
-##      that was already provided
-## 
-## Questions
-##   1. Solution was given in lectures, although this one does not optimize
-##      on space complexity, it does solve the issue in one pass
 ##
 ###################################
 
@@ -37,7 +28,9 @@ def sort_012(input_list):
             list_1.append(input_list[element])
         elif input_list[element] == 2:
             list_2.append(input_list[element])
-
+        else:
+            print("element: {} outside of [0,2] range".format(input_list[element]))
+            
     sorted_list += list_1 + list_2
 
     return sorted_list
@@ -51,6 +44,15 @@ def test_function(test_case):
     else:
         print("Fail")
 
+# Test Case 1        
 test_function([0, 0, 2, 2, 2, 1, 1, 1, 2, 0, 2])
+#[0,0,0,1,1,1,2,2,2,2,2]
+
+# Test Case 2
 test_function([2, 1, 2, 0, 0, 2, 1, 0, 1, 0, 0, 2, 2, 2, 1, 2, 0, 0, 0, 2, 1, 0, 2, 0, 0, 1])
-test_function([0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2])
+#[0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2]
+
+# Test Case 3
+test_function([2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, -1,])
+#[0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,2]
+

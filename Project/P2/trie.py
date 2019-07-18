@@ -12,7 +12,7 @@ class TrieNode:
         ## Initialize this node in the Trie
         self.children = {}
         self.end  = False
-      
+        
         
     def insert(self, character):
         ## Add a child node in this Trie
@@ -24,15 +24,14 @@ class TrieNode:
             
     def suffixes(self, suffix = '',  words=[]):
 
+        if self.end:
+            if suffix != '':
+                words.append(suffix)
+                
         for letter in self.children.keys():    
             if self.children.get(letter) is not None:
                 node = self.children[letter]
                 node.suffixes(suffix+letter, words)
-            
-        if self.end:
-            words.append(suffix)
-            suffix = ''
-            return
 
         return words    
 
@@ -56,13 +55,11 @@ class Trie:
         current_node.end = True
 
         
-        
     def find(self, prefix):
         ## Find the Trie node that represents this prefix
         
         current_node = self.root
         if current_node.children.keys() is None:
-            print("prefix: {}".format(prefix))
             return None
         
         for char in prefix:
@@ -72,14 +69,17 @@ class Trie:
         
     
 MyTrie = Trie()
-#wordList = [
-#    "ant", "anthology", "antagonist", "antonym", 
-#    "fun", "function", "factory", 
-#    "trie", "trigger", "trigonometry", "tripod"
-#]
 wordList = [
-    "ant", "anthology"
+    "ant", "anthology", "antagonist", "antonym", 
+    "fun", "function", "factory", 
+    "trie", "trigger", "trigonometry", "tripod"
 ]
+
+
+#wordList = [
+#    "ant", "anthology"
+#]
+
 
 for word in wordList:
     MyTrie.insert(word)
@@ -98,10 +98,20 @@ def f(prefix):
     else:
         print('')
 #interact(f,prefix='ant');
-f('ant')
+#f('ant')
+#['', 'hology', 'agonist', 'onym']
 
+# Test Case 1
+#f('a')
+#['nt', 'nthology', 'ntagonist', 'ntonym']
 
+#Test Case 2
+#f('func')
+#['tion']
 
+#Test Case 3
+f('tripod')
+#[]
 
 
 

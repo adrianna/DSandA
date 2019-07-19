@@ -22,18 +22,17 @@ class TrieNode:
             #self.chr = character
 
             
-    def suffixes(self, suffix = '',  words=[]):
-
+    def suffixes(self, suffix = ''):
+        retwords = []
         if self.end:
             if suffix != '':
-                words.append(suffix)
+                retwords.append(suffix)
                 
         for letter in self.children.keys():    
             if self.children.get(letter) is not None:
                 node = self.children[letter]
-                node.suffixes(suffix+letter, words)
-
-        return words    
+                retwords += node.suffixes(suffix+letter)
+        return retwords    
 
         
 ## The Trie itself containing the root node and insert/find functions
@@ -98,7 +97,7 @@ def f(prefix):
     else:
         print('')
 #interact(f,prefix='ant');
-#f('ant')
+f('ant')
 #['', 'hology', 'agonist', 'onym']
 
 # Test Case 1
@@ -106,11 +105,11 @@ def f(prefix):
 #['nt', 'nthology', 'ntagonist', 'ntonym']
 
 #Test Case 2
-#f('func')
+f('func')
 #['tion']
 
 #Test Case 3
-f('tripod')
+#f('tripod')
 #[]
 
 

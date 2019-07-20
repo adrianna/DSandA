@@ -4,9 +4,6 @@
 # # Graph Depth First Search
 # In this exercise, you'll see how to do a depth first search on a graph. To start, let's create a graph class in Python.
 
-# In[ ]:
-
-
 class GraphNode(object):
     def __init__(self, val):
         self.value = val
@@ -36,9 +33,6 @@ class Graph(object):
 
 # Now let's create the graph.
 
-# In[ ]:
-
-
 nodeG = GraphNode('G')
 nodeR = GraphNode('R')
 nodeA = GraphNode('A')
@@ -57,19 +51,8 @@ graph1.add_edge(nodeS,nodeR)
 
 
 # ## Implement DFS
-# Using what you know about DFS for trees, apply this to graphs. Implement the `dfs_search` to return the `GraphNode` with the value `search_value` starting at the `root_node`.
-
-# In[ ]:
-
-
-def dfs_search(root_node, search_value):
-    pass
-
-
-# <span class="graffiti-highlight graffiti-id_flg9zjy-id_4sn6eaw"><i></i><button>Hide Solution</button></span>
-
-# In[ ]:
-
+# Using what you know about DFS for trees, apply this to graphs. Implement the `dfs_search` to
+# return the `GraphNode` with the value `search_value` starting at the `root_node`.
 
 def dfs_search(root_node, search_value):
     visited = []
@@ -88,9 +71,6 @@ def dfs_search(root_node, search_value):
 
 
 # ### Tests
-
-# In[ ]:
-
 
 assert nodeA == dfs_search(nodeS, 'A')
 assert nodeS == dfs_search(nodeP, 'S')

@@ -51,11 +51,20 @@ class Graph(object):
             node2.remove_child(node1)
 
 
+## Create Graph Tree
 
+# These Map objects have two properties you will want to use to implement
+# A* search: intersections and roads
 
+# Intersections
 
-            
+# The intersections are represented as a dictionary.
 
+# In this example, there are 10 intersections, each identified by an x,y
+# coordinate. The coordinates are listed below. You can hover over each dot
+# in the map above to see the intersection number.
+
+## Find shortest path
 def shortest_path(M,start,goal):
 
     

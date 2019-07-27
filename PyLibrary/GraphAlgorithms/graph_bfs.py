@@ -4,9 +4,6 @@
 # # Graph Breadth First Search
 # In this exercise, you'll see how to do a breadth first search on a graph. To start, let's create a graph class in Python.
 
-# In[ ]:
-
-
 class GraphNode(object):
     def __init__(self, val):
         self.value = val
@@ -36,9 +33,6 @@ class Graph(object):
 
 # Now let's create the graph.
 
-# In[ ]:
-
-
 nodeG = GraphNode('G')
 nodeR = GraphNode('R')
 nodeA = GraphNode('A')
@@ -57,19 +51,6 @@ graph1.add_edge(nodeS,nodeR)
 
 
 # ## Implement BFS
-# Using what you know about BFS for trees and DFS for graphs, let's do BFS for graphs. Implement the `bfs_search` to return the `GraphNode` with the value `search_value` starting at the `root_node`.
-
-# In[ ]:
-
-
-def bfs_search(root_node, search_value):
-    pass
-
-
-# <span class="graffiti-highlight graffiti-id_fg1wpq1-id_g7fi7m5"><i></i><button>Hide Solution</button></span>
-
-# In[ ]:
-
 
 def bfs_search(root_node, search_value):
     visited = []
@@ -89,10 +70,6 @@ def bfs_search(root_node, search_value):
 
 # ### Tests
 
-# In[ ]:
-
-
 assert nodeA == bfs_search(nodeS, 'A')
 assert nodeS == bfs_search(nodeP, 'S')
 assert nodeR == bfs_search(nodeH, 'R')
-

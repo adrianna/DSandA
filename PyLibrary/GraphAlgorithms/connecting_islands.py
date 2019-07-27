@@ -48,7 +48,8 @@
 # 
 # If you do not want to create a custom priority queue, you can use Python's `heapq` implementation.
 # 
-# Using the `heapq` module, you can convert an existing list of items into a heap. The following two functionalities can be very handy for this problem:
+# Using the `heapq` module, you can convert an existing list of items into a heap. The following two functionalities
+# can be very handy for this problem:
 # 
 # 1. `heappush(heap, item)` — add `item` to the `heap`
 # 2. `heappop(heap)` — remove the smallest item from the `heap`

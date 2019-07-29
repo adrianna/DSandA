@@ -47,12 +47,12 @@ def shortest_path(M,start,goal):
    open_path = []
    closed_path = []
 
-   g_score = []
-   f_score = []
+   g_score = [ math.inf for i in range(M.intersections().keys()) ]
+   f_score = [ math.inf for i in range(M.intersections().keys()) ]
    h_score = []
    
-   initialize(g_score, M)
-   initialize(f_score, M)
+   #   initialize(g_score, M)
+   #   initialize(f_score, M)
 
    print(g_score)
    print(f_score)
@@ -119,9 +119,9 @@ def reconstruct_path(cameFrom, current):
 def initialize(cost_list, m):
     node_count = len(m.intersections().keys())
 
-    for idx in range(node_count):
-        cost_list[idx] = math.inf
-
+    cost_list = [ math.inf for i in range(node_count) ]
+    print(cost_list)
+    return cost_list
         
 
 ## Cost Path Calculation

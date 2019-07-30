@@ -3,6 +3,7 @@
 
 import math
 import heapq as h
+import pdb
 
 #map_10 = load_map('map-10.pickle')
 #show_map(map_10)
@@ -39,6 +40,14 @@ class map_10(object):
                           [9],
                           [8]]
         return self.neighbors
+
+class GraphNode(object):
+    def __init__(g, h, f):
+        self.g = 0
+        self.h = 0
+        self.f = 0
+
+        
     
 ## Find shortest path
 def shortest_path(M,start,goal):
@@ -47,9 +56,9 @@ def shortest_path(M,start,goal):
    open_path = []
    closed_path = []
 
-   g_score = [ math.inf for i in range(M.intersections().keys()) ]
-   f_score = [ math.inf for i in range(M.intersections().keys()) ]
-   h_score = []
+   g_score = [ math.inf for i in M.intersections().keys() ]
+   f_score = [ math.inf for i in M.intersections().keys() ]
+   h_score = [ 0 for i in M.intersections().keys() ]
    
    #   initialize(g_score, M)
    #   initialize(f_score, M)
@@ -59,40 +68,46 @@ def shortest_path(M,start,goal):
    
    # Make the start vertex current
    current_node = start
-   open_path.append(current_node)
+   #   open_path.append(current_node)
     
    
    # Calculate heuristic distance of start vertex to destination (h)
-   h_score[start] = hScore(M.intersections[start], M.intersections[goal])
+   h_score[start] = hScore(M.intersections()[start], M.intersections()[goal], "pythagorus")
    
    # Calculate f value for start vertex (f= g+h, where g= 0)
    f_score[start] = fScore(h_score[start])
 
-   frontier = []
-   h.heapify(frontier, (current_node, f_score[start]))
+   #frontier = []
+   print("break")
+   open_path.append((f_score[start], current_node))
+   pdb.set_trace()
    
-   while open_path:
-
-       # Take node from lowest path
-       current_node = h.pop()
-       if current_node == goal:
-           return reconstruct_path(cameFrom, current_node);
+   while current_node[1] != goal:
+   #while open_path:
        
-       calculatePathCost(frontier, M.roads[current_node])
+       # Take node from lowest path
+       current_node = min(open_path)
+       if current_node == goal:
+           return reconstruct_path(closed_path, current_node);
+       
+       #calculatePathCost(open_path, M.roads[current_node])
        
        open_path.remove(current_node)
        closed_path.append(current_node)
        
-       for neighbor in M.roads[current_node]:
+       pdb.set_trace()
+       for neighbor in M.roads()[current_node[1]]:
+           g_score_tmp[neighbor] = dist(M.intersections()[current_node[1]], M.intersections()[neighbor], "hypothenuse")
+           h_score[neighbor] = hScore(M.intersections()[neighbor], M.intersections()[goal], "hypothenuse")
+           f_score[neighbor] = g_score[neighbor] + h_score[neighbor]
            if neighbor in closed_path:
-               g_score_tmp[neighbor] = g_score[current_node] + dist(M.intersections[current_node], M.intersections[neighbor])
+               g_score_tmp[neighbor] = g_score[current_node[1]] + dist(M.intersections()[current_node[1]], M.intersections()[neighbor], "hypothenuse")
            if neighbor not in open_path:
-               open_path.append(neighbor)
-           elif g_score_tmp[neighbor] > g_score[neighbor]:
-               continue
-           else:
-               cameFrom[neighbor] = current_node
-               h_score[neighbor] = hScore(M.intersections[current_node], M.intersections[neighbor], "pythagorus")
+               open_path.append((f_score[neighbor], neighbor))
+               #               open_path.append(neighbor)
+           if g_score_tmp[neighbor] < g_score[neighbor]:
+               closed_path[neighbor] = current_node[1]
+               h_score[neighbor] = hScore(M.intersections[current_node[1]], M.intersections[neighbor], "pythagorus")
                g_score[neighbor] = g_score_tmp[neighbor]
                f_score[neighbor] = g_score[neighbor] + h_score[neigbor]
                
@@ -128,11 +143,11 @@ def initialize(cost_list, m):
 
 # h() Estimated Cost Path
 def hScore(xy_start, xy_end, cost_path):
-    start_x = start_xy[0]
-    start_y = start_xy[1]
+    start_x = xy_start[0]
+    start_y = xy_start[1]
 
-    end_x = goal_xy[0]
-    end_y = goal_xy[1]
+    end_x = xy_end[0]
+    end_y = xy_end[1]
 
     dx = end_x - start_x
     dy = end_y - start_y
@@ -141,7 +156,11 @@ def hScore(xy_start, xy_end, cost_path):
         return manhattan_distance(dx,dy)
     
     else: # "pythagoras"
-        return hypothenuse(dx,dy)
+        print("break")
+        hyp = hypothenuse(dx,dy)
+        print(hyp)
+        return hyp
+
    
 # f() Total Cost Path    
 def fScore(hDist, gDist = 0):
@@ -152,7 +171,7 @@ def dist(xy_start, xy_end, cost_path):
     
 # Pythagorus Method
 def hypothenuse(x,y):
-    return math.hypot(dx, dy)
+    return math.hypot(x, y)
 
 # Manhattan Distance
 def manhattan_distance(x,y):

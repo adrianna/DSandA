@@ -52,64 +52,60 @@ class GraphNode(object):
 ## Find shortest path
 def shortest_path(M,start,goal):
     
-   # Initialize open and closed lists
+   # Initialize open and closed lists,and f,g,h scores
    open_path = []
    closed_path = []
-
+   came_from = []
+   
    g_score = [ math.inf for i in M.intersections().keys() ]
    f_score = [ math.inf for i in M.intersections().keys() ]
    h_score = [ 0 for i in M.intersections().keys() ]
    
-   #   initialize(g_score, M)
-   #   initialize(f_score, M)
-
-   print(g_score)
-   print(f_score)
    
-   # Make the start vertex current
-   current_node = start
-   #   open_path.append(current_node)
-    
-   
+   g_score[start] = 0
    # Calculate heuristic distance of start vertex to destination (h)
    h_score[start] = hScore(M.intersections()[start], M.intersections()[goal], "pythagorus")
    
    # Calculate f value for start vertex (f= g+h, where g= 0)
-   f_score[start] = fScore(h_score[start])
-
-   #frontier = []
-   print("break")
-   open_path.append((f_score[start], current_node))
-   pdb.set_trace()
+   f_score[start] = fScore(g_score[start], h_score[start])
    
-   while current_node[1] != goal:
-   #while open_path:
+   open_path.append((f_score[start], start))
+   
+   while open_path:
        
        # Take node from lowest path
-       current_node = min(open_path)
+       _ , current_node  = min(open_path)
        if current_node == goal:
+           print("Found!")
            return reconstruct_path(closed_path, current_node);
        
-       #calculatePathCost(open_path, M.roads[current_node])
-       
-       open_path.remove(current_node)
+       open_path.remove((f_score[current_node], current_node))
        closed_path.append(current_node)
        
        pdb.set_trace()
-       for neighbor in M.roads()[current_node[1]]:
-           g_score_tmp[neighbor] = dist(M.intersections()[current_node[1]], M.intersections()[neighbor], "hypothenuse")
-           h_score[neighbor] = hScore(M.intersections()[neighbor], M.intersections()[goal], "hypothenuse")
-           f_score[neighbor] = g_score[neighbor] + h_score[neighbor]
+       for neighbor in M.roads()[current_node]:
+
            if neighbor in closed_path:
-               g_score_tmp[neighbor] = g_score[current_node[1]] + dist(M.intersections()[current_node[1]], M.intersections()[neighbor], "hypothenuse")
-           if neighbor not in open_path:
-               open_path.append((f_score[neighbor], neighbor))
-               #               open_path.append(neighbor)
-           if g_score_tmp[neighbor] < g_score[neighbor]:
-               closed_path[neighbor] = current_node[1]
-               h_score[neighbor] = hScore(M.intersections[current_node[1]], M.intersections[neighbor], "pythagorus")
-               g_score[neighbor] = g_score_tmp[neighbor]
+               print("neighbor ({}) in closed_path {}".format(neighbor, closed_path))
+               continue
+
+           # Calculate g_score 'gtmp' for neighbor at current node position
+           gtmp = g_score[current_node] + dist(M.intersections()[current_node], M.intersections()[neighbor], "pythagorus")
+           f_score[neighbor] = gtmp + h_score[neighbor]
+           #if neighbor not in open_path:
+           # open_path.append((f_score[neighbor], neighbor))
+           # came_from.append(current_node)
+           if neighbor in open_path:
+               # Neighbor is found in open_path, therefore, revaluate current g_score < gtmp
+               if gtmp > g_score[neighbor]:
+                   continue
+               
+               # Append 
+               h_score[neighbor] = hScore(M.intersections[current_node], M.intersections[neighbor], "pythagorus")
+               g_score[neighbor] = gtmp
                f_score[neighbor] = g_score[neighbor] + h_score[neigbor]
+               
+           open_path.append((f_score[neighbor], neighbor))    
                
    return False
 
@@ -130,19 +126,9 @@ def reconstruct_path(cameFrom, current):
 
     return total_path
 
-## Initalize Scores
-def initialize(cost_list, m):
-    node_count = len(m.intersections().keys())
-
-    cost_list = [ math.inf for i in range(node_count) ]
-    print(cost_list)
-    return cost_list
-        
-
 ## Cost Path Calculation
-
 # h() Estimated Cost Path
-def hScore(xy_start, xy_end, cost_path):
+def dist(xy_start, xy_end, cost_path):
     start_x = xy_start[0]
     start_y = xy_start[1]
 
@@ -156,18 +142,15 @@ def hScore(xy_start, xy_end, cost_path):
         return manhattan_distance(dx,dy)
     
     else: # "pythagoras"
-        print("break")
-        hyp = hypothenuse(dx,dy)
-        print(hyp)
-        return hyp
+        return hypothenuse(dx,dy) 
 
    
 # f() Total Cost Path    
 def fScore(hDist, gDist = 0):
     return gDist + hDist
 
-def dist(xy_start, xy_end, cost_path):
-    return hScore(xy_start, xy_end, cost_path)
+def hScore(xy_start, xy_end, cost_path):
+    return dist(xy_start, xy_end, cost_path)
     
 # Pythagorus Method
 def hypothenuse(x,y):
@@ -185,39 +168,3 @@ map = map_10()
 shortest_path(map, 0, 2) 
 
     
-
-
-        
-######################
-## A* Search
-##
-## Notes:
-##  f = g + h
-##  Path	   Path Cost (g)  Est. Distance (h)	Total (f)
-##  Arad >> Zerind	75	      374                 449
-##  Arad >> Sibiu	140	      253                 393 **
-##  Arad >> Timisoara	118	      329                 447
-##
-##  ** Expand here
-##
-##
-##  Path	       Path Cost (g)  Est. Distance (h)	Total (f)
-##  Arad >> Zerind   	  75	            374	         449
-##  Arad > S >> Oradea	  291	            380	         671
-##  Arad > S >> Fagaras	  239	            176          415
-##  Arad > S >> RVilcea	  220	            193	         413 **
-##  Arad >> Timisoara	  118	            329          447
-##
-## ** Expand here
-## Repeat!
-
-
-# These Map objects have two properties you will want to use to implement
-# A* search: intersections and roads
-
-# Intersections
-# The intersections are represented as a dictionary.
-
-# In this example, there are 10 intersections, each identified by an x,y
-# coordinate. The coordinates are listed below. You can hover over each dot
-# in the map above to see the intersection number.

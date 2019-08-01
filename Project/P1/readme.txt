@@ -145,8 +145,20 @@ Space complexity: O(n)
 
 ###### Design
 
+The program performs union and intersection computation according to set theory.
+Given two linked lists, the union() function will return the total *unique*
+elements in the two lists. The intersection() function returns the *common*
+elements in the two lists. These functions are bundled in the unions_and_intersectons python script.
+
+The design is to use linked lists. A class linkedlistNode is created to contain
+the value. The class linkedList creates a link of these basic nodes of N-size.
+To do the calculation, convert the linked lists to python lists []. Then, type-cast to sets and perform the python set operations: union and intersection.
+
+Convert the results back into a linked list.
 
 ###### Time Complexity
-
+The time complexity to compute the set operations is converting the m-elements
+of one list to sets and the other n-elements list to another [set].
+This conversion will take O(m+n) ~ O(n). To convert back from list to 
 
 ###### Space Complexity

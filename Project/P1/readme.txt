@@ -152,13 +152,47 @@ elements in the two lists. These functions are bundled in the unions_and_interse
 
 The design is to use linked lists. A class linkedlistNode is created to contain
 the value. The class linkedList creates a link of these basic nodes of N-size.
-To do the calculation, convert the linked lists to python lists []. Then, type-cast to sets and perform the python set operations: union and intersection.
+To do the calculation, convert the linked lists to python lists []. Then, type-cast to sets and perform
+the python set operations: union and intersection.
 
 Convert the results back into a linked list.
 
 ###### Time Complexity
 The time complexity to compute the set operations is converting the m-elements
 of one list to sets and the other n-elements list to another [set].
-This conversion will take O(m+n) ~ O(n). To convert back from list to 
+This conversion will take O(m+n) ~ O(n). Then, one converts the list[] into a set,
+which under the hood, the conversion takes O(n) because it cycles through
+all the n-elements.
+
+For the set operations, finding the union() of the two lists is simple use of set
+operation in python. Likewise, for the intersection of the two lists uses the set
+operation in python.
+
+For union(), O(n) ~ O(m) + O(n) ~ O(m+n) ~ O(n'), where n'~ m+n as we traverse
+the two lists and eliminate any duplicates for the return list.
+
+For intersection(), the operation is the same O(n), applying the same logic.
+This operation will take what's common from both lists, which results in
+smaller 'sub-setted' list.
+
+Time Complexity: O(n)
 
 ###### Space Complexity
+The Space Complexity is similiar in logic to the time complexity.
+
+When converting the list, we're making a copy of the total elements,
+n' = m+n, therefore, O(n')
+When returning union(), this will still be O(n''), n'' = n' minus duplicates
+When return intersection(), this will be O(n'''), n''' < n''' unique elements
+and n''' < n'
+
+Therefore, total space complexity:
+O(n) + O(m) : Original lists
+O(n'): Set conversion
+O(n''): union
+O(n''') intersection
+-----------------------
+O(n)
+n~ n+m+n'+n''+n''' ~ n
+
+Space Complexity: O(n)

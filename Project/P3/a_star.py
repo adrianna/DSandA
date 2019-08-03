@@ -33,32 +33,42 @@ class map_10(object):
                           [8]]
         return self.neighbors
 
-    
+    def cost(self, x, y):
+        print("map_10.cost()")
+        
+        return heuristic(self.coordinates(x), self.coordinates(y))
+       
 def heuristic(a, b):
     (x1, y1) = a
     (x2, y2) = b
-    return abs(x1 - x2) + abs(y1 - y2)
+
+    return math.hypot((x1 - x2), (y1 - y2))
+
 
 def a_star_search(graph, start, goal):
-    frontier = PriorityQueue()
-    frontier.put(start, 0)
+#    frontier = PriorityQueue()
+    frontier = []
+    h.heappush(frontier, (start, 0))
+    
+    #frontier.put(start, 0)
     came_from = {}
     cost_so_far = {}
     came_from[start] = None
     cost_so_far[start] = 0
     
-    while not frontier.empty():
-        current = frontier.get()
+    while frontier:
+        current , _ = h.heappop(frontier)
         
         if current == goal:
             break
-        
-        for next in graph.neighbors(current):
-            new_cost = cost_so_far[current] + graph.cost(current, next)
+
+        pdb.set_trace()
+        for next in graph.roads()[current]:
+            new_cost = cost_so_far[current] + graph.score(current, next)
             if next not in cost_so_far or new_cost < cost_so_far[next]:
                 cost_so_far[next] = new_cost
                 priority = new_cost + heuristic(goal, next)
-                frontier.put(next, priority)
+                h.heappush(frontier, (next, priority))
                 came_from[next] = current
     
     return came_from, cost_so_far
@@ -68,7 +78,7 @@ def a_star_search(graph, start, goal):
 graph = map_10()
 print("testing a_star_search...")
 
-a_star_search(graph, 0, 2)
+print(a_star_search(graph, 0, 3))
 
 
 

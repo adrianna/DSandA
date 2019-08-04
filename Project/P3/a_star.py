@@ -102,7 +102,6 @@ class map_40(object):
 
 
 # MAP_10
-
 class map_10(object):
     def __init__(self):
         self.coordinates = {}
@@ -181,17 +180,39 @@ def a_star_search(graph, start, goal):
                 h.heappush(frontier, (neighbor, priority))
                 came_from[neighbor] = current
     
-    return came_from, cost_so_far
+    return came_from
+#    return came_from, cost_so_far
 
 
 
-graph = map_10()
-print("testing a_star_search...")
-
-print(a_star_search(graph, 0, 2))
-
+#graph = map_10()
+#print("Test Map_10")
+#print(a_star_search(graph, 0, 2))
 
 
+graph = map_40()
+print("Test Map_40")
+
+print(a_star_search(graph, 5, 34))
+# Answer: [5, 16, 37, 12, 34]
+
+print(a_star_search(graph, 5, 5))
+# Answer: [5]
+
+print(a_star_search(graph, 8, 24))
+# Answer: [8, 14, 16, 37, 12, 17, 10, 24]
+
+
+
+
+
+
+
+
+
+
+
+### ORIG
 #def a_star_search(graph, start, goal):
 #    frontier = PriorityQueue()
 #    frontier.put(start, 0)

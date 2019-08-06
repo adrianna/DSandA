@@ -16,10 +16,20 @@ is a doubly linked list.
 
 
 ###### Time Complexity
+The time complexity is O(1) operation to add or remove a value from the
+lru_cache.
 
+Worst case, time complexity: O(n) since it will have to traverse the list to
+remove the least used memory value.
+
+Time Complexity: O(n) (for worse case)
 
 ###### Space Complexity
+The LRU cache store n-elements per key. Given m-keys. The storage is m*n
+elements, which totals O(n). Since the least used value is always removed and
+replaced by a new value, the number of elements stays constant.
 
+Space complexity: O(n) 
 
 
 #################################################

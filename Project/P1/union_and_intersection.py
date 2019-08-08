@@ -28,7 +28,8 @@ class Node:
 class LinkedList:
     def __init__(self):
         self.head = None
-
+        self.size = 0
+        
     def __str__(self):
         cur_head = self.head
         out_string = ""
@@ -49,7 +50,8 @@ class LinkedList:
             node = node.next
 
         node.next = Node(value)
-
+        self.size += 1
+        
     def size(self):
         size = 0
         node = self.head
@@ -59,50 +61,40 @@ class LinkedList:
 
         return size
 
+
+
+def convertLList_to_PyList(llist):
+
+    pylist = []
+
+    node = llist.head
+    
+    while node.next:
+        pylist.append(node.value)
+        node = node.next
+        
+    return pylist
+
+
+
+        
+    
 def union(llist_1, llist_2):
 
-    l1 = llist_1
-    l2 = llist_2
+    l1 = convertLList_to_PyList(llist_1)
+    l2 = convertLList_to_PyList(llist_2)
 
-    union_list = []
+    pylist = l1 + l2
+    union_set = set(pylist)
 
-    l1_size = l1.size()
-    l2_size = l2.size()
-    max_size = max(l1_size, l2_size)
-    
-    value_dict = {}
-    node_l1 = l1.head
-    node_l2 = l2.head
+    union_list = set(union_set)
 
-    for idx in range(max_size):
-
-        if node_l1:
-            element_l1 = node_l1.value
-
-            if idx <= l1.size():
-                if element_l1 not in value_dict.keys():
-                    value_dict[element_l1] = 1
-                    union_list.append(node_l1)
-                else:
-                    value_dict[element_l1] += 1
-                
-                node_l1 = node_l1.next
-                
-        if node_l2:
-            element_l2 = node_l2.value
-
-            if idx <= l2.size():
-                if element_l2 not in value_dict.keys():
-                    value_dict[element_l2] = 1
-                    union_list.append(node_l2)
-                else:
-                    value_dict[element_l2] += 1
-                    
-                node_l2 = node_l2.next                
-                    
-        idx += 1
-                    
-    return union_list
+    llist = None
+    for value in range(len(union_list)):
+        llist = Node(value)
+        llist = llist.next
+        
+    return llist
 
 
 def intersection(llist_1, llist_2):
@@ -112,112 +104,6 @@ def intersection(llist_1, llist_2):
 
     intersection_list = []
 
-    max_size = max(l1.size(), l2.size())
-    
-    l1val_dict = {}
-    l2val_dict = {}
-    
-    node_l1 = l1.head
-    node_l2 = l2.head
-
-    for idx in range(max_size):
-
-        if node_l1:
-            element_l1 = node_l1.value
-            print("e1: {}".format(element_l1))
-            
-        if node_l2:
-            element_l2 = node_l2.value
-            print("e2: {}".format(element_l2))
-
-        print("idx: {}, l1.size: {}, l2.size: {}".format(idx, l1.size(), l2.size()))
-        if idx <= l1.size():
-
-            print("l1 eval")
-            # always check if element_l1 is in l1val dictionary; assign or
-            # increment dictionary element depending on its existence
-            if element_l1 not in l1val_dict.keys():
-                print("\te1 not in l1val_dict, set element in dictionary")
-                l1val_dict[element_l1] = 1
-
-            else:
-                print("\te1  in l1val_dict, increment count")
-                l1val_dict[element_l1] += 1
-                
-            # Both elements in the lists match:
-            if element_l1 == element_l2:
-
-                print("\te1 = e2")
-                #  check if element_l1 is in l2val dictionary, assign element 
-                if element_l1 not in l2val_dict.keys():
-
-                    #  append node_l1 to the intersection list, since elements match    
-                    intersection_list.append(node_l1)
-
-                    print("\tprinting intersection list")
-                    print(intersection_list)
-                
-            else:
-                # elements don't match
-
-                print("\te1 != e2")
-                # check if element_l1 is in the other list (l2) l2val dictionary 
-                if element_l1 in l2val_dict.keys():
-                    
-                    # therefore it is a common element, append to intersection list
-                    intersection_list.append(node_l1)
-
-                    print("printing intersection list")
-                    print(intersection_list)
-                    
-            # increment node_n1 to the next element            
-            if node_l1: node_l1 = node_l1.next
-
-            printDict("\tl1", l1val_dict)
-            
-        if idx <= l2.size():
-
-            print("l2 eval")
-            # always check if element_l1 is in l1val dictionary; assign or
-            # increment dictionary element depending on its existence
-            if element_l2 not in l2val_dict.keys():
-                print("\te2 not in l2val_dict?, assign count 1")
-                l2val_dict[element_l2] = 1
-            else:
-                print("\te2 in l2val_dict? now increment counter")
-                l2val_dict[element_l2] += 1
-                
-
-            # Both elements in the lists match:                
-            if element_l2 == element_l1:
-                
-                print("\te1 = e2")
-                # check if element_l2 is in l1val dictionary, assign element
-                if element_l2 not in l1val_dict.keys():
-                    
-                    # append node_l1 to the intersection list, since elements match                        
-                    intersection_list.append(node_l2)
-                    
-                    print("\tprinting intersection list")
-                    print(intersection_list)
-                
-            else:
-                # elements don't match
-                print("\te1 != e2")
-
-                # check if element_l2 is in the other list (l1) l1val dictionary
-                if element_l2 in l1val_dict.keys():
-
-                    # therefore it is a common element, append to intersection list
-                    intersection_list.append(node_l2)
-
-                    print("\tprinting intersection list")
-                    print(intersection_list)    
-                        
-            if node_l2: node_l2 = node_l2.next                
-
-            printDict("\tl2", l2val_dict)
-        idx += 1
 
     return intersection_list
 

@@ -1,20 +1,10 @@
 ##################################
 # P1: union_and_intersection.py
 #
-# This union() function is working, needs minor cleanup. The intersection()
-# function is not working.
-#
-# I have another simpler implementation in mind, but I wonder if
-# my current potential solution may work
-#
 #
 ##################################
 
-def printDict(type, common_dict):
-
-    print("printing dictionary {}".format(type))
-    for key in common_dict.keys():
-        print("{}val_dict[{}]: {}".format(type, key, common_dict[key]))
+import pdb
 
 class Node:
     def __init__(self, value):
@@ -23,7 +13,6 @@ class Node:
 
     def __repr__(self):
         return str(self.value)
-
 
 class LinkedList:
     def __init__(self):
@@ -36,11 +25,10 @@ class LinkedList:
         while cur_head:
             out_string += str(cur_head.value) + " -> "
             cur_head = cur_head.next
+
         return out_string
 
-
     def append(self, value):
-
         if self.head is None:
             self.head = Node(value)
             return
@@ -62,56 +50,58 @@ class LinkedList:
         return size
 
 
-
-def convertLList_to_PyList(llist):
-
+def convertLList_to_PySet(llist):
     pylist = []
 
     node = llist.head
-    
-    while node.next:
+    while node:
         pylist.append(node.value)
         node = node.next
-        
-    return pylist
 
+    pyset = set(pylist)
+    return pyset
 
-
-        
     
 def union(llist_1, llist_2):
 
-    l1 = convertLList_to_PyList(llist_1)
-    l2 = convertLList_to_PyList(llist_2)
+    l1 = convertLList_to_PySet(llist_1)
+    l2 = convertLList_to_PySet(llist_2)
 
-    pylist = l1 + l2
-    union_set = set(pylist)
+    union = l1 | l2
 
-    union_list = set(union_set)
+    llist = LinkedList()
 
-    llist = None
-    for value in range(len(union_list)):
-        llist = Node(value)
-        llist = llist.next
+    for value in union:
+        llist.append(value)
         
     return llist
 
 
 def intersection(llist_1, llist_2):
 
-    l1 = llist_1
-    l2 = llist_2
+    l1 = convertLList_to_PySet(llist_1)
+    l2 = convertLList_to_PySet(llist_2)
 
-    intersection_list = []
+#    intersection = l1.intersection(l2)
+    intersection = l1 & l2
 
+    llist = LinkedList()
+    for value in intersection:
+        llist.append(value)
 
-    return intersection_list
+    return llist
 
+def printList(llist):
     
+    node = llist.head
+    while node:
+        print(node.value)
+        node = node.next
+        
 
+############################## Main ###################################
 
-# Test case 1
-
+#### Test case 1
 linked_list_1 = LinkedList()
 linked_list_2 = LinkedList()
 
@@ -125,11 +115,18 @@ for i in element_2:
     linked_list_2.append(i)
 
 print("Test Case 1")
-#print (union(linked_list_1,linked_list_2))
-print (intersection(linked_list_1,linked_list_2))
+print("union of l1 and l2")
+printList(union(linked_list_1,linked_list_2))
 
-# Test case 2
+print("intersection of l1 and l2")
+printList(intersection(linked_list_1,linked_list_2))
 
+#Union = [1,2,3,4,6,9,11,21,23,65]
+#Intersection = [2,3,4,21]
+
+
+
+#### Test case 2
 linked_list_3 = LinkedList()
 linked_list_4 = LinkedList()
 
@@ -142,7 +139,31 @@ for i in element_1:
 for i in element_2:
     linked_list_4.append(i)
 
-#print("Test Case 2")
-#print (union(linked_list_3,linked_list_4))
-#print (intersection(linked_list_3,linked_list_4))
+print("Test Case 2")
+print("Union of l1 and l2")
+printList(union(linked_list_3,linked_list_4))
+print("Intersection of l1 and l2")
+printList(intersection(linked_list_3,linked_list_4))
+
+
+
+
+#### Test case 3
+linked_list_3 = LinkedList()
+linked_list_4 = LinkedList()
+
+element_1 = [3,2,4,35,6,65,6,4,3,23]
+element_2 = [1,7,8,9,11,21,1]
+
+for i in element_1:
+    linked_list_3.append(i)
+
+for i in element_2:
+    linked_list_4.append(i)
+
+print("Test Case 3")
+print("Union of l1 and l2")
+printList(union(linked_list_3,linked_list_4))
+print("Intersection of l1 and l2")
+printList(intersection(linked_list_3,linked_list_4))
 

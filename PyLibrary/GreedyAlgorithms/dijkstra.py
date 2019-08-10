@@ -95,7 +95,7 @@ def dijkstra(start_node, end_node):
                 if distance_dict[edge.node] > new_node_distance:
                     distance_dict[edge.node] = new_node_distance
     
-    return shortest_path_to_node[end_node]]
+    return shortest_path_to_node[end_node]
 
 
 print('Shortest Distance from {} to {} is {}'.format(node_u.value, node_y.value, dijkstra(node_u, node_y)))
@@ -103,3 +103,4 @@ print('Shortest Distance from {} to {} is {}'.format(node_u.value, node_y.value,
 
 
 
+dijkstra('A', 'Y')

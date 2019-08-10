@@ -3,14 +3,6 @@
 #
 # Issue: Line 45 - not callable
 #
-# Question:
-# 1. I'm torn whether I should implement with
-#       a) heapq library or create linked list heap structure and the cbtree
-#       b) create ordered tuple of character frequencies and implement a trie
-#
-# 2. What would be the difference of using a heap to create the cbtree
-#    and using a tuple to create a trie?
-#
 # TODO:
 #   1. Complete creating heap
 #   2. Implement two functions encode() and decode()
@@ -19,7 +11,9 @@
 
 
 from DataStructures import *
-import heapq
+import heapq as h
+import pdb
+
 
 class HeapNode:
     def __init__(self, char, frequency):
@@ -30,7 +24,6 @@ class HeapNode:
 
 class HuffmanCode:
 
-    
     def createFreqDict(self,string):
 
         # Create Hash Counter for character frequency
@@ -45,11 +38,13 @@ class HuffmanCode:
         return freq_dict
 
     def createHuffTree(self, freq_dict):
-        
-        huff_tree = heapq()
+
+        pdb.set_trace()
+        huff_tree = []
+        print("debug1")
         for key in freq_dict.keys():
             character_node = HeapNode(key, freq_dict[key])
-            heapq.heappush(huff_tree, character_node)
+            h.heappush(huff_tree, character_node)
 
         return huff_tree    
     
@@ -59,9 +54,6 @@ class HuffmanCode:
 def huffman_encoding(data):
 # Traverse the tree and create the code
     pass
-
-
-
 
 def huffman_decoding(data,tree):
 # Traverse the tree in prefix order to decode    
@@ -81,7 +73,7 @@ if __name__ == "__main__":
     h = HuffmanCode()
     freq_dict = h.createFreqDict(a_great_sentence)
     print(freq_dict)
-    print(h.createHuffTree(freq_dict))
+    h.createHuffTree(freq_dict)
 
 #    print (char_frequency(a_great_sentence))
 #    cf_list = char_frequency(a_great_sentence)

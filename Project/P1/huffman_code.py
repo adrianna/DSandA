@@ -43,8 +43,8 @@ class HuffmanCode:
         huff_tree = []
         print("debug1")
         for key in freq_dict.keys():
-            character_node = HeapNode(key, freq_dict[key])
-            h.heappush(huff_tree, character_node)
+#            character_node = HeapNode(key, freq_dict[key])
+            h.heappush(huff_tree, (freq_dict[key], key))
 
         return huff_tree    
     

@@ -1,12 +1,6 @@
 ##################################
 # P1: huffman_code.py
 #
-# Issue: Line 45 - not callable
-#
-# TODO:
-#   1. Complete creating heap
-#   2. Implement two functions encode() and decode()
-#
 ##################################
 
 
@@ -17,14 +11,42 @@ import pdb
 
 class HeapNode:
     def __init__(self, char, frequency):
-        self.char = ''
-        self.frequency = 0
+        self.char = char
+        self.frequency = frequency
         self.right = None
         self.left = None
+        
+    def __lt__(self, other):
+        return self.frequency < other.frequency
+        
+    #    def __str__(self):
+    #        return str("{} : {}".format(self.char, self.frequency))
+    
+    def __str__(self, level=0):
+        ret = "\t"*level+repr(self.char)+"\n"
+        #for child in self.right:
+        #    ret += child.__str__(level+1)
+        #level = 0    
+        #for left in self.left:
+        #    ret += child.__str__(level+1)
 
+            
+        return ret
+
+    def __repr__(self):
+        #        return '<tree node representation>'
+        return self.frequency
+    
+        
 class HuffmanCode:
-
-    def createFreqDict(self,string):
+    def __init__(self, path):
+        self.path = path
+        self.huff_tree = []
+        self.codes = {}
+        self.reverse_mapping = {}
+        
+    
+    def createFrequencyDict(self, string):
 
         # Create Hash Counter for character frequency
         freq_dict = {}
@@ -39,27 +61,47 @@ class HuffmanCode:
 
     def createHuffTree(self, freq_dict):
 
-        pdb.set_trace()
-        huff_tree = []
-        print("debug1")
-        for key in freq_dict.keys():
-#            character_node = HeapNode(key, freq_dict[key])
-            h.heappush(huff_tree, (freq_dict[key], key))
+        #        pdb.set_trace()
+        for char in freq_dict.keys():
+            char_node = HeapNode(char, freq_dict[char])
+            h.heappush(self.huff_tree, char_node)
 
-        return huff_tree    
+        # merging nodes in Heap    
+        while len(self.huff_tree) > 1:
+            node1 = h.heappop(self.huff_tree)
+            node2 = h.heappop(self.huff_tree)
+
+            # Creating new node with "empty" character value, but combining frequency weights
+            # Set pointer to child nodes, left child < right child
+            merged_node = HeapNode(None, node1.frequency + node2.frequency)
+            merged_node.left = node1
+            merged_node.right = node2
+
+            # Push merged_node back into the heap
+            h.heappush(self.huff_tree, merged_node)
+
+            
     
+    
+    def printTree(self):
 
+        for node in self.huff_tree:
+            print(node)
+#            print("char: {}, frequency: {}".format(node.char, node.frequency))
+        
+        
 
 
 def huffman_encoding(data):
 # Traverse the tree and create the code
+    
+
+    
     pass
 
 def huffman_decoding(data,tree):
 # Traverse the tree in prefix order to decode    
     pass
-
-
 
 
 
@@ -70,11 +112,17 @@ if __name__ == "__main__":
     a_great_sentence = "The bird is the word"
     print(a_great_sentence)
 
-    h = HuffmanCode()
-    freq_dict = h.createFreqDict(a_great_sentence)
+    hc = HuffmanCode(a_great_sentence)
+    freq_dict = hc.createFrequencyDict(a_great_sentence)
     print(freq_dict)
-    h.createHuffTree(freq_dict)
+    hc.createHuffTree(freq_dict)
+    hc.printTree()
 
+
+
+
+    
+## Testing char_frequency    
 #    print (char_frequency(a_great_sentence))
 #    cf_list = char_frequency(a_great_sentence)
 #    createHuffTree(cf_list)

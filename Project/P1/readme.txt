@@ -76,13 +76,33 @@ Space complexity: O(n)
 #################################################
 
 ###### Design
+The huffman code takes a string and converts it into a binary code based on the frequency of each
+character. To this, the algorithm has HeapNode() class construct to store the character value
+and its respective frequency. Another construct, called class HuffmanCode() creates the
+heap tree to store the HeapNode according to frequency weights. It first assigns all
+individual characters with its respective frequency weight into a priority Queue. Then,
+it merges the HeapNodes, taking two at a time and building the Huffman Tree, which is
+essentially a binary tree of nodes. After the tree is completed, the huffman code and decoding
+functions can tranverse the tree and perform the compression and decompression of a
+given text string.
 
 
 ###### Time Complexity
+Construction the frequency dictionary take O(n).
+
+Constructing the heap tree takes O(n). To compress, it is literally traversing the tree and
+encoding the text into binary code. Tree traversal for a binary tree is O(nlogn).
+
+Deconstructing the code will also take O(nlogn), because the code, as it is being parsed,
+is being guided by the zero and one to take a specific path direction along the tree.
+
+
+Time Complexity: O(nlogn) for tree traversal
 
 
 ###### Space Complexity
-
+Space complexity for creating the frequency dictionary will be the length of the
+mathematical set of characters (i.e. the unique number of characters in a given string.)
 
 
 #################################################

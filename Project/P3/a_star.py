@@ -36,14 +36,14 @@ class GraphNode:
     self.g = g
     self.h = 0
     self.f = self.g + self.h
-    self.parent = None
+    self.parent = -9999
     self.value = value
 
   def __lt__(self, other):
       return self.f < other.f
 
   def __str__(self):
-      ret = "\tnode: "+str(self.val)+", f = "+str(self.f)
+      ret = "\tnode: "+str(self.value)+", f = "+str(self.f)
       return ret
 
 
@@ -65,6 +65,10 @@ def shortest_path(graph, start, goal):
 
     # Heap to order the nodes by f_score weight
     frontier = []
+
+    # Dictionary Lookup for Parent Nodes
+    came_from = dict()
+
     
     current = start
 
@@ -79,7 +83,7 @@ def shortest_path(graph, start, goal):
         if current == goal:
             if start != goal:
                 print("Path to goal: <insert list of nodes>")
-                came_from = ["List"]
+                came_from = ["List"]  # getPath()
             else:
                 came_from = None
                 
@@ -110,7 +114,8 @@ def shortest_path(graph, start, goal):
                     node.h = h_score
                     node.f = f_score
                     node.parent = current
-
+                    came_from[current] = current_node
+                    
                     h.heappush(frontier, node)
 
                 
@@ -118,12 +123,66 @@ def shortest_path(graph, start, goal):
 
 
         
-        
+def getRoute(node:GraphNode, parent_lookup:dict()):
 
+    path = []
+
+    
+    current_node = node
+    while current_node:
+
+        
+        print("current_node: {}".format(current_node))
+        path.append(current_node.value)
+        parent = current_node.parent
+        
+        # next parent
+        if parent_lookup.get(parent):
+            current_node = parent_lookup.get(parent)
+            print("current_node.val: {}".format(current_node.value))
+        else:
+            path.append(parent)
+            break
+        
+    return path[::-1]
+
+parent_dict = {'1': node2, '2': node7, '3': node1, '4': node5, '5': node6, '6': node3, '7': None }
+
+
+node1 = GraphNode(1)
+node1.parent = 2
+
+node2 = GraphNode(2)
+node2.parent = 7
+
+node3 = GraphNode(3)
+node3.parent = 1
+
+node4 = GraphNode(4)
+node4.parent = 5
+
+node5 = GraphNode(5)
+node5.parent = 6
+
+node6 = GraphNode(6)
+node5.parent = 3
+
+node7 = GraphNode(7)
+node7.parent = 0
+
+print("getting Route")
+print(getRoute(node4, parent_dict))
+
+#7>2>1>3>6>5>4
+# Path from start = 4 to end = 7
+#4>5>6>3>1>2>7
+
+        
 graph = map_10()
 node = GraphNode(5)
-print("new __str__ return")
-print(node)
+#print("new __str__ return")
+#print(node)
+
 
 
 #print("Test Map_10")

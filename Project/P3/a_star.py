@@ -123,59 +123,51 @@ def shortest_path(graph, start, goal):
 
 
         
-def getRoute(node:GraphNode, parent_lookup:dict()):
+def getRoute(node:GraphNode, node_lookup:dict()):
 
     path = []
 
-    
     current_node = node
+    
     while current_node:
-
-        
-        print("current_node: {}".format(current_node))
-        path.append(current_node.value)
-        parent = current_node.parent
-        
-        # next parent
-        if parent_lookup.get(parent):
-            current_node = parent_lookup.get(parent)
-            print("current_node.val: {}".format(current_node.value))
+        #pdb.set_trace()
+        if current_node.parent != -9999:
+            print("current_node: {}".format(current_node))
+            path.append(current_node.value)
+	    
+            parent = current_node.parent
+            current_node = node_lookup.get(parent)
+            print(type(current_node))
+            #print("current_node.val: {}".format(current_node.value))
         else:
-            path.append(parent)
-            break
-        
+             break
+    path.append(current_node.value)
+    
     return path[::-1]
-
-parent_dict = {'1': node2, '2': node7, '3': node1, '4': node5, '5': node6, '6': node3, '7': None }
 
 
 node1 = GraphNode(1)
-node1.parent = 2
-
-node2 = GraphNode(2)
-node2.parent = 7
+node1.parent = -9999
 
 node3 = GraphNode(3)
 node3.parent = 1
 
 node4 = GraphNode(4)
-node4.parent = 5
-
-node5 = GraphNode(5)
-node5.parent = 6
+node4.parent = 3
 
 node6 = GraphNode(6)
-node5.parent = 3
+node6.parent = 4
 
-node7 = GraphNode(7)
-node7.parent = 0
+#print(node1)
+
+node_dict = {1: node1, 3: node3, 4: node4, 6: node6 }
 
 print("getting Route")
-print(getRoute(node4, parent_dict))
+print(getRoute(node6, node_dict))
 
-#7>2>1>3>6>5>4
-# Path from start = 4 to end = 7
-#4>5>6>3>1>2>7
+1>>3>>4>>6
+# Path from start = 1 end= 6
+
 
         
 graph = map_10()

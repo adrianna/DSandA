@@ -34,7 +34,7 @@ class map_10(object):
 class GraphNode:
   def __init__(self, value, g=0, h=0):
     self.g = g
-    self.h = 0
+    self.h = h
     self.f = self.g + self.h
     self.parent = -9999
     self.value = value
@@ -54,7 +54,7 @@ def dist_between(start:list(), end:list()):
   x = x2-x1
   y = y2-y1
   
-  return math.hypot(x+y) 
+  return math.hypot(x,y) 
   
 
 def shortest_path(graph, start, goal):
@@ -66,47 +66,50 @@ def shortest_path(graph, start, goal):
     # Heap to order the nodes by f_score weight
     frontier = []
 
-    # Dictionary Lookup for Parent Nodes
+    # Dictionary Lookup for Nodes Traversed
     came_from = dict()
 
-    
-    current = start
-
     start_node = GraphNode(start)
+    open_path[start] = start_node
     h.heappush(frontier, start_node)
     closed_path[start] = start_node
-    
+
+    pdb.set_trace()
     while open_path:
 
         current_node = h.heappop(frontier)
+        current = current_node.value
         
         if current == goal:
             if start != goal:
-                print("Path to goal: <insert list of nodes>")
-                came_from = ["List"]  # getPath()
+                print("Found!")        
             else:
-                came_from = None
+                return [ current ]
                 
-            return came_from
-        
+            return getRoute(current_node, came_from)
+
         for neighbor in graph.roads[current]:
 
             # Path Cost (g') =  Current.g to Distance(Current, Neighbor) ??
             g_score = current_node.g + dist_between(graph.intersections[current], graph.intersections[neighbor])
-
             h_score = dist_between(graph.intersections[neighbor], graph.intersections[goal])
             f_score = g_score + h_score
 
+            pdb.set_trace()
             if closed_path.get(neighbor) is not None:    # neighbor in closed_path
                 node = closed_path[neighbor]
-                if node.g < g_score:
-                    open_path[neighbor] = node 
+                if g_score < node.g:
+                    open_path[neighbor] = node
                     del closed_path[neighbor]
+                    #        h.heappush(frontier, node)
                     
             elif open_path.get(neighbor) is None:       # neighbor not in open_path
-                node = GraphNode(neigbor, g_score, h_score)
+                node = GraphNode(neighbor, g_score, h_score)
+                print(node, f_score)
                 node.parent = current
-
+                came_from[node.parent] = current_node
+                open_path[neighbor] = node
+                
             elif open_path.get(neighbor) is not None:   # neighbor in open_path
                 node = open_path[neighbor]
                 if g_score <= node.g:
@@ -116,11 +119,10 @@ def shortest_path(graph, start, goal):
                     node.parent = current
                     came_from[current] = current_node
                     
-                    h.heappush(frontier, node)
+            h.heappush(frontier, node)
 
                 
-        close_path.append(current_node)
-
+        closed_path[current] = current_node
 
         
 def getRoute(node:GraphNode, node_lookup:dict()):
@@ -128,7 +130,6 @@ def getRoute(node:GraphNode, node_lookup:dict()):
     path = []
 
     current_node = node
-    
     while current_node:
         #pdb.set_trace()
         if current_node.parent != -9999:
@@ -146,40 +147,41 @@ def getRoute(node:GraphNode, node_lookup:dict()):
     return path[::-1]
 
 
-node1 = GraphNode(1)
-node1.parent = -9999
+#node1 = GraphNode(1)
+#node1.parent = -9999
 
-node3 = GraphNode(3)
-node3.parent = 1
+#node3 = GraphNode(3)
+#node3.parent = 1
 
-node4 = GraphNode(4)
-node4.parent = 3
+#node4 = GraphNode(4)
+#node4.parent = 3
 
-node6 = GraphNode(6)
-node6.parent = 4
+#node6 = GraphNode(6)
+#node6.parent = 4
 
 #print(node1)
 
-node_dict = {1: node1, 3: node3, 4: node4, 6: node6 }
+#node_dict = {1: node1, 3: node3, 4: node4, 6: node6 }
 
-print("getting Route")
-print(getRoute(node6, node_dict))
+#print("getting Route")
+#print(getRoute(node6, node_dict))
 
-1>>3>>4>>6
+#1>>3>>4>>6
 # Path from start = 1 end= 6
 
-
-        
+################################ MAIN ############################
+       
 graph = map_10()
-node = GraphNode(5)
-#print("new __str__ return")
-#print(node)
-
-
-
 #print("Test Map_10")
-#print(a_star_search(graph, 0, 2))
 
+# First Level Traversal
+print("Traversing from 0 to 7")
+print(shortest_path(graph, 0, 7))
+
+
+# Second Level Traversal
+print("Traversing from 0 to 3")
+print(shortest_path(graph, 0, 3))
 
     
 

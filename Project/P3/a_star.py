@@ -74,11 +74,14 @@ def shortest_path(graph, start, goal):
     h.heappush(frontier, start_node)
     closed_path[start] = start_node
 
-    pdb.set_trace()
+
     while open_path:
 
         current_node = h.heappop(frontier)
         current = current_node.value
+
+#        pdb.set_trace()
+        print("Now at current_node: {}".format(current))
         
         if current == goal:
             if start != goal:
@@ -95,10 +98,11 @@ def shortest_path(graph, start, goal):
             h_score = dist_between(graph.intersections[neighbor], graph.intersections[goal])
             f_score = g_score + h_score
 
-            pdb.set_trace()
+#            pdb.set_trace()
+            print("\tNow at neighbor: {}".format(neighbor))
             if closed_path.get(neighbor) is not None:    # neighbor in closed_path
                 node = closed_path[neighbor]
-                if g_score < node.g:
+                if g_score <= node.g:
                     open_path[neighbor] = node
                     del closed_path[neighbor]
                     #        h.heappush(frontier, node)
@@ -120,7 +124,8 @@ def shortest_path(graph, start, goal):
                     came_from[current] = current_node
                     
             h.heappush(frontier, node)
-
+        print("After For")
+#        pdb.set_trace()
                 
         closed_path[current] = current_node
 
@@ -175,13 +180,28 @@ graph = map_10()
 #print("Test Map_10")
 
 # First Level Traversal
-print("Traversing from 0 to 7")
-print(shortest_path(graph, 0, 7))
+#print("Traversing from 0 to 7")
+#print(shortest_path(graph, 0, 7))
 
 
 # Second Level Traversal
-print("Traversing from 0 to 3")
-print(shortest_path(graph, 0, 3))
+#print("Traversing from 0 to 3")
+#print(shortest_path(graph, 0, 3))  # Infinite loop case
+
+# Second Level Traversal
+print("Traversing from 5 to 1")
+print(shortest_path(graph, 5, 1))  # Works [5,3,1]
+
+
+# Third Level Traversal
+print("Traversing from 5 to 4")
+print(shortest_path(graph, 5, 4))  # Works [5,3,4]
+
+# Disjointed Traversal
+print("Traversing from 7 to 9")
+print(shortest_path(graph, 7, 9))  # Infinite Loop
+
+
 
     
 

@@ -189,3 +189,7 @@ graph10 = map_10()
 print("graph10 instantiated")
 
 pdb.set_trace()
+
+graph40 = map_40()
+print("Test Map_40")
+

@@ -158,7 +158,7 @@ def shortest_path(graph, start, goal):
     start_node = GraphNode(start)
     open_path[start] = start_node
     h.heappush(frontier, start_node)
-    closed_path[start] = start_node
+    #closed_path[start] = start_node
 
 
     while open_path:
@@ -166,8 +166,9 @@ def shortest_path(graph, start, goal):
         current_node = h.heappop(frontier)
         current = current_node.value
 
-#        pdb.set_trace()
+
         print("Now at current_node: {}".format(current))
+        pdb.set_trace()
         
         if current == goal:
             if start != goal:
@@ -184,14 +185,17 @@ def shortest_path(graph, start, goal):
             h_score = dist_between(graph.intersections[neighbor], graph.intersections[goal])
             f_score = g_score + h_score
 
-#            pdb.set_trace()
             print("\tNow at neighbor: {}".format(neighbor))
+            print("\tf: {}, g: {}, h: {}".format(f_score, g_score, h_score))
+            pdb.set_trace()
+            
             if closed_path.get(neighbor) is not None:    # neighbor in closed_path
-                node = closed_path[neighbor]
-                if g_score <= node.g:
-                    open_path[neighbor] = node
-                    del closed_path[neighbor]
-                    #        h.heappush(frontier, node)
+                continue
+                #node = closed_path[neighbor]
+                #if g_score < node.g:
+                #    open_path[neighbor] = node
+                #    del closed_path[neighbor]
+                #        h.heappush(frontier, node)
                     
             elif open_path.get(neighbor) is None:       # neighbor not in open_path
                 node = GraphNode(neighbor, g_score, h_score)
@@ -210,11 +214,15 @@ def shortest_path(graph, start, goal):
                     came_from[current] = current_node
                     
             h.heappush(frontier, node)
-        print("After For")
-#        pdb.set_trace()
-                
-        closed_path[current] = current_node
 
+        
+
+        del open_path[current]
+        closed_path[current] = current_node
+        print("Post for Loop,")
+        print("\t frontier: {}".format(frontier))
+        print("\t closed_path: {}".format(closed_path))
+        pdb.set_trace()
         
 def getRoute(node:GraphNode, node_lookup:dict()):
 
@@ -238,31 +246,9 @@ def getRoute(node:GraphNode, node_lookup:dict()):
     return path[::-1]
 
 
-#node1 = GraphNode(1)
-#node1.parent = -9999
-
-#node3 = GraphNode(3)
-#node3.parent = 1
-
-#node4 = GraphNode(4)
-#node4.parent = 3
-
-#node6 = GraphNode(6)
-#node6.parent = 4
-
-#print(node1)
-
-#node_dict = {1: node1, 3: node3, 4: node4, 6: node6 }
-
-#print("getting Route")
-#print(getRoute(node6, node_dict))
-
-#1>>3>>4>>6
-# Path from start = 1 end= 6
-
 ################################ MAIN ############################
        
-#graph = map_10()
+graph = map_10()
 #print("Test Map_10")
 
 # First Level Traversal
@@ -289,10 +275,12 @@ def getRoute(node:GraphNode, node_lookup:dict()):
 
     
 
-graph = map_40()
+graph40 = map_40()
 print("Test Map_40")
 
-print(shortest_path(graph, 5, 34))
+print(shortest_path(graph40, 5, 34))
+#print(shortest_path(graph40, 5, 5))
+#print(shortest_path(graph40, 8, 24))
 
 
 #print(a_star_search(graph, 5, 34))
@@ -348,6 +336,28 @@ print(shortest_path(graph, 5, 34))
 
 
 
+
+#node1 = GraphNode(1)
+#node1.parent = -9999
+
+#node3 = GraphNode(3)
+#node3.parent = 1
+
+#node4 = GraphNode(4)
+#node4.parent = 3
+
+#node6 = GraphNode(6)
+#node6.parent = 4
+
+#print(node1)
+
+#node_dict = {1: node1, 3: node3, 4: node4, 6: node6 }
+
+#print("getting Route")
+#print(getRoute(node6, node_dict))
+
+#1>>3>>4>>6
+# Path from start = 1 end= 6
 
 
 

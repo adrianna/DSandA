@@ -1,16 +1,13 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 # # Graph Depth-First Search With Recursion
 
-# We've done depth-first search previously using an iterative approach (i.e., using a loop). In this notebook, we'll show how to implement a recursive soluton.
+# We've done depth-first search previously using an iterative approach (i.e., using a loop).
+# In this notebook, we'll show how to implement a recursive soluton.
 # 
-# The basic idea is to select a node and explore all the possible paths from that node, and to apply this recursively to each node we are exploring.
+# The basic idea is to select a node and explore all the possible paths from that node, and
+# to apply this recursively to each node we are exploring.
 # 
-# You can see some helpful illustrations with various combinations here: https://www.cs.usfca.edu/~galles/visualization/DFS.html
-
-# In[1]:
-
+# You can see some helpful illustrations with various combinations here:
+# https://www.cs.usfca.edu/~galles/visualization/DFS.html
 
 # For this exercise we will be using an Adjacency List representation to store the graph.
 
@@ -44,12 +41,6 @@ class Graph():
 
 # ### Initializing Graph with an example
 
-# ![title](assets/graphs.jpg)
-# Consider the above graph structure. The following code initializes all the edges according to the above structure.
-
-# In[2]:
-
-
 # Creating a graph as above.
 nodeG = Node('G')
 nodeR = Node('R')
@@ -68,10 +59,6 @@ graph1.add_edge(nodeH,nodeG)
 graph1.add_edge(nodeH,nodeP)
 graph1.add_edge(nodeS,nodeR)
 
-
-# In[ ]:
-
-
 # To verify that the graph is created accurately.
 # Let's just print all the parent nodes and child nodes.
 for each in graph1.nodes:
@@ -83,13 +70,12 @@ for each in graph1.nodes:
 
 # ### Sample input and output 
 # 
-# The output would vary based on the implementation of your algorithm, the order in which children are stored within the adjacency list.
+# The output would vary based on the implementation of your algorithm, the order in which
+# children are stored within the adjacency list.
 
 # ### DFS using recursion
-# Now that we have our example graph initialized, we are ready to do the actual depth-first search. Here's what that looks like:
-
-# In[4]:
-
+# Now that we have our example graph initialized, we are ready to do the actual depth-first
+# search. Here's what that looks like:
 
 def dfs_recursion_start(self, start_node):
     visited = {}
@@ -106,9 +92,6 @@ def dfs_recursion(self, node,visited):
     for each in node.children:
         if( each.value not in visited ):
             self.dfs_recursion(each,visited)
-
-
-# In[ ]:
 
 
 Graph.dfs_recursion_start = dfs_recursion_start

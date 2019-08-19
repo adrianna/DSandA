@@ -2,6 +2,7 @@ import math
 import heapq as h
 import pdb
 
+debug = 0
 ######################################
 ### MAP_40
 ######################################
@@ -48,7 +49,8 @@ class map_40(object):
                                38: [0.17972981733780147, 0.999395685828547],
                                39: [0.6315322816286787, 0.7311657634689946]}
 
-        self.roads = [[35, 31, 27, 26, 25, 20, 18, 17, 15, 6],
+        self.roads = [[36, 34, 31, 28, 17],
+                      [35, 31, 27, 26, 25, 20, 18, 17, 15, 6],
                       [39, 36, 21, 19, 9, 7, 4],
                       [35, 20, 15, 11, 6],
                       [39, 36, 21, 19, 9, 7, 2],
@@ -158,7 +160,6 @@ def shortest_path(graph, start, goal):
     start_node = GraphNode(start)
     open_path[start] = start_node
     h.heappush(frontier, start_node)
-    #closed_path[start] = start_node
 
 
     while open_path:
@@ -166,13 +167,13 @@ def shortest_path(graph, start, goal):
         current_node = h.heappop(frontier)
         current = current_node.value
 
-
-        print("Now at current_node: {}".format(current))
-        pdb.set_trace()
+        if debug:
+            print("Now at current_node: {}".format(current))
+            pdb.set_trace()
         
         if current == goal:
             if start != goal:
-                print("Found!")        
+                if debug: print("Found!")        
             else:
                 return [ current ]
                 
@@ -185,26 +186,26 @@ def shortest_path(graph, start, goal):
             h_score = dist_between(graph.intersections[neighbor], graph.intersections[goal])
             f_score = g_score + h_score
 
-            print("\tNow at neighbor: {}".format(neighbor))
-            print("\tf: {}, g: {}, h: {}".format(f_score, g_score, h_score))
-            pdb.set_trace()
+            if debug: 
+                print("\tNow at neighbor: {}".format(neighbor))
+                print("\tf: {}, g: {}, h: {}".format(f_score, g_score, h_score))
+                pdb.set_trace()
             
             if closed_path.get(neighbor) is not None:    # neighbor in closed_path
+                if debug: print("\t**neighbor in closed_path")
                 continue
-                #node = closed_path[neighbor]
-                #if g_score < node.g:
-                #    open_path[neighbor] = node
-                #    del closed_path[neighbor]
-                #        h.heappush(frontier, node)
-                    
+
+                
             elif open_path.get(neighbor) is None:       # neighbor not in open_path
+                if debug: print("\t**neighbor NOT in open_path")
                 node = GraphNode(neighbor, g_score, h_score)
-                print(node, f_score)
                 node.parent = current
                 came_from[node.parent] = current_node
                 open_path[neighbor] = node
+                h.heappush(frontier, node)
                 
             elif open_path.get(neighbor) is not None:   # neighbor in open_path
+                if debug: print("\t**neighbor in open_path")
                 node = open_path[neighbor]
                 if g_score <= node.g:
                     node.g = g_score
@@ -212,17 +213,20 @@ def shortest_path(graph, start, goal):
                     node.f = f_score
                     node.parent = current
                     came_from[current] = current_node
-                    
-            h.heappush(frontier, node)
+                    #h.heappush(frontier, node)
 
-        
-
+        if debug:
+            print("++++Check open_path for key error")
+            print("\topen_path: {}".format(open_path.keys()))
         del open_path[current]
         closed_path[current] = current_node
-        print("Post for Loop,")
-        print("\t frontier: {}".format(frontier))
-        print("\t closed_path: {}".format(closed_path))
-        pdb.set_trace()
+
+        if debug:
+            print("Post for Loop,")
+            printNodes(frontier)
+            print("\tclosed_path: {}".format(closed_path.keys()))
+            print("\topen_path: {}".format(open_path.keys()))
+            pdb.set_trace()
         
 def getRoute(node:GraphNode, node_lookup:dict()):
 
@@ -230,15 +234,13 @@ def getRoute(node:GraphNode, node_lookup:dict()):
 
     current_node = node
     while current_node:
-        #pdb.set_trace()
+        if debug: pdb.set_trace()
         if current_node.parent != -9999:
-            print("current_node: {}".format(current_node))
+            if debug: print("current_node: {}".format(current_node))
             path.append(current_node.value)
 	    
             parent = current_node.parent
             current_node = node_lookup.get(parent)
-            print(type(current_node))
-            #print("current_node.val: {}".format(current_node.value))
         else:
              break
     path.append(current_node.value)
@@ -246,9 +248,47 @@ def getRoute(node:GraphNode, node_lookup:dict()):
     return path[::-1]
 
 
+######### Debug Prints ############################################
+def printNodes(node_list):
+
+    if debug: pdb.set_trace()
+    for node in node_list:
+        print("node: {}, f_score: {}".format(node.value, node.f))
+
+def printArray(arr, array_string):
+
+    print("i, {}".format(array_string))
+    for item in range(len(arr)):
+        print("{}: {}".format(item, arr[item]))
+    
+
 ################################ MAIN ############################
-       
-graph = map_10()
+
+### MAP 40
+
+graph40 = map_40()
+if debug: print("Test Map_40")
+
+print(shortest_path(graph40, 5, 34))
+#Answer: [5, 16, 37, 12, 34]
+
+print(shortest_path(graph40, 5, 5))
+# Answer: [5]
+
+print(shortest_path(graph40, 8, 24))
+#Answer: [8, 14, 16, 37, 12, 17, 10, 24]
+
+
+
+
+
+
+
+
+
+### MAP 10
+
+#graph = map_10()
 #print("Test Map_10")
 
 # First Level Traversal
@@ -275,120 +315,9 @@ graph = map_10()
 
     
 
-graph40 = map_40()
-print("Test Map_40")
-
-print(shortest_path(graph40, 5, 34))
-#print(shortest_path(graph40, 5, 5))
-#print(shortest_path(graph40, 8, 24))
-
-
-#print(a_star_search(graph, 5, 34))
-# Answer: [5, 16, 37, 12, 34]
-
-#print(a_star_search(graph, 5, 5))
-# Answer: [5]
-
-#print(a_star_search(graph, 8, 24))
-# Answer: [8, 14, 16, 37, 12, 17, 10, 24]
-
-
-#def heuristic(a, b):
-    #print(a)
-    #print(b)
-    
-#    (x1, y1) = a
-#    (x2, y2) = b
-
-#    return math.hypot((x1 - x2), (y1 - y2))
-
-
-#def a_star_search(graph, start, goal):
-#    frontier = PriorityQueue()
-#    frontier = []
-#    h.heappush(frontier, (start, 0))
-#    
-#    #frontier.put(start, 0)
-#    came_from = {}
-#    cost_so_far = {}
-#    came_from[start] = None
-#    cost_so_far[start] = 0
-#    
-#    while frontier:
-#        current , _ = h.heappop(frontier)
-#        
-#        if current == goal:
-#            break
-#
-#        #pdb.set_trace()
-#        for neighbor in graph.roads()[current]:
-#            #print(neighbor)
-#            new_cost = cost_so_far[current] + graph.cost(current, neighbor)
-#            if neighbor not in cost_so_far or new_cost < cost_so_far[neighbor]:
-#                cost_so_far[neighbor] = new_cost
-#                priority = new_cost + heuristic(graph.intersections()[goal], graph.intersections()[neighbor])
-#             #   print(priority)
-#                h.heappush(frontier, (neighbor, priority))
-#                came_from[neighbor] = current
-#    
-#    return came_from
-##    return came_from, cost_so_far
 
 
 
-
-#node1 = GraphNode(1)
-#node1.parent = -9999
-
-#node3 = GraphNode(3)
-#node3.parent = 1
-
-#node4 = GraphNode(4)
-#node4.parent = 3
-
-#node6 = GraphNode(6)
-#node6.parent = 4
-
-#print(node1)
-
-#node_dict = {1: node1, 3: node3, 4: node4, 6: node6 }
-
-#print("getting Route")
-#print(getRoute(node6, node_dict))
-
-#1>>3>>4>>6
-# Path from start = 1 end= 6
-
-
-
-
-
-
-
-### ORIG
-#def a_star_search(graph, start, goal):
-#    frontier = PriorityQueue()
-#    frontier.put(start, 0)
-#    came_from = {}
-#    cost_so_far = {}
-#    came_from[start] = None
-#    cost_so_far[start] = 0
-#    
-#    while not frontier.empty():
-#        current = frontier.get()
-#        
-#        if current == goal:
-#            break
-#        
-#        for neighbor in graph.neighbors(current):
-#            new_cost = cost_so_far[current] + graph.cost(current, neighbor)
-#            if neighbor not in cost_so_far or new_cost < cost_so_far[neighbor]:
-#                cost_so_far[neighbor] = new_cost
-#                priority = new_cost + heuristic(goal, neighbor)
-#                frontier.put(neighbor, priority)
-#                came_from[neighbor] = current
-#    
-#    return came_from, cost_so_far
 
 
 

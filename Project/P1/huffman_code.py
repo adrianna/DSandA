@@ -175,24 +175,6 @@ if __name__ == "__main__":
 
 
 
-
-
-
-
-
-    
-
-
-    
-    #hc = HuffmanCode(a_great_sentence)
-    #freq_dict = hc.createFrequencyDict(a_great_sentence)
-    #print(freq_dict)
-    #hc.createHuffTree(freq_dict)
-    #hc.printTree()
-
-
-
-
     
 
 

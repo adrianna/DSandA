@@ -88,10 +88,6 @@ print("Is child in group parent? {}".format(is_user_in_group("child", parent)))
 # TEST CASE 2
 print("Is subchild in group parent? {}".format(is_user_in_group("subchild", parent)))
 
-## ISSUE: As a result of the function pop(), the parent's group became empty, therefore, the following function
-#         returned False *after* I ran line 80 prior to line below
-
-
 # TEST CASE 3
 print("Is subchild in group child? {}".format(is_user_in_group("subchild", child)))
 

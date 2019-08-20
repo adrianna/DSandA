@@ -227,7 +227,11 @@ def shortest_path(graph, start, goal):
             print("\tclosed_path: {}".format(closed_path.keys()))
             print("\topen_path: {}".format(open_path.keys()))
             pdb.set_trace()
-        
+
+    return ["Path not found!"]
+
+
+            
 def getRoute(node:GraphNode, node_lookup:dict()):
 
     path = []
@@ -277,47 +281,3 @@ print(shortest_path(graph40, 5, 5))
 
 print(shortest_path(graph40, 8, 24))
 #Answer: [8, 14, 16, 37, 12, 17, 10, 24]
-
-
-
-
-
-
-
-
-
-### MAP 10
-
-#graph = map_10()
-#print("Test Map_10")
-
-# First Level Traversal
-#print("Traversing from 0 to 7")
-#print(shortest_path(graph, 0, 7))
-
-
-# Second Level Traversal
-#print("Traversing from 0 to 3")
-#print(shortest_path(graph, 0, 3))  # Infinite loop case
-
-# Second Level Traversal
-#print("Traversing from 5 to 1")
-#print(shortest_path(graph, 5, 1))  # Works [5,3,1]
-
-
-# Third Level Traversal
-#print("Traversing from 5 to 4")
-#print(shortest_path(graph, 5, 4))  # Works [5,3,4]
-
-# Disjointed Traversal
-#print("Traversing from 7 to 9")
-#print(shortest_path(graph, 7, 9))  # Infinite Loop
-
-    
-
-
-
-
-
-
-

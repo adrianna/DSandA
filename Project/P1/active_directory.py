@@ -97,6 +97,3 @@ step_parent = Group("step_parent")
 step_parent.add_group(child)
 
 print("Is child in group step parent? {}".format(is_user_in_group("child", step_parent)))
-
-# TEST CASE 5
-# False case and get_groups() is empty

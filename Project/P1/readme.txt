@@ -134,11 +134,36 @@ and false otherwise. The program creates tree whose parent includes child nodes.
 another parent node.
 
 ###### Time Complexity
+Breakdown
+O(1) -         Constructing the graph user by user, which is just appending to the list
+O(1) -	       Getting or retrieving group/user list information will take anywhere between
+               best case lookup of only one retrieval in the list, or O(n) going to the last
+	       item of the list. 
+O(1) to O(n) - Querying if user is in group list may be constant time retrieval - depending if it's
+     	       the only user in the group or user list. However, if it's not found in its most
+	       immediate group, it will check all the other groups' group lists, which the number of groups
+	       can vary. Worst case, it will check all groups to find user in that list.
+----------
+O(n) + O(1) + O(1)
 
+
+
+Time Complexity: O(n) 
 
 
 ###### Space Complexity
+The class Group object has two lists: groups and users and just a variable to store the
+user's name. The list can vary by size n items.
 
+O(n) for users
+O(n) for groups
+----------------
+O(n) + O(n)
+
+Some users may overlap in several groups, so the total isn't 2*n. However,
+O(n) + O(n) ~ 2*O(n) ~ O(n)
+
+Space Complexity: O(n)
 
 
 #################################################

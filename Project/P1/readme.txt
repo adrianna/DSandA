@@ -93,16 +93,31 @@ Construction the frequency dictionary take O(n).
 Constructing the heap tree takes O(n). To compress, it is literally traversing the tree and
 encoding the text into binary code. Tree traversal for a binary tree is O(nlogn).
 
-Deconstructing the code will also take O(nlogn), because the code, as it is being parsed,
-is being guided by the zero and one to take a specific path direction along the tree.
+Deconstructing the code involves parsing out the coded text which O(n) for each character. However, the lookup
+for the code in the decodes_dict() takes O(1).
 
+Breakdown
+O(nlogn) for tree traversal
+O(n) for dictionary creation: character frequency, code and decode lookups
+O(1) for lookup
+------------------
 
-Time Complexity: O(nlogn) for tree traversal
+O(n) + O(nlogn) + O(1)
+O(n)
+
+Time Complexity: O(n)
+     		      
 
 
 ###### Space Complexity
-Space complexity for creating the frequency dictionary will be the length of the
-mathematical set of characters (i.e. the unique number of characters in a given string.)
+Breakdown
+ O(n) for character frequency lookup, including spaces
+ O(n*k) for code and decode, where k = number of bits to represent the text character
+ O(n) for binary tree to encapsulate all the characters in the text.
+------------
+O(n) + O(n*k) + O(n)
+
+Space Complexity: O(n)
 
 
 #################################################

@@ -107,8 +107,21 @@ class HuffmanCode:
             encoded_text += self.codes[character]
         return encoded_text
 
-            
 
+    def decodeText(self, encoded_text):
+        
+        current_code = ""
+        decoded_text = ""
+        
+        for bit in encoded_text:
+            current_code += bit
+            if(current_code in self.decodes):
+                character = self.decodes[current_code]
+                decoded_text += character
+                current_code = ""
+        return decoded_text
+
+    
     def printTree(self):
 
         for node in self.huff_tree:
@@ -117,10 +130,10 @@ class HuffmanCode:
         
         
 
+############ Main Routines: Huffman encode/decode ###############
 
 def huffman_encoding(data):
     # Traverse the tree and create the code
-
     
     hcode = HuffmanCode(data)
     frequency_dict = hcode.createFrequencyDict()
@@ -134,10 +147,13 @@ def huffman_encoding(data):
 
 def huffman_decoding(data,tree):
     # Traverse the tree in prefix order to decode    
-    pass
+
+    text = tree.decodeText(data)
+    
+    return text
 
 
-
+################## Main ###########################################
 
 if __name__ == "__main__":
     codes = {}
@@ -153,9 +169,9 @@ if __name__ == "__main__":
     print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
     print ("The content of the encoded data is: {}\n".format(encoded_data))
 
-#    decoded_data = huffman_decoding(encoded_data, tree)
-#    print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
-#    print ("The content of the encoded data is: {}\n".format(decoded_data))
+    decoded_data = huffman_decoding(encoded_data, tree)
+    print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
+    print ("The content of the encoded data is: {}\n".format(decoded_data))
 
 
 

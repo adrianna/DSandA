@@ -7,7 +7,7 @@
 from DataStructures import *
 import heapq as h
 import pdb
-
+import sys
 
 class HeapNode:
     def __init__(self, char, frequency):
@@ -39,27 +39,27 @@ class HeapNode:
     
         
 class HuffmanCode:
-    def __init__(self, path):
-        self.path = path
+    def __init__(self, text):
+        self.text = text
         self.huff_tree = []
-        self.codes = {}
-        self.reverse_mapping = {}
+        self.codes = dict()
+        self.decodes = dict()
         
     
-    def createFrequencyDict(self, string):
+    def createFrequencyDict(self):
 
         # Create Hash Counter for character frequency
-        freq_dict = {}
-        for char in string:
-            if ' ' not in char:
-                if char not in freq_dict.keys():
-                    freq_dict[char] = 1
-                else:
-                    freq_dict[char] += 1
+        freq_dict = dict()
+        for char in self.text:
+            #            if ' ' not in char:
+            if char not in freq_dict.keys():
+                freq_dict[char] = 1
+            else:
+                freq_dict[char] += 1
                     
         return freq_dict
 
-    def createHuffTree(self, freq_dict):
+    def createTree(self, freq_dict):
 
         #        pdb.set_trace()
         for char in freq_dict.keys():
@@ -80,9 +80,35 @@ class HuffmanCode:
             # Push merged_node back into the heap
             h.heappush(self.huff_tree, merged_node)
 
+
+
+    def createCodeDict_helper(self, root, current_code):
+        if root == None:
+            return
+        
+        if root.char != None:
+            self.codes[root.char] = current_code
+            self.decodes[current_code] = root.char
+            return
+        
+        self.createCodeDict_helper(root.left, current_code + "0")
+        self.createCodeDict_helper(root.right, current_code + "1")
+        
+        
+    def createCodeDict(self):
+        root = h.heappop(self.huff_tree)
+        current_code = ""
+        self.createCodeDict_helper(root, current_code)
+
+
+    def encodeText(self, text):
+        encoded_text = ""
+        for character in text:
+            encoded_text += self.codes[character]
+        return encoded_text
+
             
-    
-    
+
     def printTree(self):
 
         for node in self.huff_tree:
@@ -93,14 +119,21 @@ class HuffmanCode:
 
 
 def huffman_encoding(data):
-# Traverse the tree and create the code
-    
+    # Traverse the tree and create the code
 
     
-    pass
+    hcode = HuffmanCode(data)
+    frequency_dict = hcode.createFrequencyDict()
+    hcode.createTree(frequency_dict)
+    hcode.createCodeDict()
+
+    huff_code = hcode.encodeText(data)
+
+    return huff_code, hcode
+
 
 def huffman_decoding(data,tree):
-# Traverse the tree in prefix order to decode    
+    # Traverse the tree in prefix order to decode    
     pass
 
 
@@ -112,35 +145,39 @@ if __name__ == "__main__":
     a_great_sentence = "The bird is the word"
     print(a_great_sentence)
 
-    hc = HuffmanCode(a_great_sentence)
-    freq_dict = hc.createFrequencyDict(a_great_sentence)
-    print(freq_dict)
-    hc.createHuffTree(freq_dict)
-    hc.printTree()
+    print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
+    print ("The content of the data is: {}\n".format(a_great_sentence))
+
+    encoded_data, tree = huffman_encoding(a_great_sentence)
+
+    print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
+    print ("The content of the encoded data is: {}\n".format(encoded_data))
+
+#    decoded_data = huffman_decoding(encoded_data, tree)
+#    print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
+#    print ("The content of the encoded data is: {}\n".format(decoded_data))
+
+
+
+
 
 
 
 
     
-## Testing char_frequency    
-#    print (char_frequency(a_great_sentence))
-#    cf_list = char_frequency(a_great_sentence)
-#    createHuffTree(cf_list)
+
+
+    
+    #hc = HuffmanCode(a_great_sentence)
+    #freq_dict = hc.createFrequencyDict(a_great_sentence)
+    #print(freq_dict)
+    #hc.createHuffTree(freq_dict)
+    #hc.printTree()
 
 
 
 
-    #    print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
-#    print ("The content of the data is: {}\n".format(a_great_sentence))
+    
 
-#    encoded_data, tree = huffman_encoding(a_great_sentence)
-
-#    print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
-#    print ("The content of the encoded data is: {}\n".format(encoded_data))
-
-#    decoded_data = huffman_decoding(encoded_data, tree)
-
-#    print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
-#    print ("The content of the encoded data is: {}\n".format(decoded_data))
 
     

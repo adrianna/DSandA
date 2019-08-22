@@ -1,15 +1,13 @@
 ###################################
 ## P1: lru_cache.py
 ## 
-## Issue: get_hash_code() produces colliding keys. Not sure 
-##        if this is a concern for this homework problem
-##
-## Todo:
-##   1. Generate three test cases
-##   2. Review operation more closely
 ##     
 ###################################
+from collections import OrderedDict
 
+import pdb
+
+debug = 0
 
 class LRU_Node:
     def __init__(self, key, value):
@@ -19,113 +17,83 @@ class LRU_Node:
         self.next = None
             
 
-class LRU_Cache(object):
-
+class LRU_Cache:
     def __init__(self, capacity = 5):
         ''' #Initialize LRU_Cache node  '''
-        self.bucket_array = [ None for _ in range(capacity) ]
+        
+        self.hmap = dict()
         self.capacity = 0
         self.num_entries = 0
-        self.p = 31
         self.head = None
+        self.tail = None
 
+        
     def get(self, key):
-        '''# Retrieve item from provided key. Return -1 if nonexistent.'''
-        bucket_index = self.get_hash_code(key)
-        head = self.bucket_array[bucket_index]
-        while head is not None:
-            if head.key == key:
-                self.capacity += 1
-                return head.value
-            
-            head = head.next
+        
+        if self.hmap.get(key) is not None:
+            return self.hmap[key].value
+
         return -1
-            
+
     def set(self, key, value):
-        # Set the value if the key is not present in the cache. If the cache is
-        # at capacity remove the oldest item.
-        bucket_index = self.get_hash_code(key)
-        new_node = LRU_Node(key,value)
+       
+       if self.hmap.get(key) is not None:
+           self.hmap[key].value = value
+           self.hmap[key].key = key
+       else:
+           new_node = LRU_Node(key, value)
+           print("Checking for entries: {}".format(self.num_entries))
+           if self.num_entries  > self.capacity:
+               #remove LRU node (tail of linked list)
+               self.removeTail()
+               
+       # adding the new node to the head of the list
+       self.enQueue(new_node)
+       self.hmap[key] = new_node
+           
+           
+    def removeTail(self):
 
-        
-        if len(self.bucket_array) == self.capacity:
-            # remove least used node
-            print("Removing least used node")
-            self.pop()
-        
-        head = self.bucket_array[bucket_index]
-        # check if key is already present in the map, and update it's value
-        while head is not None:
-            if head.key == key:
-                head.value = value
-                return
-            head = head.next
+        if self.tail:
+            print("removing tail.value: {}".format(self.tail.value))
+            prev_node = self.tail.prev
+            tail = prev_node
+            del self.hmap[tail.key]
+            self.num_entries -= 1
+            print("now at num_etries: {}".format(self.num_entries))
 
-        # key not found in the chain --> create a new entry and place it at the head
-        # of the chain
-        head = self.bucket_array[bucket_index]
-        new_node.next = head
-        self.bucket_array[bucket_index] = new_node
-        self.num_entries += 1         
-
-        print("Updating num_entries: {}".format(self.num_entries))
+    def enQueue(self, node):
         
-    def remove_node(self, key):
-        bucket_index = self.get_hash_code(key)
-        
-        # Oldest node is assumed to be at the head, linked lists are FILO
-        # FILO = first in/last out
-        head = bucket_array[bucket_index]
-        if head is not None:
-            temp = head.next
-            self.bucket_array[bucket_index] = temp
-            head = self.bucket_array[bucket_index]
-        
+        if self.head:
+            second_node = self.head
+            self.head = node
+            node.prev = second_node
+            second_one.next = node
+        else:
+            self.head = node
 
-    def get_hash_code(self, key):
-        key = str(key)
-        #print("key: {}".format(key))
+            
+        self.num_entries += 1
+           
 
-        key = str(key)
-        num_buckets = len(self.bucket_array)
-        current_coefficient = 1
-        hash_code = 0
-        for character in key:
-            hash_code += ord(character) * current_coefficient
-            hash_code = hash_code % num_buckets            # compress hash_code
-            current_coefficient *= self.p
-            current_coefficient = current_coefficient % num_buckets   # compress coefficient
 
-        return hash_code % num_buckets               
+################## Main #############################
 
-    def get_bucket_index(self, key):
-        bucket_index = self.get_hash_code(key)
-        return bucket_index
-
-    def pop(self, key):
-        
-        bucket_index = self.get_hash_code(key)
-        self.head = bucket_array[bucket_index]
-        node = self.head.next
-        bucket_array[bucket_index] = node
-        node.prev = bucket_array[bucket_index]
-        
-        return self.head
-        
-    def size(self):
-        return self.num_entries
-    
 our_cache = LRU_Cache(5)
 
-#print(our_cache.get_hash_code(1))
-#print(our_cache.get_hash_code(2))
-#print(our_cache.get_hash_code(3))
-#print(our_cache.get_hash_code(4))
-#print(our_cache.get_hash_code(5))
-#print(our_cache.get_hash_code(6)) # Collides with 1
+our_cache.set(1, 1);
+our_cache.set(2, 2);
+our_cache.set(3, 3);
+our_cache.set(4, 4);
 
-our_cache.set(1, 1)
-our_cache.set(2, 2)
-print(our_cache.get(1))       # returns 1
-print(our_cache.get(2))       # returns 2
-print(our_cache.get(3))       # return -1
+
+print(our_cache.get(1))  # returns 1
+print(our_cache.get(2))  # returns 2
+print(our_cache.get(9))  # returns -1 because 9 is not present in the cache
+
+our_cache.set(5, 5) 
+our_cache.set(6, 6)
+
+print(our_cache.get(3))  # returns -1 because the cache reached it's
+                         # capacity and 3 was the least recently used entry
+

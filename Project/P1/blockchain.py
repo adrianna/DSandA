@@ -82,6 +82,7 @@ class BlockChain:
    
 
 ####### Main ############
+# Test Case 1                
 b1 = BlockChain()
 b1.append('0612_1950', "N1", None)
 b1.print()
@@ -91,7 +92,7 @@ b1.print()
 #None
 #b79f477f6d435116155b1121455748240bb5e7c81f7043519980df21a8167ca1
 
-
+# Test Case 2
 print("***")
 b1.append('0612_2042', "N2", "b1")
 b1.print(1)
@@ -101,7 +102,7 @@ b1.print(1)
 #b1
 #2a5f06422d35ac8977cbf311a3178de243428e2c1ca836ed16477cac024360ec
 
-
+# Test Case 3
 print("***")
 b1.append('0623_2331', "N3", "b2")
 b1.print(2)
@@ -110,3 +111,7 @@ b1.print(2)
 #N3
 #b2
 
+# Test Case 4: printing empty block node
+print("***")
+b1.append('', "", "")
+b1.print(3)

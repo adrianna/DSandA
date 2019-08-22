@@ -7,7 +7,7 @@
 
 
 import os, fnmatch
-
+import re
 
 def find_files(suffix, path):
     """
@@ -28,10 +28,16 @@ def find_files(suffix, path):
 
     cfiles_dir = []
     path = os.getcwd() + "/" + path
-    # If path does not exist, return False
-
+  
+    extension = re.findall(r'(\w+\.\w+$)', path)
+    #print(extension)
+    if len(extension) > 0:
+        print("Invalid path: {}".format(extension))
+        return None
+              
+    # If path does not exist, return False    
     if not os.path.exists(path):
-        print("Returning... from find_files, dir {}".format(os.getcwd())) 
+        print("Path: {} does not exist!".format(path))
         return None 
 
     for root, dirs, files in os.walk(path):
@@ -39,9 +45,14 @@ def find_files(suffix, path):
             if fnmatch.fnmatch(file_name, suffix):
                 if root not in cfiles_dir:
                     cfiles_dir.append(root)
-            
-    return cfiles_dir
-   
+
+    if len(cfiles_dir) == 0:
+        print("File(s): {} not found!".format(suffix))
+        return None
+    else:   
+        return cfiles_dir
+    
+    
 ############## Main #########
 
 path = "testdir"
@@ -58,3 +69,7 @@ print(find_files("*.c", path))
 path = "testdir/subdir4"
 print(find_files("*.c", path))
 #[]
+
+path = "testdir/test.h"
+print(find_files("*.c", path))
+# None

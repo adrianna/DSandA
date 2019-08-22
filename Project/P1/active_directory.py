@@ -84,16 +84,22 @@ parent.add_group(child)
 # TEST CASE 1
 print("Is child in group parent? {}".format(is_user_in_group("child", parent)))
 
-
 # TEST CASE 2
 print("Is subchild in group parent? {}".format(is_user_in_group("subchild", parent)))
 
 # TEST CASE 3
 print("Is subchild in group child? {}".format(is_user_in_group("subchild", child)))
 
-
 # TEST CASE 4
 step_parent = Group("step_parent")
 step_parent.add_group(child)
 
 print("Is child in group step parent? {}".format(is_user_in_group("child", step_parent)))
+
+# TEST CASE 5 - child2 not under step parent
+child2 = Group("child2")
+parent.add_group(child2)
+print("Is child2 in group step parent? {}".format(is_user_in_group("child2", step_parent)))
+
+# TEST CASE 6 - child3 non-existent
+print("Is child3 in group step parent? {}".format(is_user_in_group("child3", step_parent)))

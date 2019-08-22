@@ -51,7 +51,6 @@ class HuffmanCode:
 
     def createTree(self, freq_dict):
 
-        #        pdb.set_trace()
         for char in freq_dict.keys():
             char_node = HeapNode(char, freq_dict[char])
             h.heappush(self.huff_tree, char_node)
@@ -76,8 +75,13 @@ class HuffmanCode:
             return
         
         if root.char != None:
-            self.codes[root.char] = current_code
-            self.decodes[current_code] = root.char
+            if len(current_code) > 0:
+                self.codes[root.char] = current_code
+                self.decodes[current_code] = root.char
+            else:
+                current_code = '0'
+                self.codes[root.char] = current_code
+                self.decodes[current_code] = root.char
             return
         
         self.createCodeDict_helper(root.left, current_code + "0")
@@ -92,21 +96,32 @@ class HuffmanCode:
 
     def encodeText(self, text):
         encoded_text = ""
+
+        # No need to check, because huffman_encode checks for empty string!
+        #        if len(text) == 0:
+        #            print("Empty string, nothing to encode")
+        #            encoded_text = -1   
+    
         for character in text:
             encoded_text += self.codes[character]
+    
         return encoded_text
 
 
     def decodeText(self, encoded_text):
         current_code = ""
         decoded_text = ""
-        
-        for bit in encoded_text:
-            current_code += bit
-            if(current_code in self.decodes):
-                character = self.decodes[current_code]
-                decoded_text += character
-                current_code = ""
+
+        if encoded_text != -1:
+            for bit in encoded_text:
+                current_code += bit
+                if(current_code in self.decodes):
+                    character = self.decodes[current_code]
+                    decoded_text += character
+                    current_code = ""
+        else:
+            decoded_text = -1
+            
         return decoded_text
 
     
@@ -116,26 +131,30 @@ def huffman_encoding(data):
     # Traverse the tree and create the code
 
     if debug: pdb.set_trace()
+
+    huff_code = -1
+    hcode = None
+    
     if len(data) > 0:
         hcode = HuffmanCode(data)
         frequency_dict = hcode.createFrequencyDict()
         hcode.createTree(frequency_dict)
         hcode.createCodeDict()
-        
         huff_code = hcode.encodeText(data)
-        
-        return huff_code, hcode
-
-    return "", None
+    
+    else:
+        print("Input data is empty string, returning {}!".format(huff_code))
+    
+    return huff_code, hcode
 
 def huffman_decoding(data,tree):
-    # Traverse the tree in prefix order to decode    
-    if len(data) > 0:
+    # Traverse the tree in prefix order to decode
+    text = -1
+
+    if data != -1:
         text = tree.decodeText(data)
-    
-        return text
-    
-    return ""
+
+    return text
 
 
 ################## Main ###########################################
@@ -143,27 +162,28 @@ def huffman_decoding(data,tree):
 if __name__ == "__main__":
     codes = {}
 
-    # Test Case 1   
+    # Test Case 1
+    print("Test Case 1")
     a_great_sentence = "The bird is the word"
-    print(a_great_sentence)
+    print("Input: {}".format(a_great_sentence))
 
     print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
     print ("The content of the data is: {}\n".format(a_great_sentence))
 
     encoded_data, tree = huffman_encoding(a_great_sentence)
     
-    if len(encoded_data) > 0:
-        print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
-        print ("The content of the encoded data is: {}\n".format(encoded_data))
-        
-        decoded_data = huffman_decoding(encoded_data, tree)
-        print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
-        print ("The content of the encoded data is: {}\n".format(decoded_data))
+    print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
+    print ("The content of the encoded data is: {}\n".format(encoded_data))
+    
+    decoded_data = huffman_decoding(encoded_data, tree)
+    print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
+    print ("The content of the encoded data is: {}\n".format(decoded_data))
         
 
     # Test Case 2
+    print("Test Case 2")
     a_great_sentence = "encrypt this"
-    print(a_great_sentence)
+    print("Input: {}".format(a_great_sentence))
 
     print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
     print ("The content of the data is: {}\n".format(a_great_sentence))
@@ -177,9 +197,10 @@ if __name__ == "__main__":
     print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
     print ("The content of the encoded data is: {}\n".format(decoded_data))
 
-    # Test Case 3 - Edge Case, same letter  
+    # Test Case 3 - Edge Case, same letter
+    print("Test Case 3")
     a_great_sentence = "aaaaa"
-    print(a_great_sentence)
+    print("Input: {}".format(a_great_sentence))
     
     print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
     print ("The content of the data is: {}\n".format(a_great_sentence))
@@ -190,26 +211,28 @@ if __name__ == "__main__":
         print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
         print ("The content of the encoded data is: {}\n".format(encoded_data))
         
-        decoded_data = huffman_decoding(encoded_data, tree)
-        print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
-        print ("The content of the encoded data is: {}\n".format(decoded_data))
+    decoded_data = huffman_decoding(encoded_data, tree)
+    
+    print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
+    print ("The content of the encoded data is: {}\n".format(decoded_data))
     
     ## Test Case 4 - Empty String
-    a_great_sentence = ""
-    print(a_great_sentence)
+    print("Test Case 4")
+    a_great_sentence = ''
+    print("Input: {}".format(a_great_sentence))
     
     print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
-    print ("The content of the data is: {}\n".format(a_great_sentence))
+    if len(a_great_sentence) > 0: print ("The content of the data is empty: {}.\n".format(a_great_sentence))
     
     encoded_data, tree = huffman_encoding(a_great_sentence)
 
-    if len(encoded_data) > 0:
-        print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
-        print ("The content of the encoded data is: {}\n".format(encoded_data))
+    if encoded_data != -1: print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
+    print ("The content of the encoded data is: {}\n".format(encoded_data))
     
-        decoded_data = huffman_decoding(encoded_data, tree)
-        print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
-        print ("The content of the encoded data is: {}\n".format(decoded_data))
+    decoded_data = huffman_decoding(encoded_data, tree)
+     
+    if decoded_data != -1: print ("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
+    print ("The content of the encoded data is: {}\n".format(decoded_data))
     
     
 

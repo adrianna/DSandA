@@ -9,11 +9,6 @@ import pdb
 
 debug = 0
 
-################################
-#    5 -> prev 2
-#      <- next 2
-#    H
-
 
 class LRU_Node:
     def __init__(self, key, value):
@@ -40,6 +35,8 @@ class LRU_Cache:
         if self.capacity == 0:
             print("Warning: Can't perform get() operation when LRU capacity is 0")
 
+        if debug: pdb.set_trace()
+        
         # Check for key in hash map
         if self.hmap.get(key) is not None:
             node = self.hmap[key]
@@ -47,6 +44,7 @@ class LRU_Cache:
             # Update tail pointer if item removed is tail node
             if node == self.tail:
                 self.tail = node.next
+
                 
             # Move updated node to front of queue    
             self.enQueue(node)
@@ -59,9 +57,10 @@ class LRU_Cache:
         
         if self.capacity == 0:
             print("Warning: Can't perform set() operation when LRU capacity is 0")
+            return
         
         if debug:
-            print("set {}: {}".format(key, value))
+            print("set({}): {}".format(key, value))
             pdb.set_trace()
 
         # Check if key is in map, update or append new node to the front of the queue
@@ -69,18 +68,22 @@ class LRU_Cache:
             node = self.hmap[key]
             node.value = value
             node.key = key
-            # enQueue(node)
+
+            if debug: print("[[set]] hmap[{}] exists".format(key))
+
         else:
-            if debug: print("Checking for entries: {}".format(self.num_entries))            
+            if debug: print("[[set]] Checking for entries: {}".format(self.num_entries))            
 
             # check if LRU is full, remove least used node (tail) from queue
             node = LRU_Node(key, value)
             if self.num_entries == self.capacity:
+                if debug: print("[[set]] Removing tail: {}".format(node.value))
                 self.removeTail()
-		
-	        # add new node to the head of the list
-                #            self.enQueue(node)
+                self.num_entries -= 1
             self.hmap[key] = node
+            self.num_entries += 1
+            
+        # add new node to the head of the list
         self.enQueue(node)
         
     # removeTail()
@@ -88,7 +91,7 @@ class LRU_Cache:
 
         if debug:
             pdb.set_trace()
-            print("removing tail.value: {}".format(self.tail.value))
+            print("[[remove]] removing tail.value: {}".format(self.tail.value))
 
         # Check if tail node exists, remove node from queue and hash map
         # Update num_entries to reflect number of items in queue
@@ -96,9 +99,8 @@ class LRU_Cache:
             next_node = self.tail.next
             del self.hmap[self.tail.key]
             self.tail = next_node
-            self.num_entries -= 1
+            #self.num_entries -= 1
 
-            if debug: print("removed tail, now at num_etries: {}".format(self.num_entries))
 
     # enQueue(node)
     def enQueue(self, node):
@@ -117,14 +119,15 @@ class LRU_Cache:
         else:
             self.head = node
             self.tail = self.head    
-
-        self.num_entries += 1
-        if debug: print("Updating num_entries: {}".format(self.num_entries))
+            #self.num_entries += 1
+            
+        #if debug: print("Updating num_entries: {}".format(self.num_entries))
 	    
 
 
 ################## Main #############################
 
+# Test Case #1: Boilerplate 
 our_cache = LRU_Cache(5)
 
 our_cache.set(1, 1);
@@ -132,7 +135,6 @@ our_cache.set(2, 2);
 our_cache.set(3, 3);
 our_cache.set(4, 4);
 
-# Test Case #1: Boilerplate 
 print(our_cache.get(1))  # returns 1
 print(our_cache.get(2))  # returns 2
 print(our_cache.get(9))  # returns -1 because 9 is not present in the cache
@@ -145,18 +147,23 @@ print(our_cache.get(3))  # returns -1 because the cache reached it's
 
 # Test Case #2: Warning issued for Zero Capacity LRU
 our_cache = LRU_Cache(0)
+
 our_cache.set(1, 1)
 # returns warning
+
 print(our_cache.get(1))
 # should return -1
 
 # Test Case 3 - updating existing key
 our_cache = LRU_Cache(2)
+
 our_cache.set(1, 1)
 our_cache.set(2, 2)
 our_cache.set(1, 10)
+
 print(our_cache.get(1))
 # returns 10
+
 print(our_cache.get(2))
 # returns 2
 

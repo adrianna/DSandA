@@ -10,24 +10,31 @@
 #################################################
 
 ###### Design
-This program updates the cache with value. It uses a hash key to store
-the array list. To get O(1) operation on the add or remove, the array
-is a doubly linked list.
+This program updates the cache with value. It uses a hash map to  track the nodes in a doubly
+linked list. All the values are stored in a doubly linked list. The set() operation instantiates
+a new node in the doubly linked list and produces a key to track the value. The get() operation retrieves
+the value by accessing the hash map. If the key exists, it will remove the linked list node and place it in
+front of the queue. A tail pointer is used to track the least used node, which happens to be the
+final node of the linked list. The head node always points to the most recent new node or the
+recently accessed existing node. If the linked list is at maximum capacity and a new node is created,
+it will remove the tail (least recently used) node and put the new node in front of the linked list (queue).
+
+Two additional methods removeTail and enQueue(node) does a O(1) operations to either
+remove the node from the tail node or perform a move operation of the existing node to the front
+of the doubly linked list (queue).
 
 
 ###### Time Complexity
-The time complexity is O(1) operation to add or remove a value from the
-lru_cache.
+The time complexity is O(1) operation to get() or set() a value from the lru_cache, as a result of
+using a hash map, whose keys points to the node in the linked list.
 
-Worst case, time complexity: O(n) since it will have to traverse the list to
-remove the least used memory value.
 
-Time Complexity: O(n) (for worse case)
+Time Complexity: O(1)
 
 ###### Space Complexity
-The LRU cache store n-elements per key. Given m-keys. The storage is m*n
-elements, which totals O(n). Since the least used value is always removed and
-replaced by a new value, the number of elements stays constant.
+The LRU cache stores an element per key in the hash map. Given n-keys, the storage is n-elements, thus space
+is O(n). Since the least used value is always removed and replaced by a new value, the number of elements
+stays constant.
 
 Space complexity: O(n) 
 

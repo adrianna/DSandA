@@ -3,13 +3,9 @@
 ## 
 ##     
 ###################################
-from collections import OrderedDict
-
 import pdb
 
 debug = 0
-
-
 class LRU_Node:
     def __init__(self, key, value):
         self.key = key
@@ -35,8 +31,6 @@ class LRU_Cache:
         if self.capacity == 0:
             print("Warning: Can't perform get() operation when LRU capacity is 0")
 
-        if debug: pdb.set_trace()
-        
         # Check for key in hash map
         if self.hmap.get(key) is not None:
             node = self.hmap[key]
@@ -59,21 +53,12 @@ class LRU_Cache:
             print("Warning: Can't perform set() operation when LRU capacity is 0")
             return
         
-        if debug:
-            print("set({}): {}".format(key, value))
-            pdb.set_trace()
-
         # Check if key is in map, update or append new node to the front of the queue
         if self.hmap.get(key) is not None:
             node = self.hmap[key]
             node.value = value
             node.key = key
-
-            if debug: print("[[set]] hmap[{}] exists".format(key))
-
         else:
-            if debug: print("[[set]] Checking for entries: {}".format(self.num_entries))            
-
             # check if LRU is full, remove least used node (tail) from queue
             node = LRU_Node(key, value)
             if self.num_entries == self.capacity:
@@ -89,18 +74,12 @@ class LRU_Cache:
     # removeTail()
     def removeTail(self):
 
-        if debug:
-            pdb.set_trace()
-            print("[[remove]] removing tail.value: {}".format(self.tail.value))
-
         # Check if tail node exists, remove node from queue and hash map
         # Update num_entries to reflect number of items in queue
         if self.tail:
             next_node = self.tail.next
             del self.hmap[self.tail.key]
             self.tail = next_node
-            #self.num_entries -= 1
-
 
     # enQueue(node)
     def enQueue(self, node):
@@ -119,10 +98,6 @@ class LRU_Cache:
         else:
             self.head = node
             self.tail = self.head    
-            #self.num_entries += 1
-            
-        #if debug: print("Updating num_entries: {}".format(self.num_entries))
-	    
 
 
 ################## Main #############################

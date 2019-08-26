@@ -97,11 +97,6 @@ class HuffmanCode:
     def encodeText(self, text):
         encoded_text = ""
 
-        # No need to check, because huffman_encode checks for empty string!
-        #        if len(text) == 0:
-        #            print("Empty string, nothing to encode")
-        #            encoded_text = -1   
-    
         for character in text:
             encoded_text += self.codes[character]
     

@@ -123,10 +123,6 @@ class HuffmanCode:
 ############ Main Routines: Huffman encode/decode ###############
 
 def huffman_encoding(data):
-    # Traverse the tree and create the code
-
-    if debug: pdb.set_trace()
-
     huff_code = -1
     hcode = None
     
@@ -143,7 +139,6 @@ def huffman_encoding(data):
     return huff_code, hcode
 
 def huffman_decoding(data,tree):
-    # Traverse the tree in prefix order to decode
     text = -1
 
     if data != -1:

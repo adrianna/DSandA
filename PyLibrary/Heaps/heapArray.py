@@ -1,7 +1,4 @@
 #!/usr/bin/env python
-# coding: utf-8
-
-
 
 class Heap:
     def __init__(self, initial_size=10):
